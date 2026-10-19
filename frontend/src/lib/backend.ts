@@ -7,6 +7,7 @@ import type { Intent } from '../types';
 
 const API = (import.meta.env.VITE_API_URL as string | undefined) ?? '/api';
 const TIMEOUT_MS = 4000;
+const TRANSCRIBE_TIMEOUT_MS = 30000; // CPU speech recognition takes a few seconds per utterance
 
 export interface BackendHealth {
   nlu: string;
@@ -37,11 +38,13 @@ export interface Transcription {
   status: string;
   error: string | null;
   engine: string | null;
+  /** A second recogniser is available: `transcribe(audio, 'alternate')`. */
+  alternate: boolean;
 }
 
-async function call<T>(path: string, init?: RequestInit): Promise<T> {
+async function call<T>(path: string, init?: RequestInit, timeoutMs = TIMEOUT_MS): Promise<T> {
   const ctrl = new AbortController();
-  const t = window.setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  const t = window.setTimeout(() => ctrl.abort(), timeoutMs);
   try {
     const res = await fetch(`${API}${path}`, { ...init, signal: ctrl.signal });
     if (!res.ok) throw new Error(`${path}: HTTP ${res.status}`);
@@ -56,13 +59,28 @@ export const backend = {
   reset: () => call<{ ok: boolean }>('/reset', { method: 'POST' }),
   text: (text: string) =>
     call<BackendResult>('/text', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) }),
-  transcribe: (audio: Blob) => {
+  transcribe: (audio: Blob, engine: 'primary' | 'alternate' = 'primary') => {
     const fd = new FormData();
     const ext = audio.type.includes('mp4') ? 'mp4' : audio.type.includes('ogg') ? 'ogg' : 'webm';
     fd.append('file', audio, `speech.${ext}`);
-    return call<Transcription>('/transcribe', { method: 'POST', body: fd });
+    return call<Transcription>(`/transcribe?engine=${engine}`, { method: 'POST', body: fd }, TRANSCRIBE_TIMEOUT_MS);
   },
 };
+
+// Short replies only the backend dialog understands ("haan" to a pending question).
+const DIALOG_WORDS = /^(haan?|ha|yes|yeah|ok(ay)?|theek hai|thik hai|bilkul|sure|nahi?|no|cancel|rehne do|हाँ|हां|नहीं)\b/i;
+
+/**
+ * Transcribes with the fast Hinglish recogniser and, when the cockpit cannot make sense of that,
+ * retries the same audio on the backend's second recogniser (Whisper, stronger on plain English).
+ */
+export async function transcribeBest(audio: Blob, understands: (text: string) => boolean): Promise<Transcription> {
+  const first = await backend.transcribe(audio);
+  const text = first.text.trim();
+  if (!first.alternate || (text && (understands(text) || DIALOG_WORDS.test(text)))) return first;
+  const second = await backend.transcribe(audio, 'alternate').catch(() => null);
+  return second?.text.trim() && (!text || understands(second.text.trim())) ? second : first;
+}
 
 /** Frontend intent types whose meaning the backend NLU covers. */
 export const BACKEND_DOMAIN = new Set<Intent['type']>([
@@ -110,19 +128,23 @@ export async function recordAudio(maxMs = 8000, silenceMs = 1200) {
   const chunks: Blob[] = [];
   rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
 
-  // Simple energy-based end-of-speech detection.
+  // Energy-based end-of-speech detection. The threshold follows the background noise level,
+  // so quiet laptop mics and noisy cabins both work.
   const ctx = new AudioContext();
   const analyser = ctx.createAnalyser();
   analyser.fftSize = 1024;
   ctx.createMediaStreamSource(stream).connect(analyser);
   const buf = new Float32Array(analyser.fftSize);
   let heard = false;
+  let floor = 0.005;
   let quietSince = performance.now();
   const vad = window.setInterval(() => {
     analyser.getFloatTimeDomainData(buf);
     let sum = 0;
     for (const v of buf) sum += v * v;
-    const loud = Math.sqrt(sum / buf.length) > 0.02;
+    const level = Math.sqrt(sum / buf.length);
+    const loud = level > Math.max(0.008, floor * 3);
+    if (!loud) floor = floor * 0.9 + level * 0.1;
     const now = performance.now();
     if (loud) { heard = true; quietSince = now; }
     else if (heard && now - quietSince > silenceMs) stop();

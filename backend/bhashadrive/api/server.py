@@ -98,15 +98,22 @@ def create_app(config: AppConfig | None = None, pipeline=None, legacy: bool = Fa
         return p, data
 
     @api.post("/transcribe")
-    async def transcribe(file: UploadFile = File(...)):
-        """Speech to text only. The cockpit routes the transcript itself (backend or local parser)."""
+    async def transcribe(file: UploadFile = File(...), engine: str = "primary"):
+        """Speech to text only. The cockpit routes the transcript itself (backend or local parser).
+
+        `engine=alternate` re-runs the utterance on the second local recogniser, if one is loaded
+        (the response's `alternate` flag says so).
+        """
+        alt = getattr(pipeline.asr, "alternate", None)
+        asr = alt if engine == "alternate" and alt is not None else pipeline.asr
         with tempfile.TemporaryDirectory() as d:
             p, _ = await _upload(file, d)
             with lock:
-                res = pipeline.asr.transcribe_file(p)
-        print(f"[API /transcribe] status={res.status} text='{res.text}'")
-        return {"text": res.text or "", "status": res.status, "error": res.error,
-                "engine": getattr(pipeline.asr, "name", None)}
+                res = asr.transcribe_file(p)
+        name = getattr(getattr(asr, "_local_asr", None) or asr, "name", None)
+        print(f"[API /transcribe] {name} {res.latency_s}s status={res.status} text='{res.text}'")
+        return {"text": res.text or "", "status": res.status, "error": res.error, "engine": name,
+                "alternate": alt is not None and asr is not alt}
 
     @api.post("/audio")
     async def audio(file: UploadFile = File(...)):

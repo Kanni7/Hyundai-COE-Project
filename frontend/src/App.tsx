@@ -7,7 +7,7 @@ import { parseCommand, type NluContext, type ParseResult } from './nlu/parser';
 import { carAudio } from './lib/audio';
 import { engine } from './lib/engine';
 import { speak, useSpeechRecognition } from './lib/speech';
-import { BACKEND_DOMAIN, backend, recordAudio, toIntent, type BackendHealth } from './lib/backend';
+import { BACKEND_DOMAIN, backend, recordAudio, toIntent, transcribeBest, type BackendHealth } from './lib/backend';
 import { Cockpit } from './components/Cockpit';
 import type { VoicePhase } from './components/Infotainment';
 import { VoiceDock } from './components/VoiceDock';
@@ -62,7 +62,16 @@ function agrees(local: Intent, remote: Intent) {
  * anything the local parser missed (confirmations, personal shortcuts), go to the backend,
  * which also blocks negated requests ("AC band mat karo").
  */
+// The local parser ignores negation, so a negated command must never reach it.
+const NEGATION = /\b(?:don'?t|do not|never|mat|na karo|nahi?n? (?:karo|karna|chahiye))\b|मत|ना करो|नहीं करना/i;
+
 async function route(text: string, parsed: ParseResult, online: boolean): Promise<Routed> {
+  if (NEGATION.test(text)) {
+    // The backend still sees it, e.g. "nahi chahiye" answering its pending question.
+    const res = online ? await backend.text(text) : null;
+    const refuse = parsed.lang === 'hi' ? 'Theek hai, nahi karunga.' : "Okay, I won't do that.";
+    return { intents: [], say: res?.reason_code === 'cancelled_by_user' ? res.response_text : refuse, engine: res ? 'backend' : 'local' };
+  }
   const local = parsed.intents;
   const localOnly = local.length > 1 || local.some((i) => !BACKEND_DOMAIN.has(i.type));
   if (!online || localOnly) return { intents: local, engine: 'local' };
@@ -99,7 +108,8 @@ export default function App() {
   const serverRef = useRef(server);
   useEffect(() => { serverRef.current = server; }, [server]);
   const awaitingConfirm = useRef(false);
-  const [asrMode, setAsrMode] = useState<'browser' | 'server'>('browser');
+  // BhashaDrive's own recogniser when the backend has one; the browser's otherwise.
+  const [asrMode, setAsrMode] = useState<'browser' | 'server'>('server');
   const [recording, setRecording] = useState<{ stop: () => Promise<Blob> } | null>(null);
   const [asrError, setAsrError] = useState<string | null>(null);
   const [speechLang, setSpeechLang] = useState<'en-IN' | 'hi-IN'>('en-IN');
@@ -194,7 +204,7 @@ export default function App() {
         setRecording(null);
         setPhase('thinking');
         try {
-          const t = await backend.transcribe(audio);
+          const t = await transcribeBest(audio, (text) => parseCommand(text, nlu.current).intents.length > 0);
           if (t.text.trim()) handleCommand(t.text.trim(), 'voice');
           else { setPhase('idle'); setAsrError(t.error ?? 'No speech heard. Try again.'); }
         } catch {

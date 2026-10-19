@@ -8,8 +8,10 @@ pydantic==2.14.1
 numpy==2.5.4
 soundfile==0.14.0
 av                           # decodes browser recordings (webm/ogg/mp4) for server speech recognition
-faster-whisper==1.2.1        # server speech recognition (needs the one-time model download in README.md)
+sherpa-onnx==1.13.8          # server speech recognition: hi-hinglish-swift (primary)
+faster-whisper==1.2.1        # server speech recognition: Whisper small (English fallback)
 ctranslate2==4.8.3
+huggingface_hub              # one-time model download (see README.md)
 psutil==7.2.2
 python-dotenv==1.2.4
 pytest==9.1.1

@@ -49,12 +49,24 @@ typed text / chips ────────────────────�
 - When both parsers agree, the cockpit keeps the local intent because it carries richer slots (genre, exact level, mute).
 - The badge in the top bar shows which NLU is live. Each reply is tagged `BhashaDrive` or `local parser`.
 - If the backend is down, the cockpit runs entirely in the browser as before. It checks again every 15 s.
-- When the backend has a working speech recogniser (a local faster-whisper or sherpa-onnx model, or `OPENAI_API_KEY` / `GROQ_API_KEY`), a **Web / Server** switch appears next to `EN / हिं`. It chooses between browser recognition and backend recognition.
-- Chrome's recogniser sends audio to Google. If that fails with `Speech error: network`, the cockpit switches to the backend's Whisper for the rest of the session and keeps listening. Server recording stops on its own after a short pause. To enable it, download the Whisper model once (~480 MB):
+- Negated commands ("don't…", "… mat karo") are never executed, whichever parser would otherwise handle them.
 
-  ```bash
-  cd backend && .venv/Scripts/python -c "from faster_whisper import WhisperModel; WhisperModel('small', compute_type='int8')"
-  ```
+### Voice
+
+When the backend has a speech model, the mic uses **BhashaDrive speech recognition** by default. The browser records the command and stops on its own after a short pause. The backend then transcribes it:
+
+1. **`hi-hinglish-swift`** (sherpa-onnx) runs first. It's a Whisper-base model fine-tuned on Hindi/Hinglish and takes about 0.4 s per command on a laptop CPU.
+2. If the cockpit can't use that transcript, the same audio is retried on **Whisper `small`** (faster-whisper), which is better on plain English and takes about 2.5 s.
+
+The **Web / Server** switch next to `EN / हिं` changes to Chrome's own recogniser instead. If Chrome reports `Speech error: network` (it streams audio to Google), the cockpit switches back to Server and keeps listening. Set `BD_LOCAL_ASR=whisper` to make Whisper the first engine.
+
+One-time model download (~150 MB + ~480 MB):
+
+```bash
+cd backend
+.venv/Scripts/python scripts/download_models.py --asr swift --encoder
+.venv/Scripts/python -c "from faster_whisper import WhisperModel; WhisperModel('small', compute_type='int8')"
+```
 
 ## Mock vs trained NLU
 

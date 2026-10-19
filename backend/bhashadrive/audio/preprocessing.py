@@ -72,6 +72,14 @@ def rms(audio: np.ndarray) -> float:
     return float(np.sqrt(np.mean(np.square(audio)))) if audio.size else 0.0
 
 
-def is_silent(raw_audio: np.ndarray, min_rms: float) -> bool:
-    """Silence check on the raw (pre-normalisation) signal."""
-    return np.asarray(raw_audio).size == 0 or rms(raw_audio) < min_rms
+def is_silent(raw_audio: np.ndarray, min_rms: float, frame: int = TARGET_SR // 10) -> bool:
+    """Silence check on the raw (pre-normalisation) signal: no 100 ms frame reaches `min_rms`.
+
+    A whole-clip RMS would call a short command inside a longer push-to-talk recording silent.
+    """
+    audio = np.asarray(raw_audio, dtype=np.float32).reshape(-1)
+    if audio.size == 0:
+        return True
+    n = max(1, audio.size // frame)
+    frames = audio[: n * frame].reshape(n, -1) if audio.size >= frame else audio.reshape(1, -1)
+    return float(np.sqrt(np.mean(np.square(frames), axis=1)).max()) < min_rms

@@ -106,10 +106,14 @@ class FasterWhisperASR(SpeechRecognizer):
             "thank you for watching", "subtitles by", "please subscribe", "bye.", "bye"
         }
         min_logprob = getattr(self.config, "min_avg_logprob", -1.0)
+        prompt = (self.config.initial_prompt or "").lower()
         for s in segs:
             stext = s.text.strip()
             if stext.lower() in _HALLUCINATIONS or s.no_speech_prob > 0.85:
                 continue
+            bare = stext.lower().strip(" .,!?:;")
+            if bare and bare in prompt:
+                continue  # the initial prompt read back verbatim ("In-car voice commands."), not speech
             if s.avg_logprob < min_logprob or (s.no_speech_prob > 0.6 and s.avg_logprob < -0.8):
                 continue  # low-confidence decode: noise or prompt regurgitation, not speech
             valid_segs.append(s)
