@@ -1,0 +1,15 @@
+# Minimal runtime for the merged app (cockpit frontend + API). Without trained models the server
+# runs the mock NLU; install requirements.txt and follow README.md for the full V2 models.
+fastapi==0.143.3
+uvicorn==0.54.0
+python-multipart
+httpx==0.28.1
+pydantic==2.14.1
+numpy==2.5.4
+soundfile==0.14.0
+av                           # decodes browser recordings (webm/ogg/mp4) for server speech recognition
+faster-whisper==1.2.1        # server speech recognition (needs the one-time model download in README.md)
+ctranslate2==4.8.3
+psutil==7.2.2
+python-dotenv==1.2.4
+pytest==9.1.1

@@ -1,0 +1,147 @@
+// Client for the BhashaDrive backend (../backend, FastAPI). The backend owns the
+// voice NLU for its whitelisted domain (climate, fan, volume, media, navigation):
+// negation, confirmations, personal shortcuts and parameter validation. The local
+// parser handles everything else, and everything when the backend is unreachable.
+
+import type { Intent } from '../types';
+
+const API = (import.meta.env.VITE_API_URL as string | undefined) ?? '/api';
+const TIMEOUT_MS = 4000;
+
+export interface BackendHealth {
+  nlu: string;
+  asr: string | null;
+  asr_ready: boolean;
+  vehicle: string;
+  mock: boolean;
+}
+
+type Amount = 'small' | 'medium' | 'large';
+
+export interface BackendResult {
+  transcript: string;
+  intent: string | null;
+  decision: 'execute' | 'ask_confirmation' | 'clarify' | 'reject' | 'saved';
+  reason_code: string;
+  response_text: string;
+  source: string;
+  negated: boolean;
+  action: {
+    intent: string;
+    parameters: { amount?: Amount | null; target_temperature_celsius?: number | null; destination?: string | null };
+  } | null;
+}
+
+export interface Transcription {
+  text: string;
+  status: string;
+  error: string | null;
+  engine: string | null;
+}
+
+async function call<T>(path: string, init?: RequestInit): Promise<T> {
+  const ctrl = new AbortController();
+  const t = window.setTimeout(() => ctrl.abort(), TIMEOUT_MS);
+  try {
+    const res = await fetch(`${API}${path}`, { ...init, signal: ctrl.signal });
+    if (!res.ok) throw new Error(`${path}: HTTP ${res.status}`);
+    return (await res.json()) as T;
+  } finally {
+    window.clearTimeout(t);
+  }
+}
+
+export const backend = {
+  health: () => call<BackendHealth>('/health'),
+  reset: () => call<{ ok: boolean }>('/reset', { method: 'POST' }),
+  text: (text: string) =>
+    call<BackendResult>('/text', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) }),
+  transcribe: (audio: Blob) => {
+    const fd = new FormData();
+    const ext = audio.type.includes('mp4') ? 'mp4' : audio.type.includes('ogg') ? 'ogg' : 'webm';
+    fd.append('file', audio, `speech.${ext}`);
+    return call<Transcription>('/transcribe', { method: 'POST', body: fd });
+  },
+};
+
+/** Frontend intent types whose meaning the backend NLU covers. */
+export const BACKEND_DOMAIN = new Set<Intent['type']>([
+  'climate.setTemp', 'climate.adjustTemp', 'climate.power', 'climate.fan',
+  'media.play', 'media.pause', 'media.skip', 'media.volume', 'nav.start',
+]);
+
+// Same small / normal / big steps as the local parser.
+const STEP = { temp: [1, 2, 3], fan: [1, 1, 3], volume: [2, 4, 8] } as const;
+const size = (kind: keyof typeof STEP, a?: Amount | null) => STEP[kind][a === 'small' ? 0 : a === 'large' ? 2 : 1];
+
+/** Maps a validated backend vehicle action onto the cockpit's intent contract. */
+export function toIntent(action: NonNullable<BackendResult['action']>): Intent | null {
+  const p = action.parameters;
+  switch (action.intent) {
+    case 'climate_temperature_up': return { type: 'climate.adjustTemp', delta: size('temp', p.amount) };
+    case 'climate_temperature_down': return { type: 'climate.adjustTemp', delta: -size('temp', p.amount) };
+    case 'climate_temperature_set':
+      return p.target_temperature_celsius != null ? { type: 'climate.setTemp', value: p.target_temperature_celsius } : null;
+    case 'climate_fan_speed_up': return { type: 'climate.fan', delta: size('fan', p.amount) };
+    case 'climate_fan_speed_down': return { type: 'climate.fan', delta: -size('fan', p.amount) };
+    case 'climate_on': return { type: 'climate.power', on: true };
+    case 'climate_off': return { type: 'climate.power', on: false };
+    case 'volume_up': return { type: 'media.volume', delta: size('volume', p.amount) };
+    case 'volume_down': return { type: 'media.volume', delta: -size('volume', p.amount) };
+    case 'media_play': return { type: 'media.play' };
+    case 'media_pause': return { type: 'media.pause' };
+    case 'media_next': return { type: 'media.skip', dir: 1 };
+    case 'media_previous': return { type: 'media.skip', dir: -1 };
+    case 'navigation_destination_request':
+      return p.destination ? { type: 'nav.start', destination: titleCase(p.destination) } : null;
+    default: return null;
+  }
+}
+
+const titleCase = (s: string) => s.replace(/\b\p{L}/gu, (ch) => ch.toUpperCase());
+
+/**
+ * Records one utterance from the microphone. It ends on `stop()`, after `silenceMs` of quiet
+ * once speech was heard (like the browser recogniser does), or at `maxMs`.
+ */
+export async function recordAudio(maxMs = 8000, silenceMs = 1200) {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+  const rec = new MediaRecorder(stream);
+  const chunks: Blob[] = [];
+  rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
+
+  // Simple energy-based end-of-speech detection.
+  const ctx = new AudioContext();
+  const analyser = ctx.createAnalyser();
+  analyser.fftSize = 1024;
+  ctx.createMediaStreamSource(stream).connect(analyser);
+  const buf = new Float32Array(analyser.fftSize);
+  let heard = false;
+  let quietSince = performance.now();
+  const vad = window.setInterval(() => {
+    analyser.getFloatTimeDomainData(buf);
+    let sum = 0;
+    for (const v of buf) sum += v * v;
+    const loud = Math.sqrt(sum / buf.length) > 0.02;
+    const now = performance.now();
+    if (loud) { heard = true; quietSince = now; }
+    else if (heard && now - quietSince > silenceMs) stop();
+  }, 100);
+
+  const done = new Promise<Blob>((resolve) => {
+    rec.onstop = () => {
+      window.clearInterval(vad);
+      void ctx.close();
+      stream.getTracks().forEach((t) => t.stop());
+      resolve(new Blob(chunks, { type: rec.mimeType || 'audio/webm' }));
+    };
+  });
+  const timer = window.setTimeout(() => stop(), maxMs);
+  function stop() {
+    window.clearTimeout(timer);
+    if (rec.state !== 'inactive') rec.stop();
+    return done;
+  }
+  rec.start();
+  return { stop, done };
+}

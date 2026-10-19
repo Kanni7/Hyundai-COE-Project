@@ -1,0 +1,4 @@
+# Each app keeps its own ignore rules (frontend/.gitignore, backend/.gitignore)
+.DS_Store
+.vscode/
+.idea/
