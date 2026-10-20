@@ -6,6 +6,7 @@ import { quadToMatrix3d } from '../lib/homography';
 import { carAudio } from '../lib/audio';
 import { AMBIENT_RGB, ambientColors } from '../lib/ambient';
 import { engine } from '../lib/engine';
+import { ventAims } from '../lib/ventAim';
 import { AmbientFilter } from './AmbientFilter';
 import { Airflow } from './Airflow';
 import { Windshield } from './Windshield';
@@ -73,7 +74,8 @@ export function Cockpit({ car, scene, toast, voice, onIntent, reserveBottom, foc
   const ambientColor = amb.on ? ambientColors(car).rgb : AMBIENT_RGB.off;
   const c = car.climate;
   const drawn = scene.kind === 'drawn';
-  const airflow = <Airflow scene={scene} on={c.on && car.ignition !== 'off'} fan={c.fan} temp={c.temp} />;
+  // In the drawn cockpit the centre vents can be aimed by their tabs; the air follows.
+  const airflow = <Airflow scene={scene} on={c.on && car.ignition !== 'off'} fan={c.fan} temp={c.temp} aims={drawn ? ventAims : undefined} />;
   const screen = (
     <div className="screen" onDoubleClick={onToggleFocus} style={{ transform: screenTransform, width: scene.screen.ui.w, height: scene.screen.ui.h, borderRadius: scene.screen.radius }}>
       <Infotainment car={car} toast={toast} voice={voice} onIntent={onIntent} width={scene.screen.ui.w} height={scene.screen.ui.h} />

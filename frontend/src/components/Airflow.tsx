@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type { SceneConfig } from '../scenes';
+import type { VentAim } from '../lib/ventAim';
 
 interface P { x: number; y: number; vx: number; vy: number; life: number; max: number; size: number }
 
@@ -25,8 +26,11 @@ function sprite([r, g, b]: [number, number, number]) {
   return c;
 }
 
-/** Visible air streams leaving the vents; colour follows temperature, density follows fan speed. */
-export function Airflow({ scene, on, fan, temp }: { scene: SceneConfig; on: boolean; fan: number; temp: number }) {
+/**
+ * Visible air streams leaving the vents; colour follows temperature, density follows fan speed.
+ * `aims[i]`, when given, is where vent i has been pointed (read live, every frame).
+ */
+export function Airflow({ scene, on, fan, temp, aims }: { scene: SceneConfig; on: boolean; fan: number; temp: number; aims?: VentAim[] }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const live = useRef({ on, fan, temp });
   useEffect(() => { live.current = { on, fan, temp }; }, [on, fan, temp]);
@@ -60,6 +64,9 @@ export function Airflow({ scene, on, fan, temp }: { scene: SceneConfig; on: bool
           carry[i] += dt * fan * 11;
           const mx = (x1 + x2) / 2;
           const half = Math.max(1, Math.abs(x2 - x1) / 2);
+          // An aimed vent narrows its spread and sends the stream that way.
+          const aim = aims?.[i] ?? { x: 0, y: 0 };
+          const fanOut = 1 - 0.5 * Math.abs(aim.x);
           while (carry[i] >= 1) {
             carry[i] -= 1;
             const t = Math.random();
@@ -68,8 +75,8 @@ export function Airflow({ scene, on, fan, temp }: { scene: SceneConfig; on: bool
             const spread = (x - mx) / half;
             ps.push({
               x, y,
-              vx: spread * speed * (0.5 + Math.random() * 0.6) + (Math.random() - 0.5) * 0.5,
-              vy: speed * (0.45 + Math.random() * 0.55),
+              vx: spread * fanOut * speed * (0.5 + Math.random() * 0.6) + aim.x * speed * 1.2 + (Math.random() - 0.5) * 0.5,
+              vy: speed * (0.45 + Math.random() * 0.55) + aim.y * speed * 0.8,
               life: 0,
               max: 1.1 + Math.random() * 0.9,
               size: 10 + Math.random() * 8,
@@ -102,7 +109,7 @@ export function Airflow({ scene, on, fan, temp }: { scene: SceneConfig; on: bool
     };
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
-  }, [scene]);
+  }, [scene, aims]);
 
   return <canvas ref={ref} className="layer" width={scene.width} height={scene.height} />;
 }

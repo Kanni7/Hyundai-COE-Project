@@ -241,6 +241,10 @@ export default function App() {
     speech.start(speechLang);
   }, [speech, speechLang, useServerAsr, recording, toggleServerMic]);
 
+  // The flasher relay ticks while the hazards or an indicator are blinking
+  useEffect(() => { carAudio.flasher(car.hazard || car.indicator !== 'off'); }, [car.hazard, car.indicator]);
+  useEffect(() => () => carAudio.flasher(false), []);
+
   // Engine and vehicle model follow the ignition, gear selector, drive mode, cruise and Auto Hold
   useEffect(() => { engine.setIgnition(car.ignition, car.driveMode === 'sport'); }, [car.ignition, car.driveMode]);
   useEffect(() => { engine.setDrive(car.gear, car.driveMode); }, [car.gear, car.driveMode]);

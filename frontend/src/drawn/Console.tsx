@@ -13,10 +13,8 @@ const bootPath = (dy: number) =>
 
 /** How far the console's edges lean: they move this many px left per px down. */
 const SLOPE = 0.48;
-/** Centre line of the key strip at height y (midway between its chrome edges). */
-const stripX = (y: number) => 1020.5 - SLOPE * (y - 671);
-/** Key rows down the strip, 15 px keys with 3 px gaps; the phone tray fills the gap between the pairs. */
-const STRIP_ROWS = [681.5, 699.5, 756.5, 774.5];
+/** The key strip left of the lever: five keys, each this far down and to the left of the one above. */
+const STRIP_KEY = { x: 1018, y: 682, dx: -13.2, dy: 27 };
 
 /** A key on the sloping strip: the cap is a parallelogram, so it sits in the console's perspective. */
 function stripKey(cx: number, cy: number, w: number, h: number) {
@@ -81,16 +79,16 @@ export function Console({ car, onIntent }: { car: CarState; onIntent: (i: Intent
     drag.current = null;
   };
 
-  // Two keys, the phone tray, two keys: as in the real strip
-  const strip: { label: string; on: boolean; act: () => void; row: number; glyph: React.ReactNode }[] = [
-    { label: `Drive mode: ${car.driveMode}`, on: car.driveMode !== 'normal', row: 0,
+  const strip: { label: string; on: boolean; act: () => void; glyph: React.ReactNode }[] = [
+    { label: `Drive mode: ${car.driveMode}`, on: car.driveMode !== 'normal',
       act: () => onIntent({ type: 'drive.mode', mode: car.driveMode === 'normal' ? 'sport' : car.driveMode === 'sport' ? 'eco' : 'normal' }),
-      glyph: <path d="M-4.5 2 A5 5 0 0 1 4.5 2 M0 2 L2.2 -1.8" /> },
-    { label: 'Auto Hold', on: car.autoHold, row: 1, act: () => onIntent({ type: 'autohold' }), glyph: <><circle r="3.6" /><text y="1.8" className="btn-txt">A</text></> },
-    { label: 'Parking sensors', on: car.gear === 'R', row: 2, act: () => onIntent({ type: 'gear', gear: car.gear === 'R' ? 'P' : 'R' }),
-      glyph: <path d="M-4 3.5 L-4 -3.5 L-0.5 -3.5 Q2 -3.5 2 -1.2 Q2 1 -0.5 1 L-4 1 M4 -2.5 Q5.8 0 4 2.5" /> },
-    { label: 'Door lock', on: car.locked, row: 3, act: () => onIntent({ type: 'doors.lock', locked: !car.locked }),
-      glyph: <path d="M-3 0 h6 v4.5 h-6 Z M-1.8 0 v-1.8 a1.8 1.8 0 0 1 3.6 0 V0" /> },
+      glyph: <path d="M-6 3 A7 7 0 0 1 6 3 M0 3 L3 -2" /> },
+    { label: 'Auto Hold', on: car.autoHold, act: () => onIntent({ type: 'autohold' }), glyph: <><circle r="5" /><text y="2.4" className="btn-txt" style={{ fontSize: 6.8 }}>A</text></> },
+    { label: 'Hazard lights', on: car.hazard, act: () => onIntent({ type: 'lights.hazard', on: !car.hazard }), glyph: <path d="M0 -5 L5 4 L-5 4 Z" /> },
+    { label: 'Parking sensors', on: car.gear === 'R', act: () => onIntent({ type: 'gear', gear: car.gear === 'R' ? 'P' : 'R' }),
+      glyph: <path d="M-5 4.5 L-5 -4.5 L-0.5 -4.5 Q2.8 -4.5 2.8 -1.5 Q2.8 1.5 -0.5 1.5 L-5 1.5 M5 -3 Q7.2 0 5 3" /> },
+    { label: 'Door lock', on: car.locked, act: () => onIntent({ type: 'doors.lock', locked: !car.locked }),
+      glyph: <path d="M-4 0 h8 v6 h-8 Z M-2.5 0 v-2.5 a2.5 2.5 0 0 1 5 0 V0" /> },
   ];
   const vent = (target: 'driver' | 'passenger') => () =>
     onIntent({ type: 'seat.vent', target, level: (car.seats[target] + 1) % 4 });
@@ -120,20 +118,18 @@ export function Console({ car, onIntent }: { car: CarState; onIntent: (i: Intent
       ))}
 
       {/* Key strip, chrome-edged, following the console slope, with the phone tray between the pairs */}
-      <path d="M996 668 L1048 667 Q1052 667 1050 671 L989 796 Q987 800 982 800 L934 802 Q929 802 931 797 L991 671 Q992 668 996 668 Z" fill="#07090d" stroke="url(#d-chromeH)" strokeWidth="1.3" />
-      <path d={`M${stripX(710) - 24} 710 L${stripX(710) + 24} 710 L${stripX(746) + 24} 746 L${stripX(746) - 24} 746 Z`} fill="#030406" stroke="#141a22" strokeWidth="0.8" />
-      {strip.map((b) => {
-        const y = STRIP_ROWS[b.row];
-        const x = stripX(y);
-        return (
-          <g key={b.label} className={`hit btn ${b.on ? 'lit' : ''}`} onClick={b.act} role="button" aria-label={b.label}>
-            <title>{b.label}</title>
-            <Cap d={stripKey(x, y, 44, 15)} />
-            <Glyph x={x} y={y - 0.5} on={b.on}>{b.glyph}</Glyph>
-            <path d={`M${x - 6.5} ${y + 5.2} L${x + 1.5} ${y + 5.2}`} stroke={b.on ? '#ffb347' : '#1c2129'} strokeWidth="1.2" strokeLinecap="round" className={b.on ? 'led-on' : ''} style={{ color: '#ffb347' }} />
-          </g>
-        );
-      })}
+      {/* Key strip, chrome-edged, following the console slope */}
+      <path d="M992 668 L1046 666 L990 802 L934 804 Z" fill="#07090d" stroke="url(#d-chromeH)" strokeWidth="1.4" />
+      {strip.map((b, i) => (
+        <g key={b.label} className={`hit btn ${b.on ? 'lit' : ''}`} onClick={b.act} role="button" aria-label={b.label}
+          transform={`translate(${STRIP_KEY.x + i * STRIP_KEY.dx} ${STRIP_KEY.y + i * STRIP_KEY.dy}) skewX(-22)`}>
+          <title>{b.label}</title>
+          <rect x="-17" y="-10" width="34" height="20" rx="3" fill="#10141b" stroke="#2a323e" strokeWidth="0.8" />
+          <path d="M-15 -8.5 L15 -8.5" stroke="#3a4352" strokeWidth="0.6" />
+          <g transform="skewX(22)" stroke={b.on ? '#ffffff' : '#8fd0ff'} fill="none" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round">{b.glyph}</g>
+          {b.on && <rect x="-10" y="6.5" width="20" height="1.6" rx="0.8" fill="#ffb02e" />}
+        </g>
+      ))}
 
       {/* Gloss panel right of the boot: P-R-N-D column and the seat-ventilation keys */}
       <path d="M1140 700 L1180 698 L1168 800 L1090 802 Z" fill="#05070a" stroke="#121820" strokeWidth="0.8" />

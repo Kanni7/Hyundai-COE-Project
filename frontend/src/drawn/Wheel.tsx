@@ -29,11 +29,21 @@ const SEAMS = [205, 148, 335, 32].map((deg) => {
 /** Lower spoke: one symmetric V, its outer edges trimmed in chrome, running down into the rim. */
 const V_EDGE = `M1450 516 L1490 628 Q1497 647 1518 649 L${mirror(1518)} 649 Q${mirror(1497)} 647 ${mirror(1490)} 628 L${mirror(1450)} 516`;
 const V_BODY = `M1450 516 L1490 628 Q1496 640 1492 690 L${mirror(1492)} 690 Q${mirror(1496)} 640 ${mirror(1490)} 628 L${mirror(1450)} 516 Q${SX} 548 1450 516 Z`;
+/** Left switch pad; the right one is its mirror image. */
+const PAD = 'M1378 434 Q1416 427 1454 432 L1455 504 Q1416 506 1386 499 Q1374 490 1374 468 Q1374 446 1378 434 Z';
 const HUB = 'M1476 420 Q1557 406 1640 420 Q1662 427 1661 470 Q1657 538 1600 554 Q1557 562 1516 554 Q1458 538 1454 470 Q1453 427 1476 420 Z';
 const HUB_FACE = 'M1481 426 Q1557 413 1635 426 Q1654 432 1653 470 Q1649 532 1597 547 Q1557 555 1519 547 Q1466 532 1462 470 Q1461 432 1481 426 Z';
 
-/** A physical switch: dark cap in a recess, a faint top edge and a softly lit glyph. */
-function Key({ x, y, w = 22, h = 13, label, onClick, children }: {
+/** Both switch pads share one grid: an outer and an inner column, three rows with a chrome bar above the last. */
+const KEY_COLS = { outer: 1404, inner: 1432 };
+const KEY_ROWS = [445, 463, 490];
+const KEY_W = 24;
+const KEY_H = 14;
+/** Column x on the left pad, or its mirror on the right pad. */
+const col = (side: 'left' | 'right', c: keyof typeof KEY_COLS) => (side === 'left' ? KEY_COLS[c] : mirror(KEY_COLS[c]));
+
+/** A physical switch: dark cap in a recess, a faint top edge and a softly lit glyph, drawn about (0, 0). */
+function Key({ x, y, w = KEY_W, h = KEY_H, label, onClick, children }: {
   x: number; y: number; w?: number; h?: number; label: string; onClick: () => void; children: ReactNode;
 }) {
   return (
@@ -42,7 +52,7 @@ function Key({ x, y, w = 22, h = 13, label, onClick, children }: {
       <rect x={x - w / 2 - 0.8} y={y - h / 2 - 0.8} width={w + 1.6} height={h + 1.6} rx="3.4" fill="#030304" />
       <rect x={x - w / 2} y={y - h / 2} width={w} height={h} rx="2.8" fill="url(#w-key)" stroke="#2a2e35" strokeWidth="0.6" />
       <path d={`M${x - w / 2 + 2.5} ${y - h / 2 + 0.9} L${x + w / 2 - 2.5} ${y - h / 2 + 0.9}`} stroke="#4b515c" strokeWidth="0.6" opacity="0.8" />
-      <g className="key-glyph" stroke="#d3e4f4" fill="none" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">{children}</g>
+      <g className="key-glyph" transform={`translate(${x} ${y})`} stroke="#d3e4f4" fill="none" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">{children}</g>
     </g>
   );
 }
@@ -134,7 +144,7 @@ export function Wheel({ car, onIntent, onMic }: { car: CarState; onIntent: (i: I
           {/* Spoke bodies in black leather, under the rim: the two side spokes and the lower V */}
           <g transform={`translate(${DX} 0)`}>
             <path d="M1336 432 Q1410 419 1478 428 L1480 532 L1452 520 Q1400 510 1340 500 Z" fill="url(#w-leather)" />
-            <path d={`M${mirror(1336)} 446 Q${mirror(1410)} 432 ${mirror(1478)} 430 L${mirror(1480)} 534 L${mirror(1452)} 522 Q${mirror(1400)} 522 ${mirror(1340)} 516 Z`} fill="url(#w-leather)" />
+            <path d={`M${mirror(1336)} 432 Q${mirror(1410)} 419 ${mirror(1478)} 428 L${mirror(1480)} 532 L${mirror(1452)} 520 Q${mirror(1400)} 510 ${mirror(1340)} 500 Z`} fill="url(#w-leather)" />
             <path d={V_BODY} fill="url(#w-leather)" />
             <path d={V_BODY} fill="#000" filter="url(#d-leatherGrain)" opacity="0.5" />
             {/* Contact shadow under the pad */}
@@ -156,12 +166,12 @@ export function Wheel({ car, onIntent, onMic }: { car: CarState; onIntent: (i: I
 
           <g transform={`translate(${DX} 0)`}>
             {/* Switch pads: gloss black, chrome on the outer edge and between the rows */}
-            <path d="M1378 437 Q1416 428 1454 435 L1455 507 Q1416 508 1386 500 Q1374 490 1374 468 Q1374 448 1378 437 Z" fill="url(#w-gloss)" stroke="#23262c" strokeWidth="0.7" />
-            <path d="M1680 450 Q1716 444 1745 452 Q1752 470 1750 492 Q1748 512 1738 520 Q1704 523 1667 522 L1667 452 Z" fill="url(#w-gloss)" stroke="#23262c" strokeWidth="0.7" />
-            <path d="M1380 442 Q1365 468 1374 498" stroke="url(#d-chrome)" strokeWidth="2" strokeLinecap="round" fill="none" />
-            <path d="M1744 456 Q1759 484 1747 514" stroke="url(#d-chrome)" strokeWidth="2" strokeLinecap="round" fill="none" />
-            <path d="M1386 478.5 L1450 479.5" stroke="url(#d-chromeH)" strokeWidth="1.4" strokeLinecap="round" />
-            <path d="M1673 500 L1744 499" stroke="url(#d-chromeH)" strokeWidth="1.4" strokeLinecap="round" />
+            <path d={PAD} fill="url(#w-gloss)" stroke="#23262c" strokeWidth="0.7" />
+            <path d={PAD} fill="url(#w-gloss)" stroke="#23262c" strokeWidth="0.7" transform={`translate(${2 * SX} 0) scale(-1 1)`} />
+            <path d="M1380 440 Q1365 468 1374 498" stroke="url(#d-chrome)" strokeWidth="2" strokeLinecap="round" fill="none" />
+            <path d={`M${mirror(1380)} 440 Q${mirror(1365)} 468 ${mirror(1374)} 498`} stroke="url(#d-chrome)" strokeWidth="2" strokeLinecap="round" fill="none" />
+            <rect x="1388" y="476.3" width="60" height="1.4" rx="0.7" fill="url(#d-chromeH)" />
+            <rect x={mirror(1448)} y="476.3" width="60" height="1.4" rx="0.7" fill="url(#d-chromeH)" />
 
             {/* Lower V spoke trim */}
             <path d={V_EDGE} stroke="#000" strokeWidth="5" opacity="0.5" fill="none" filter="url(#d-b1)" transform="translate(0 2)" />
@@ -187,44 +197,44 @@ export function Wheel({ car, onIntent, onMic }: { car: CarState; onIntent: (i: I
 
           <g transform={`translate(${DX} 0)`}>
             {/* Left spoke: audio */}
-            <Key x={1410} y={445} label="Play / pause" onClick={() => onIntent(m.playing ? { type: 'media.pause' } : { type: 'media.play' })}>
-              {m.playing ? <path d="M1407.5 441.5 L1407.5 448.5 M1412.5 441.5 L1412.5 448.5" /> : <path d="M1407.5 441.5 L1414 445 L1407.5 448.5 Z" />}
+            <Key x={col('left', 'outer')} y={KEY_ROWS[0]} label={m.playing ? 'Pause' : 'Play'} onClick={() => onIntent(m.playing ? { type: 'media.pause' } : { type: 'media.play' })}>
+              {m.playing ? <path d="M-2.5 -3.5 L-2.5 3.5 M2.5 -3.5 L2.5 3.5" /> : <path d="M-2.5 -3.5 L4 0 L-2.5 3.5 Z" />}
             </Key>
-            <Key x={1436} y={446} label="Mute" onClick={() => onIntent({ type: 'media.volume', mute: !m.muted })}>
-              <path d="M1430.5 444.5 L1433 444.5 L1435.5 442 L1435.5 450 L1433 447.5 L1430.5 447.5 Z M1438.5 444 L1441.5 448 M1441.5 444 L1438.5 448" />
+            <Key x={col('left', 'inner')} y={KEY_ROWS[0]} label="Mute" onClick={() => onIntent({ type: 'media.volume', mute: !m.muted })}>
+              <path d="M-5.5 -1.5 L-3 -1.5 L-0.5 -4 L-0.5 4 L-3 1.5 L-5.5 1.5 Z M2.5 -2 L5.5 2 M5.5 -2 L2.5 2" />
             </Key>
-            <Key x={1398} y={466} w={18} label="Volume down" onClick={() => onIntent({ type: 'media.volume', delta: -2 })}>
-              <path d="M1395 466 L1401 466" />
+            <Key x={col('left', 'outer')} y={KEY_ROWS[1]} label="Volume down" onClick={() => onIntent({ type: 'media.volume', delta: -2 })}>
+              <path d="M-3 0 L3 0" />
             </Key>
-            <Key x={1429} y={467} w={36} label="Volume up" onClick={() => onIntent({ type: 'media.volume', delta: 2 })}>
-              <path d="M1426 467 L1432 467 M1429 464 L1429 470" />
+            <Key x={col('left', 'inner')} y={KEY_ROWS[1]} label="Volume up" onClick={() => onIntent({ type: 'media.volume', delta: 2 })}>
+              <path d="M-3 0 L3 0 M0 -3 L0 3" />
             </Key>
-            <Key x={1400} y={491} label="Previous track" onClick={() => onIntent({ type: 'media.skip', dir: -1 })}>
-              <path d="M1397 487.5 L1397 494.5 M1403.5 487.5 L1398.5 491 L1403.5 494.5 Z" />
+            <Key x={col('left', 'outer')} y={KEY_ROWS[2]} label="Previous track" onClick={() => onIntent({ type: 'media.skip', dir: -1 })}>
+              <path d="M-3.5 -3.5 L-3.5 3.5 M3 -3.5 L-2 0 L3 3.5 Z" />
             </Key>
-            <Key x={1430} y={494} label="Next track" onClick={() => onIntent({ type: 'media.skip', dir: 1 })}>
-              <path d="M1433 490.5 L1433 497.5 M1426.5 490.5 L1431.5 494 L1426.5 497.5 Z" />
+            <Key x={col('left', 'inner')} y={KEY_ROWS[2]} label="Next track" onClick={() => onIntent({ type: 'media.skip', dir: 1 })}>
+              <path d="M3.5 -3.5 L3.5 3.5 M-3 -3.5 L2 0 L-3 3.5 Z" />
             </Key>
 
             {/* Right spoke: voice, phone, climate, cluster pages */}
-            <Key x={1692} y={460} label="Voice assistant" onClick={onMic}>
-              <path d="M1690.5 455.5 Q1690.5 454 1692 454 Q1693.5 454 1693.5 455.5 L1693.5 459.5 Q1693.5 461 1692 461 Q1690.5 461 1690.5 459.5 Z M1688.5 458.5 Q1688.5 463.5 1692 463.5 Q1695.5 463.5 1695.5 458.5 M1692 463.5 L1692 465.5" />
+            <Key x={col('right', 'inner')} y={KEY_ROWS[0]} label="Voice assistant" onClick={onMic}>
+              <path d="M-1.5 -4 Q-1.5 -5.5 0 -5.5 Q1.5 -5.5 1.5 -4 L1.5 0 Q1.5 1.5 0 1.5 Q-1.5 1.5 -1.5 0 Z M-3.5 -1 Q-3.5 4 0 4 Q3.5 4 3.5 -1 M0 4 L0 5.5" />
             </Key>
-            <Key x={1724} y={462} label={car.phone ? 'End call' : 'Phone'} onClick={() => onIntent(car.phone ? { type: 'phone.end' } : { type: 'screen', page: 'phone' })}>
-              <path d="M1720 458.5 Q1721 465.5 1728.5 466 L1728.5 463.5 L1726 462.5 L1725 463.5 Q1722.5 462.5 1721.5 460 L1722.5 459 L1721.5 456.5 Z" fill={car.phone ? '#ff6b6b' : 'none'} />
+            <Key x={col('right', 'outer')} y={KEY_ROWS[0]} label={car.phone ? 'End call' : 'Phone'} onClick={() => onIntent(car.phone ? { type: 'phone.end' } : { type: 'screen', page: 'phone' })}>
+              <path d="M-4 -3 Q-3 4 4.5 4.5 L4.5 2 L2 1 L1 2 Q-1.5 1 -2.5 -1.5 L-1.5 -2.5 L-2.5 -5 Z" fill={car.phone ? '#ff6b6b' : 'none'} />
             </Key>
-            <Key x={1697} y={486} w={20} label="Temperature down" onClick={() => onIntent({ type: 'climate.setTemp', value: car.climate.temp - 0.5 })}>
-              <path d="M1694 484.5 L1697 488 L1700 484.5" />
+            <Key x={col('right', 'inner')} y={KEY_ROWS[1]} label="Temperature down" onClick={() => onIntent({ type: 'climate.setTemp', value: car.climate.temp - 0.5 })}>
+              <path d="M-3 -1.5 L0 2 L3 -1.5" />
             </Key>
-            <Key x={1726} y={487} w={34} label="Temperature up" onClick={() => onIntent({ type: 'climate.setTemp', value: car.climate.temp + 0.5 })}>
-              <path d="M1723 489 L1726 485.5 L1729 489" />
+            <Key x={col('right', 'outer')} y={KEY_ROWS[1]} label="Temperature up" onClick={() => onIntent({ type: 'climate.setTemp', value: car.climate.temp + 0.5 })}>
+              <path d="M-3 1.5 L0 -2 L3 1.5" />
             </Key>
             {/* Cluster menu keys: cycle the centre of the instrument cluster */}
-            <Key x={1693} y={512} label="Cluster: previous page" onClick={() => onIntent({ type: 'cluster.view', dir: -1 })}>
-              <path d="M1694.5 508.5 L1691 512 L1694.5 515.5" />
+            <Key x={col('right', 'inner')} y={KEY_ROWS[2]} label="Cluster: previous page" onClick={() => onIntent({ type: 'cluster.view', dir: -1 })}>
+              <path d="M1.5 -3.5 L-2 0 L1.5 3.5" />
             </Key>
-            <Key x={1725} y={512} label="Cluster: next page (trip, tyres)" onClick={() => onIntent({ type: 'cluster.view', dir: 1 })}>
-              <path d="M1723.5 508.5 L1727 512 L1723.5 515.5" />
+            <Key x={col('right', 'outer')} y={KEY_ROWS[2]} label="Cluster: next page (trip, tyres)" onClick={() => onIntent({ type: 'cluster.view', dir: 1 })}>
+              <path d="M-1.5 -3.5 L2 0 L-1.5 3.5" />
             </Key>
           </g>
         </svg>

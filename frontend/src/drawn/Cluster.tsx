@@ -12,6 +12,8 @@ const GREEN = '#3ee08c';
 const TANK_L = 45;
 /** Centre column, between the two dials. */
 const CX = 1592;
+/** Size of the top-view car in the centre column (the image is 121 × 220). */
+const CAR = { w: 18.2, h: 33 };
 
 // Twin dials where the real cluster has them. Each sweeps 190°, open towards the centre
 // column, so the scales stay clear of the steering-wheel hub and spokes.
@@ -302,13 +304,8 @@ export function Cluster({ car }: { car: CarState }) {
               </g>
             )}
             <ellipse cx={CX} cy="386" rx="16" ry="8" fill={theme} opacity="0.14" filter="url(#d-b3)" />
-            <g transform={`translate(${CX} 384) scale(0.9)`}>
-              <rect x="-11" y="-16" width="22" height="32" rx="6" fill="#e6edf7" />
-              <rect x="-8" y="-11" width="16" height="7" rx="2" fill="#26303f" />
-              <rect x="-8" y="5" width="16" height="5" rx="2" fill="#26303f" />
-              <rect x="-13" y="-8" width="3" height="6" rx="1" fill="#e6edf7" />
-              <rect x="10" y="-8" width="3" height="6" rx="1" fill="#e6edf7" />
-            </g>
+            {/* The car itself, from above: the Verna's own top view */}
+            <image href="/images/verna-top.webp" x={CX - CAR.w / 2} y={384 - CAR.h / 2} width={CAR.w} height={CAR.h} />
           </g>
         )}
         {car.cluster === 'trip' && (

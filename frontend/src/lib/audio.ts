@@ -69,6 +69,7 @@ class CarAudio {
   private transpose = 0;
   private volume = 0.4;
   private ducked = false;
+  private relay?: number;
 
   private ensure(): AudioContext {
     if (this.ctx) return this.ctx;
@@ -494,6 +495,52 @@ class CarAudio {
       o.start(t);
       o.stop(t + 0.5);
     }
+  }
+
+  /**
+   * Flasher relay for the hazards and indicators: a sharp "tick" as the lamps light and a
+   * softer "tock" as they go out, every half second, in step with the blinking lamps.
+   */
+  flasher(on: boolean) {
+    if (on === (this.relay !== undefined)) return;
+    if (!on) {
+      window.clearInterval(this.relay);
+      this.relay = undefined;
+      return;
+    }
+    let lit = true;
+    this.click(lit);
+    this.relay = window.setInterval(() => { lit = !lit; this.click(lit); }, 500);
+  }
+
+  /** One relay click: a very short band-passed noise burst over a faint low knock. */
+  private click(tick: boolean) {
+    if (!this.ctx || this.ctx.state !== 'running') return;
+    const ctx = this.ctx;
+    const t = ctx.currentTime + 0.005;
+    const src = ctx.createBufferSource();
+    src.buffer = this.noise;
+    const bp = ctx.createBiquadFilter();
+    bp.type = 'bandpass';
+    bp.frequency.value = tick ? 2600 : 1700;
+    bp.Q.value = 3;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(tick ? 0.32 : 0.2, t + 0.002);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.03);
+    src.connect(bp).connect(g).connect(this.master);
+    src.start(t, Math.random() * 0.5);
+    src.stop(t + 0.05);
+    const o = ctx.createOscillator();
+    o.frequency.setValueAtTime(tick ? 190 : 150, t);
+    o.frequency.exponentialRampToValueAtTime(90, t + 0.025);
+    const og = ctx.createGain();
+    og.gain.setValueAtTime(0.0001, t);
+    og.gain.linearRampToValueAtTime(0.08, t + 0.002);
+    og.gain.exponentialRampToValueAtTime(0.0001, t + 0.035);
+    o.connect(og).connect(this.master);
+    o.start(t);
+    o.stop(t + 0.05);
   }
 
   chime(kind: 'listen' | 'ok' | 'error') {

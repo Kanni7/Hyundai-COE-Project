@@ -523,10 +523,8 @@ img.layer { object-fit: fill; }
 @keyframes amb-flow { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 @keyframes amb-draw { from { stroke-dashoffset: 100; } }
 
-.slat path:first-child { stroke-width: 4.5; transition: stroke-width 0.6s ease; }
-.slat.open path:first-child { stroke-width: 2.2; }
-.slat .slat-edge { opacity: 0.25; transition: opacity 0.6s ease; }
-.slat.open .slat-edge { opacity: 1; }
+.vent-tab { cursor: grab; touch-action: none; }
+.vent-tab:active { cursor: grabbing; }
 
 .hazard .hz-glow { opacity: 0; }
 .hazard .hz-tri { opacity: 0.75; }
