@@ -48,7 +48,8 @@ Use Chrome or Edge for voice input, because they support the Web Speech API. Oth
 | Climate panel | Below the vents | AUTO, A/C, front and rear defrost, recirculation, fan, OFF. Click or scroll the temperature and fan displays. |
 | Hazard switch | Between the vents | Hazard lights (the switch and cluster arrows blink). |
 | Gear lever | Centre console | Drag up or down through P-R-N-D, click to toggle P/D, or click a letter in the lit column. |
-| Console button strip | Left of the gear lever | Drive mode, Auto Hold, hazard, parking sensors, door lock. |
+| Console button strip | Left of the gear lever | Drive mode, Auto Hold, parking sensors, door lock. |
+| Seat ventilation | Right of the gear lever | Driver and passenger seat cooling: each press steps off, 1, 2, 3. |
 | Door switches | Passenger armrest | Passenger window (the glass slides down), driver window, all windows, door lock. |
 | Roof console | Under the mirror | Cabin light. |
 
@@ -59,8 +60,8 @@ The 10.25-inch digital cluster behind the wheel is laid out so the steering-whee
 - **Speedometer** (0-240 km/h) and **tachometer** (0-8,000 rpm, redline from 6,500), each with a needle, a lit sweep and a digital readout. The needles sweep to full scale when the ignition comes on.
 - **Gear selector** with the gearbox's current ratio in D (for example `D 4`).
 - **Drive mode theme:** Eco green, Normal blue, Sport red.
-- **Fuel gauge and distance to empty**, plus a **coolant temperature** gauge that warms up after a start.
-- **Top band:** clock and outside temperature. Lamps on the left: headlights, parking brake, battery, oil pressure, check engine and tyre pressure. With the ignition on and the engine off (ACC), the battery, oil and engine lamps stay lit, as in a real car. Every lamp lights during the bulb check. Lamps on the right: Auto Hold (green while holding), Lane Keeping Assist (green while steering, above 60 km/h) and Smart Cruise.
+- **Fuel gauge**, plus a **coolant temperature** gauge that warms up after a start.
+- **Top row:** the clock (`ACC` with the engine off). Only lamps that mean something right now are lit. On the left: headlights, parking brake (engine running in P) and low tyre pressure. On the right: Auto Hold (green while holding), Lane Keeping Assist (green while steering, above 60 km/h) and Smart Cruise.
 - **Centre pages**, cycled with the right spoke ◀ ▶ keys or by voice:
   - Driving assist: the lane view (dashes move with the road) and, with Smart Cruise on, the car ahead with distance bars.
   - Trip computer: trip, average and instant economy, and the odometer.
@@ -122,7 +123,7 @@ typed text ──────────────┴─▶ parseCommand()  �
 
 - **`src/nlu/parser.ts`** is the offline rule-based parser for English, Devanagari and romanised Hinglish. It covers spelling variants, Hindi number words, clause splitting and conversation context. To use an LLM or a hosted NLU service later, replace `parseCommand`. The `Intent` contract in `src/types.ts` stays the same.
 - **`src/state/car.ts`** is the pure state machine. It applies each intent and writes a reply in both English and Hinglish.
-- **`src/scenes.ts`** holds the per-view calibration. Every overlay is placed in the photo's own pixel coordinates. The drawn Live view reuses the night photo's coordinates.
+- **`src/scenes.ts`** holds the per-view calibration. Every overlay is placed in the photo's own pixel coordinates. The drawn Live view reuses the night photo's coordinates, so the whole drawing shares one coordinate system. The stage fills the window width and zooms at most 1.12× further to fill the height. Any side crop is taken around the steering wheel, so the wheel keeps its place on screen in every window shape, and a short window gives up sky so the console stays above the voice dock.
 - **Drawn cockpit** (`src/drawn/`): the static body (`CabinBase`) is drawn once. Each moving part (cluster, climate panel, vents, gear lever, wheel, door glass, switches) is its own small SVG, so animating one part never repaints the rest. Ambient light pipes are a separate layer recoloured through CSS. Breathe, Flow and Rainbow are CSS animations. Music sync and Drive mode are driven every frame by `lib/ambientFx.ts`. Add `?compare=split`, `?compare=overlay` or `?compare=photo` to the URL to lay the source photo over the drawing.
 - **Shared visuals** (`src/components/`):
   - The infotainment UI is real HTML. A homography (`lib/homography.ts`) maps it onto the photographed screen, so it stays clickable.

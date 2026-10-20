@@ -43,96 +43,105 @@ export function SevenSeg({ text, x, y, w, h, t = 1.8, gap = 2.2, color = 'curren
   return <g fill={color} transform={`skewX(-6) translate(${y * 0.105} 0)`}>{out}</g>;
 }
 
+/** A key cap centred on (x, y); its glyph is drawn about (0, 0). */
 function Btn({ x, y, label, lit, led, onClick, children }: {
   x: number; y: number; label: string; lit?: boolean; led?: string; onClick: () => void; children: ReactNode;
 }) {
   return (
-    <g className="hit btn" onClick={onClick} role="button" aria-label={label}>
+    <g className="hit btn" onClick={onClick} role="button" aria-label={label} transform={`translate(${x} ${y})`}>
       <title>{label}</title>
-      <rect x={x - 12} y={y - 8} width="24" height="16" rx="3" fill="transparent" />
-      {led && <circle cx={x} cy={y - 7} r="1.6" fill={lit ? led : '#2a2f38'} className={lit ? 'led-on' : ''} />}
-      <g className="glyph" stroke="#8fd0ff" fill="none" strokeWidth="1.1" strokeLinecap="round" opacity={lit === false ? 0.65 : 1}>{children}</g>
+      <rect x="-12" y="-8.5" width="24" height="17" rx="3" fill="#030405" />
+      <rect x="-11" y="-7.5" width="22" height="15" rx="2.6" fill="#0e1014" stroke="#222831" strokeWidth="0.6" />
+      <path d="M-8.5 -6.6 L8.5 -6.6" stroke="#353c47" strokeWidth="0.6" />
+      {led && <circle cy="-4.4" r="1.2" fill={lit ? led : '#22262d'} className={lit ? 'led-on' : ''} style={{ color: led }} />}
+      <g className="glyph" stroke="#a9cbe6" fill="none" strokeWidth="1" strokeLinecap="round" opacity={lit === false ? 0.6 : 0.9}>{children}</g>
     </g>
   );
 }
 
-/** Piano-black climate panel under the vents: real buttons, LCD temperature and fan readout. */
+const AMBER = '#ffb347';
+/** The panel is symmetric about the hazard switch above it. */
+const MID = 1146;
+/** Key columns either side, mirrored about MID, and the two key rows. */
+const COLS = [1015, 1040, 2 * MID - 1040, 2 * MID - 1015];
+const ROWS = [525, 545];
+
+/** Piano-black climate panel under the vents: keys either side, LCD temperature and blower level in the middle. */
 export function ClimatePanel({ car, onIntent }: { car: CarState; onIntent: (i: Intent) => void }) {
   const c = car.climate;
   const live = car.ignition !== 'off' && c.on;
   const [whole, dec] = c.temp.toFixed(1).split('.');
   const step = (d: number) => onIntent({ type: 'climate.setTemp', value: c.temp + d });
+  const bars = 8 * 5 - 2.2;
 
   return (
-    <Part x={980} y={498} w={332} h={72} className="climate-panel">
-      <path d="M988 503 L1302 506 Q1308 506 1307 512 L1304 558 Q1303 565 1296 565 L994 563 Q987 563 987 556 L985 510 Q985 503 988 503 Z" fill="url(#d-piano)" stroke="#1b212b" strokeWidth="1" />
-      <path d="M992 505 L1298 508" stroke="#3a4454" strokeWidth="0.8" opacity="0.8" />
-      <path d="M1052 547 L1246 558" stroke="url(#d-chromeH)" strokeWidth="1.6" />
+    <Part x={980} y={498} w={332} h={74} className="climate-panel">
+      <rect x={MID - 155} y="505" width="310" height="60" rx="8" fill="url(#d-piano)" stroke="#171c24" strokeWidth="1" />
+      <path d={`M${MID - 148} 506.4 L${MID + 148} 506.4`} stroke="#333c49" strokeWidth="0.7" opacity="0.8" />
+      {/* LCD glass and the satin bar under it */}
+      <rect x={MID - 91} y="518" width="182" height="26" rx="4" fill="#020407" />
+      <rect x={MID - 89} y="550.3" width="178" height="1.4" rx="0.7" fill="url(#d-chromeH)" opacity="0.85" />
 
       {/* LCD: cabin temperature (single zone) */}
-      <g className="lcd-glow" color="#a8dcff" opacity={live ? 1 : 0.12}>
-        <g filter="url(#d-b1)" opacity="0.8">
-          {live ? <SevenSeg text={whole} x={1064} y={520} w={8} h={13} /> : <SevenSeg text="OFF" x={1064} y={520} w={8} h={13} />}
+      <g color="#a8dcff" opacity={live ? 1 : 0.1}>
+        <g filter="url(#d-b1)" opacity="0.6">
+          <SevenSeg text={live ? whole : 'OFF'} x={1066} y={524} w={8} h={13} />
         </g>
-        {live ? <SevenSeg text={whole} x={1064} y={520} w={8} h={13} /> : <SevenSeg text="OFF" x={1064} y={520} w={8} h={13} />}
-        {live && <SevenSeg text={dec} x={1087} y={526} w={5} h={7} t={1.3} />}
+        <SevenSeg text={live ? whole : 'OFF'} x={1066} y={524} w={8} h={13} />
+        {live && <SevenSeg text={`.${dec}`} x={1090} y={530} w={5} h={7} t={1.3} gap={6} />}
       </g>
       <g className="hit" onWheel={(e) => step(e.deltaY < 0 ? 0.5 : -0.5)}>
         <title>Temperature: click top half to raise, bottom half to lower, or scroll</title>
-        <rect x="1058" y="514" width="44" height="12" fill="transparent" onClick={() => step(0.5)} />
-        <rect x="1058" y="526" width="44" height="12" fill="transparent" onClick={() => step(-0.5)} />
+        <rect x="1060" y="518" width="44" height="13" fill="transparent" onClick={() => step(0.5)} />
+        <rect x="1060" y="531" width="44" height="13" fill="transparent" onClick={() => step(-0.5)} />
       </g>
 
-      {/* Centre: fan bars and airflow mode */}
-      <g opacity={live ? 1 : 0.12} stroke="#a8dcff" fill="none" strokeWidth="1.1">
-        <circle cx="1112" cy="529" r="4.2" />
-        <path d="M1112 525 L1112 529 L1116 531 M1112 529 L1108 531" />
+      {/* Centre: blower bars, kept quiet, on the digits' baseline */}
+      <g opacity={live ? 0.85 : 0.1}>
         {Array.from({ length: FAN_MAX }, (_, k) => (
-          <rect key={k} x={1122 + k * 4.6} y={533 - k * 1.1 - 3} width="2.6" height={3 + k * 1.1} rx="0.6"
-            fill={k < c.fan ? '#a8dcff' : 'none'} stroke="#a8dcff" strokeWidth="0.5" opacity={k < c.fan ? 1 : 0.35} />
+          <rect key={k} x={MID - bars / 2 + k * 5} y={537 - 3 - k * 1.1} width="2.8" height={3 + k * 1.1} rx="0.6"
+            fill={k < c.fan ? '#a8dcff' : '#1f2b3a'} />
         ))}
-        <circle cx="1172" cy="523" r="2" />
-        <path d="M1172 526 L1170 533 L1176 533 M1176 528 L1184 525 M1176 531 L1184 533" />
       </g>
 
-      {/* Right LCD: blower level */}
-      <g color="#a8dcff" opacity={live ? 1 : 0.12}>
-        <g stroke="#a8dcff" fill="none" strokeWidth="1.1">
-          <circle cx="1205" cy="533" r="4.5" />
-          <path d="M1205 528.5 Q1208 531 1205 533 Q1202 535 1205 537.5 M1200.5 533 Q1203 530 1205 533 Q1207 536 1209.5 533" />
+      {/* Right LCD: blower level, mirroring the temperature's inset */}
+      <g color="#a8dcff" opacity={live ? 1 : 0.1}>
+        <g stroke="#a8dcff" fill="none" strokeWidth="1">
+          <circle cx="1208" cy="530.5" r="4.3" />
+          <path d="M1208 526.2 Q1211 528.5 1208 530.5 Q1205 532.5 1208 534.8 M1203.7 530.5 Q1206 527.5 1208 530.5 Q1210 533.5 1212.3 530.5" />
         </g>
-        <SevenSeg text={String(live ? c.fan : 0)} x={1214} y={527} w={8} h={13} />
+        <SevenSeg text={String(live ? c.fan : 0)} x={1218} y={524} w={8} h={13} />
       </g>
       <g className="hit" onWheel={(e) => onIntent({ type: 'climate.fan', delta: e.deltaY < 0 ? 1 : -1 })}>
         <title>Fan speed: click top half to increase, bottom half to decrease</title>
-        <rect x="1196" y="520" width="34" height="11" fill="transparent" onClick={() => onIntent({ type: 'climate.fan', delta: 1 })} />
-        <rect x="1196" y="531" width="34" height="11" fill="transparent" onClick={() => onIntent({ type: 'climate.fan', delta: -1 })} />
+        <rect x="1200" y="518" width="32" height="13" fill="transparent" onClick={() => onIntent({ type: 'climate.fan', delta: 1 })} />
+        <rect x="1200" y="531" width="32" height="13" fill="transparent" onClick={() => onIntent({ type: 'climate.fan', delta: -1 })} />
       </g>
 
-      {/* Buttons */}
-      <Btn x={1016} y={518} label="Auto climate" lit={c.auto && live} led="#ffd23a" onClick={() => onIntent({ type: 'climate.auto' })}>
-        <text x="1016" y="521" className="btn-txt">AUTO</text>
+      {/* Keys: comfort on the left, air on the right, on the same two rows */}
+      <Btn x={COLS[0]} y={ROWS[0]} label="Auto climate" lit={c.auto && live} led={AMBER} onClick={() => onIntent({ type: 'climate.auto' })}>
+        <text y="4" className="btn-txt">AUTO</text>
       </Btn>
-      <Btn x={1042} y={520} label="A/C" lit={live} led="#ff8a2a" onClick={() => onIntent({ type: 'climate.power', on: !c.on })}>
-        <text x="1042" y="523" className="btn-txt">A/C</text>
+      <Btn x={COLS[1]} y={ROWS[0]} label="A/C" lit={live} led={AMBER} onClick={() => onIntent({ type: 'climate.power', on: !c.on })}>
+        <text y="4" className="btn-txt">A/C</text>
       </Btn>
-      <Btn x={1015} y={541} label="Front defrost" lit={c.defrost} led="#ff8a2a" onClick={() => onIntent({ type: 'climate.defrost' })}>
-        <path d="M1009 544 Q1015 536 1021 544 M1012 539 L1012 535 M1015 538 L1015 534 M1018 539 L1018 535" />
+      <Btn x={COLS[0]} y={ROWS[1]} label="Front defrost" lit={c.defrost} led={AMBER} onClick={() => onIntent({ type: 'climate.defrost' })}>
+        <path d="M-5 4.5 Q0 -1.5 5 4.5 M-2.5 1.5 L-2.5 -0.5 M0 0.5 L0 -1.5 M2.5 1.5 L2.5 -0.5" />
       </Btn>
-      <Btn x={1041} y={543} label="Recirculation" lit={c.recirc} led="#ff8a2a" onClick={() => onIntent({ type: 'climate.recirc' })}>
-        <path d="M1034 546 L1048 546 L1046 541 L1036 541 Z M1037 538 Q1041 534 1045 538 L1043 538" />
+      <Btn x={COLS[1]} y={ROWS[1]} label="Recirculation" lit={c.recirc} led={AMBER} onClick={() => onIntent({ type: 'climate.recirc' })}>
+        <path d="M-6 5 L6 5 L4.5 2 L-4.5 2 Z M-3 0 Q0 -2.5 3 0 L1.5 0" />
       </Btn>
-      <Btn x={1240} y={532} label="Fan slower" onClick={() => onIntent({ type: 'climate.fan', delta: -1 })}>
-        <circle cx="1240" cy="533" r="3" /><path d="M1236 528 L1244 528" />
+      <Btn x={COLS[2]} y={ROWS[0]} label="Fan slower" onClick={() => onIntent({ type: 'climate.fan', delta: -1 })}>
+        <circle cx="-2" r="2.4" /><path d="M2.5 0 L6 0" />
       </Btn>
-      <Btn x={1268} y={530} label="Fan faster" onClick={() => onIntent({ type: 'climate.fan', delta: 1 })}>
-        <circle cx="1268" cy="531" r="4.2" /><path d="M1268 524 L1268 527 M1264.5 526 L1271.5 526" />
+      <Btn x={COLS[3]} y={ROWS[0]} label="Fan faster" onClick={() => onIntent({ type: 'climate.fan', delta: 1 })}>
+        <circle cx="-2" r="3" /><path d="M2.5 0 L6.5 0 M4.5 -2 L4.5 2" />
       </Btn>
-      <Btn x={1239} y={554} label="Rear defrost" lit={c.defrost} onClick={() => onIntent({ type: 'climate.defrost' })}>
-        <rect x="1233" y="551" width="12" height="7" rx="1" /><path d="M1236 549 L1236 547 M1239 549 L1239 547 M1242 549 L1242 547" />
+      <Btn x={COLS[2]} y={ROWS[1]} label="Rear defrost" lit={c.defrost} led={AMBER} onClick={() => onIntent({ type: 'climate.defrost' })}>
+        <rect x="-5" y="1" width="10" height="5" rx="1" /><path d="M-2.5 -0.5 L-2.5 -2 M0 -0.5 L0 -2 M2.5 -0.5 L2.5 -2" />
       </Btn>
-      <Btn x={1267} y={556} label="Climate off" onClick={() => onIntent({ type: 'climate.power', on: !c.on })}>
-        <path d="M1264 553 A4.2 4.2 0 1 0 1270 553 M1267 551 L1267 556" />
+      <Btn x={COLS[3]} y={ROWS[1]} label="Climate off" onClick={() => onIntent({ type: 'climate.power', on: !c.on })}>
+        <path d="M-2.8 -2.4 A3.8 3.8 0 1 0 2.8 -2.4 M0 -4 L0 0.5" />
       </Btn>
     </Part>
   );

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { AmbientMode } from '../types';
 import { runAmbientFx } from '../lib/ambientFx';
-import { CABIN_H, CABIN_W, STRIPS } from './geometry';
+import { CABIN_H, CABIN_W, FOOTWELL_DX, STRIPS } from './geometry';
 
 // Dash, driver-side dash ends and console glow in the primary colour; the door pipes take the second colour in dual tone.
 const DASH = [STRIPS[0], STRIPS[1], STRIPS[6]];
@@ -10,18 +10,18 @@ const DOOR = [STRIPS[2], STRIPS[3], STRIPS[4], STRIPS[5]];
 function Pipes({ paths, flow }: { paths: string[]; flow: boolean }) {
   return (
     <>
-      {/* Wide halo, inner glow, coloured body, near-white core */}
+      {/* Soft falloff, coloured body, faint core: a thin light pipe, not a neon tube */}
       <g className="pipe">
-        {paths.map((d) => <path key={`h${d}`} d={d} pathLength={100} stroke="currentColor" strokeWidth="14" opacity="0.16" filter="url(#d-b8)" fill="none" strokeLinecap="round" />)}
-        {paths.map((d) => <path key={`g${d}`} d={d} pathLength={100} stroke="currentColor" strokeWidth="5" opacity="0.55" filter="url(#d-b3)" fill="none" strokeLinecap="round" />)}
-        {paths.map((d) => <path key={`b${d}`} d={d} pathLength={100} stroke="currentColor" strokeWidth="2.4" fill="none" strokeLinecap="round" />)}
-        {paths.map((d) => <path key={`c${d}`} d={d} pathLength={100} stroke="#ffffff" strokeWidth="1" opacity="0.75" fill="none" strokeLinecap="round" />)}
+        {paths.map((d) => <path key={`h${d}`} d={d} pathLength={100} stroke="currentColor" strokeWidth="8" opacity="0.07" filter="url(#d-b8)" fill="none" strokeLinecap="round" />)}
+        {paths.map((d) => <path key={`g${d}`} d={d} pathLength={100} stroke="currentColor" strokeWidth="3.4" opacity="0.32" filter="url(#d-b3)" fill="none" strokeLinecap="round" />)}
+        {paths.map((d) => <path key={`b${d}`} d={d} pathLength={100} stroke="currentColor" strokeWidth="1.8" opacity="0.9" fill="none" strokeLinecap="round" />)}
+        {paths.map((d) => <path key={`c${d}`} d={d} pathLength={100} stroke="#ffffff" strokeWidth="0.6" opacity="0.45" fill="none" strokeLinecap="round" />)}
       </g>
       {/* Flow: bright pulses chasing along each pipe */}
       {flow && (
         <g className="amb-run">
-          {paths.map((d) => <path key={`r${d}`} d={d} pathLength={100} stroke="currentColor" strokeWidth="7" filter="url(#d-b3)" fill="none" strokeLinecap="round" />)}
-          {paths.map((d) => <path key={`w${d}`} d={d} pathLength={100} stroke="#ffffff" strokeWidth="1.6" fill="none" strokeLinecap="round" />)}
+          {paths.map((d) => <path key={`r${d}`} d={d} pathLength={100} stroke="currentColor" strokeWidth="5" opacity="0.8" filter="url(#d-b3)" fill="none" strokeLinecap="round" />)}
+          {paths.map((d) => <path key={`w${d}`} d={d} pathLength={100} stroke="#ffffff" strokeWidth="1.1" opacity="0.8" fill="none" strokeLinecap="round" />)}
         </g>
       )}
     </>
@@ -61,18 +61,20 @@ export function Ambient({ color, color2, level, mode }: { color: string; color2:
         {/* Spill: footwells, door card under the lower pipe, dash face */}
         <g style={{ color }}>
           <g fill="currentColor">
-            <ellipse cx="770" cy="665" rx="165" ry="85" opacity="0.24" filter="url(#d-b40)" />
-            <ellipse cx="1560" cy="760" rx="220" ry="55" opacity="0.14" filter="url(#d-b40)" />
-            <ellipse cx="1650" cy="745" rx="120" ry="40" opacity="0.18" filter="url(#d-b20)" />
-            <path d="M1365 668 L1438 664 L1448 800 L1372 806 Z" opacity="0.07" />
+            <ellipse cx="770" cy="665" rx="165" ry="85" opacity="0.16" filter="url(#d-b40)" />
+            <g transform={`translate(${FOOTWELL_DX} 0)`}>
+              <ellipse cx="1560" cy="760" rx="220" ry="55" opacity="0.1" filter="url(#d-b40)" />
+              <ellipse cx="1650" cy="745" rx="120" ry="40" opacity="0.12" filter="url(#d-b20)" />
+              <path d="M1365 668 L1438 664 L1448 800 L1372 806 Z" opacity="0.05" />
+            </g>
           </g>
-          <path d="M625 440 C 760 457, 880 478, 948 510" stroke="currentColor" strokeWidth="34" opacity="0.18" filter="url(#d-b20)" fill="none" />
-          <path d="M622 358 Q 790 372 962 384" stroke="currentColor" strokeWidth="26" opacity="0.14" filter="url(#d-b20)" fill="none" />
+          <path d="M625 440 C 760 457, 880 478, 948 510" stroke="currentColor" strokeWidth="26" opacity="0.1" filter="url(#d-b20)" fill="none" />
+          <path d="M622 358 Q 790 372 962 384" stroke="currentColor" strokeWidth="20" opacity="0.08" filter="url(#d-b20)" fill="none" />
           <Pipes paths={DASH} flow={mode === 'flow'} />
         </g>
         <g style={{ color: color2 }}>
-          <path d="M75 762 C 200 712, 300 672, 340 650 C 372 630, 384 616, 412 603 L 572 527" stroke="currentColor" strokeWidth="46" opacity="0.18" filter="url(#d-b20)" fill="none" />
-          <path d="M0 464 Q 290 402 572 361" stroke="currentColor" strokeWidth="36" opacity="0.12" filter="url(#d-b20)" fill="none" />
+          <path d="M75 762 C 200 714, 300 674, 338 652 C 370 632, 386 612, 418 600 C 470 578, 530 550, 572 529" stroke="currentColor" strokeWidth="34" opacity="0.1" filter="url(#d-b20)" fill="none" />
+          <path d="M0 464 Q 290 402 572 361" stroke="currentColor" strokeWidth="28" opacity="0.07" filter="url(#d-b20)" fill="none" />
           <Pipes paths={DOOR} flow={mode === 'flow'} />
         </g>
       </svg>

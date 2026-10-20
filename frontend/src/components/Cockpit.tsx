@@ -25,6 +25,11 @@ interface Props {
 }
 
 const COMPARE = new URLSearchParams(window.location.search).get('compare');
+/**
+ * Zoom limit, as a multiple of the width fit. A tall window gets dark floor under
+ * the cabin rather than a dashboard cropped down to the steering wheel.
+ */
+const MAX_ZOOM = 1.12;
 const poly = (pts: XY[]) => `polygon(${pts.map(([x, y]) => `${x}px ${y}px`).join(',')})`;
 const at = ([x, y]: XY, extra?: CSSProperties): CSSProperties => ({ left: x, top: y, ...extra });
 
@@ -41,12 +46,16 @@ function useViewport() {
 export function Cockpit({ car, scene, toast, voice, onIntent, reserveBottom, focused, onToggleFocus, onMic }: Props) {
   const vp = useViewport();
 
-  // Fill the width; keep at least (viewport - dock) of height; crop sides around the focal point.
-  let s = Math.max(vp.w / scene.width, (vp.h - reserveBottom) / scene.height);
+  // Fill the width and, within MAX_ZOOM, the height above the dock. Any side crop is taken
+  // around scene.focusX, so that point (the steering wheel) keeps its place on screen.
+  const fit = vp.w / scene.width;
+  let s = Math.min(Math.max(fit, (vp.h - reserveBottom) / scene.height), fit * MAX_ZOOM);
   let sw = scene.width * s;
   let sh = scene.height * s;
   let left = sw > vp.w ? -(sw - vp.w) * scene.focusX : (vp.w - sw) / 2;
   let top = sh > vp.h ? -(sh - vp.h) * 0.4 : 0;
+  // In a short window, lift the cabin (losing some sky, at most 12%) so the console clears the dock.
+  if (scene.keepAboveDock) top = Math.min(top, Math.max(vp.h - reserveBottom - scene.keepAboveDock * s, -sh * 0.12));
   const cabinBottom = Math.min(vp.h, top + sh);
   if (focused) {
     // Lean in towards the centre stack, like a driver glancing at the screen.

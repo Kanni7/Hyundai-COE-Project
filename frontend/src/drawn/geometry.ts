@@ -14,13 +14,22 @@ export const STRIPS = [
   'M622 347 Q 790 361 962 373', // dash, upper
   'M625 428 C 760 445, 880 466, 948 498', // dash, lower sweep
   'M0 450 Q 290 388 572 347', // door, upper
-  'M75 750 C 200 700, 300 660, 340 638 C 372 618, 384 604, 412 591 L 572 515', // door, lower
+  'M75 750 C 200 702, 300 662, 338 640 C 370 620, 386 600, 418 588 C 470 566, 530 538, 572 517', // door, lower
   'M1862 415 L1933 420', // driver side, upper
   'M1808 540 L1926 546', // driver side, lower
   'M1132 706 C 1121 738, 1101 772, 1082 802', // centre console
 ];
 
-export const WHEEL = { cx: 1572, cy: 465, rx: 243, ry: 226, irx: 214, iry: 198 };
+// About 25% of the drawing wide, centred on the instrument cluster (82% of the drawing's width).
+// Slightly taller than the photo (which foreshortens it) so the rim reads as round.
+export const WHEEL = { cx: 1592, cy: 465, rx: 245, ry: 232, irx: 207, iry: 198 };
+
+/**
+ * The driver footwell (pedals, dead pedal, their light) is drawn with the brake centred at
+ * x 1607.5. This puts the brake right under the steering column, wherever the wheel is placed;
+ * the accelerator and dead pedal keep their spacing from it.
+ */
+export const FOOTWELL_DX = WHEEL.cx - 1607.5;
 
 export const ellipsePath = (cx: number, cy: number, rx: number, ry: number) =>
   `M${cx - rx} ${cy} A${rx} ${ry} 0 1 0 ${cx + rx} ${cy} A${rx} ${ry} 0 1 0 ${cx - rx} ${cy} Z`;

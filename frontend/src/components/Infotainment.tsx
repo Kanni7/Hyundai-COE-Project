@@ -1,9 +1,9 @@
 import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import {
-  Armchair, AudioLines, Bluetooth, Lock, Car, CloudRain, Contrast, CornerUpRight, Disc3, Fan, Flame, Flower2, Fuel, Gauge, Heart, House,
+  Armchair, AudioLines, Lock, Car, CloudRain, Contrast, CornerUpRight, Disc3, Fan, Flame, Flower2, Fuel, Gauge, Heart, House,
   Leaf, Lightbulb, MapPin, Mic, MicOff, Minus, Music, Navigation, Palette, PartyPopper, Pause, Phone, PhoneOff, Play, Plus, Power,
-  Radio, Rainbow, Signal, SkipBack, SkipForward, Snowflake, Sparkles, Sun, Target, Thermometer, TriangleAlert, Volume2, VolumeX, Waves,
-  Wifi, Wind, Zap, Grid2x2,
+  Radio, Rainbow, SkipBack, SkipForward, Snowflake, Sparkles, Sun, Target, Thermometer, TriangleAlert, Volume2, VolumeX, Waves,
+  Wind, Zap, Grid2x2,
 } from 'lucide-react';
 import type { AmbientColor, AmbientMode, CarState, Intent, Mood, Page, Toast } from '../types';
 import { COLOR_LABEL, currentTrack, FAN_MAX, GENRE_LABEL, VOLUME_MAX } from '../state/car';
@@ -58,7 +58,6 @@ export function Infotainment({ car, toast, voice, onIntent, width, height }: Pro
             {car.hazard && <TriangleAlert className="blink-red" />}
             {car.wipers !== 'off' && <CloudRain />}
             {car.ignition === 'acc' && <span className="acc-pill">ACC</span>}
-          <Bluetooth /><Wifi /><Signal />
             <span>27°C</span>
           </div>
         </header>
@@ -167,7 +166,7 @@ function HomePage({ car, onIntent, go }: PageProps & { go: (p: Page) => void }) 
           <b>{car.media.radio ? `FM ${car.media.freq.toFixed(1)}` : t.title}</b>
           <span>{car.media.radio ? 'Live radio' : t.artist}</span>
         </div>
-        <EqBars bars={14} active={car.media.playing && !car.media.muted} className="eq-sm" />
+        {car.media.playing && <EqBars bars={14} active={!car.media.muted} className="eq-sm" />}
         <div className="ctrl" onClick={(e) => e.stopPropagation()}>
           <button onClick={() => onIntent(car.media.playing ? { type: 'media.pause' } : { type: 'media.play' })}>
             {car.media.playing ? <Pause /> : <Play />}

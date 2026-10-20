@@ -117,6 +117,37 @@ export function Defs() {
           <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
         </linearGradient>
 
+        <linearGradient id="d-boot" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#08090b" />
+          <stop offset="0.4" stopColor="#202328" />
+          <stop offset="0.7" stopColor="#15171b" />
+          <stop offset="1" stopColor="#0a0b0d" />
+        </linearGradient>
+        <linearGradient id="d-stem" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#1f2227" />
+          <stop offset="0.3" stopColor="#434952" />
+          <stop offset="0.7" stopColor="#1b1e23" />
+          <stop offset="1" stopColor="#2d3138" />
+        </linearGradient>
+
+        <linearGradient id="d-knee" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#070a0f" />
+          <stop offset="0.55" stopColor="#0d131c" />
+          <stop offset="1" stopColor="#101a28" />
+        </linearGradient>
+
+        <linearGradient id="d-satinLever" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#b9c1cc" />
+          <stop offset="0.35" stopColor="#7c8592" />
+          <stop offset="1" stopColor="#2b3038" />
+        </linearGradient>
+
+        <linearGradient id="d-keycap" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#1d2128" />
+          <stop offset="0.5" stopColor="#121419" />
+          <stop offset="1" stopColor="#0b0c0f" />
+        </linearGradient>
+
         {/* Cluster / screens */}
         <radialGradient id="d-clusterBg" cx="0.5" cy="0.45" r="0.7">
           <stop offset="0" stopColor="#040912" />

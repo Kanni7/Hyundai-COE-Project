@@ -2,6 +2,7 @@
 // so overlays line up exactly once the stage is scaled to the viewport.
 
 import type { SceneId } from './types';
+import { WHEEL } from './drawn/geometry';
 
 export type XY = [number, number];
 export interface Ellipse { cx: number; cy: number; rx: number; ry: number }
@@ -14,8 +15,10 @@ export interface SceneConfig {
   src: string;
   width: number;
   height: number;
-  /** Horizontal focal point (0..1) kept in view when the viewport crops the sides. */
+  /** Horizontal anchor (0..1): when the viewport crops the sides, this point keeps its place on screen. */
   focusX: number;
+  /** Lowest image row that should stay above the voice dock; a short window gives up sky instead. */
+  keepAboveDock?: number;
   /** Region [x0, y0, x1, y1] the camera leans into when the driver focuses on the screen. */
   focus: [number, number, number, number];
   screen: { quad: [XY, XY, XY, XY]; ui: { w: number; h: number }; radius: number };
@@ -77,7 +80,22 @@ const NIGHT: SceneConfig = {
 
 export const SCENES: Record<SceneId, SceneConfig> = {
   // Traced from the night photo, so every calibrated coordinate carries over.
-  live: { ...NIGHT, id: 'live', kind: 'drawn', label: 'Live cockpit' },
+  live: {
+    ...NIGHT,
+    id: 'live',
+    kind: 'drawn',
+    label: 'Live cockpit',
+    // Anchor on the steering wheel, so it keeps the same place in every window shape.
+    focusX: WHEEL.cx / 1933,
+    // Gear lever and console keys
+    keepAboveDock: 700,
+    // The drawn screen is a little narrower than the photographed one, with a slimmer bezel, and
+    // sits level on the centre-stack axis (x 1146) above the vents and climate panel.
+    screen: { quad: [[996, 292], [1296, 292], [1296, 404], [996, 404]], ui: { w: 1080, h: 404 }, radius: 16 },
+    focus: [941, 262, 1351, 480],
+    vents: [[1000, 456, 1120, 456], [1172, 456, 1292, 456], NIGHT.vents[2], NIGHT.vents[3]],
+    windshield: { ...NIGHT.windshield, holes: [{ cx: WHEEL.cx, cy: WHEEL.cy, rx: WHEEL.rx, ry: WHEEL.ry }, NIGHT.windshield.holes[1]] },
+  },
   night: NIGHT,
   day: {
     id: 'day',

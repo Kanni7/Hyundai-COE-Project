@@ -4,8 +4,13 @@ import { engine } from '../lib/engine';
 import { Part } from './Part';
 import { SIDE_WINDOW } from './geometry';
 
-/** The passenger door's own window switch, centred on the armrest panel. */
-const ROCKER = { x: 506, y: 519 };
+/**
+ * The armrest switch panel. Its parts are drawn top-down about (0, 0), then laid onto the
+ * sloping armrest: tilted with it and foreshortened, as the camera sees it from above.
+ */
+const PANEL = { x: 487, y: 513, tilt: -11.5, squash: 0.55 };
+/** Glyphs are lit from inside the cap, so they read less foreshortened than the caps around them. */
+const upright = (cx: number, cy: number) => `translate(${cx} ${cy}) scale(1 1.5) translate(${-cx} ${-cy})`;
 /** Window travel while a switch is held, in % per second. */
 const WINDOW_SPEED = 40;
 /** Releasing sooner than this counts as a tap: one-touch, all the way. */
@@ -52,7 +57,6 @@ export function Door({ car, onIntent }: { car: CarState; onIntent: (i: Intent) =
   const live = held?.value != null;
   const passenger = live ? held!.value! : car.windows.passenger;
   const drop = (passenger / 100) * 300;
-  const { x, y } = ROCKER;
   const up = held?.dir === -1;
   const down = held?.dir === 1;
   const pct = Math.round(passenger);
@@ -75,32 +79,62 @@ export function Door({ car, onIntent }: { car: CarState; onIntent: (i: Intent) =
           </g>
         </g>
       </Part>
-      <Part x={444} y={486} w={156} h={70} className="switches">
-        <path d="M450 520 L584 494 Q592 493 592 500 L594 520 Q594 526 587 527 L456 549 Q449 550 449 543 Z" fill="url(#d-piano)" stroke="#1f2631" strokeWidth="1" />
-        <g transform={`rotate(-11 ${x} ${y})`} role="group" aria-label="Passenger window switch">
-          <rect x={x - 11} y={y - 10} width="22" height="20" rx="3" fill="#13161c" stroke="#2f3744" strokeWidth="0.8" />
-          <rect x={x - 10} y={y - 9} width="20" height="8.5" rx="2" fill={up ? '#2b4a6e' : '#1b1f26'} />
-          <rect x={x - 10} y={y + 0.5} width="20" height="8.5" rx="2" fill={down ? '#2b4a6e' : '#1b1f26'} />
-          <path d={`M${x - 3.5} ${y - 2.5} L${x} ${y - 6.5} L${x + 3.5} ${y - 2.5} Z`} fill={up ? '#ffffff' : '#8fd0ff'} />
-          <path d={`M${x - 3.5} ${y + 2.5} L${x} ${y + 6.5} L${x + 3.5} ${y + 2.5} Z`} fill={down ? '#ffffff' : '#8fd0ff'} />
-          {/* How far the window is open */}
-          <rect x={x + 13} y={y - 9} width="1.8" height="18" rx="0.9" fill="#1d232c" />
-          <rect x={x + 13} y={y - 9} width="1.8" height={(18 * pct) / 100} rx="0.9" fill="#8fd0ff" opacity="0.85" />
-          {/* Generous hit zones: upper half raises, lower half lowers */}
-          <rect x={x - 18} y={y - 15} width="36" height="15" fill="transparent" className="hit"
-            onPointerDown={press(-1)} onPointerUp={release} onPointerCancel={release}>
-            <title>{`Window: tap to close fully, hold to raise (${pct}% open)`}</title>
-          </rect>
-          <rect x={x - 18} y={y} width="36" height="15" fill="transparent" className="hit"
-            onPointerDown={press(1)} onPointerUp={release} onPointerCancel={release}>
-            <title>{`Window: tap to open fully, hold to lower (${pct}% open)`}</title>
-          </rect>
-        </g>
-        <g className="hit btn" onClick={() => onIntent({ type: 'doors.lock', locked: !car.locked })} role="button" aria-label="Door lock">
-          <title>{car.locked ? 'Unlock doors' : 'Lock doors'}</title>
-          <rect x="556" y="502" width="22" height="15" rx="3" fill="#161a21" stroke="#2f3744" strokeWidth="0.8" transform="rotate(-11 567 510)" />
-          <path d="M563 509 h8 v5 h-8 Z M564.5 509 v-2 a2.5 2.5 0 0 1 5 0 v2" stroke="#8fd0ff" strokeWidth="0.9" fill="none" transform="rotate(-11 567 510)" />
-          <circle cx="580" cy="503" r="1.6" fill={car.locked ? '#ff4a3a' : '#2a2f38'} className={car.locked ? 'led-on' : ''} />
+      <Part x={410} y={482} w={150} h={62} className="switches">
+        <defs>
+          <linearGradient id="sw-cap" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#2b3038" />
+            <stop offset="0.55" stopColor="#15181d" />
+            <stop offset="1" stopColor="#0b0d10" />
+          </linearGradient>
+          <linearGradient id="sw-lip" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#47505c" />
+            <stop offset="1" stopColor="#1a1d22" />
+          </linearGradient>
+        </defs>
+        <g transform={`translate(${PANEL.x} ${PANEL.y}) rotate(${PANEL.tilt}) scale(1 ${PANEL.squash})`}>
+          {/* Piano-black tray in a satin frame, sunk into the armrest */}
+          <rect x="-61" y="-18" width="122" height="36" rx="8" fill="#030405" />
+          <rect x="-58" y="-15" width="116" height="30" rx="6" fill="url(#d-piano)" stroke="#2c333e" strokeWidth="1" />
+          <path d="M-52 -14 L52 -14" stroke="#566070" strokeWidth="1" opacity="0.6" />
+
+          {/* Window: a pull-up paddle in its own well (pull to close, push to open) */}
+          <rect x="-36" y="-12" width="46" height="24" rx="5" fill="#010203" stroke="#000" strokeWidth="1" />
+          <g role="group" aria-label="Passenger window switch">
+            <g style={{ transform: up ? 'translateY(2px)' : down ? 'translateY(-1.5px)' : undefined, transition: 'transform 0.12s' }}>
+              <rect x="-32" y="-8" width="38" height="16" rx="4" fill="url(#sw-cap)" stroke="#3b424d" strokeWidth="0.8" />
+              <rect x="-32" y="3" width="38" height="5" rx="2.5" fill="url(#sw-lip)" opacity={up ? 1 : 0.8} />
+              <path d="M-28 -7 L2 -7" stroke="#717a88" strokeWidth="0.8" opacity="0.7" />
+              <g className="key-glyph" stroke={up || down ? '#ffffff' : '#8fd0ff'} fill="none" strokeWidth="1.1" strokeLinejoin="round" strokeLinecap="round"
+                transform={upright(-13, 0)}>
+                <path d="M-24 2 L-24 -3 L-18.5 -3 L-15.5 2 Z" />
+                <path d="M-6 -1 L-6 -4.5 M-8.3 -2.3 L-6 -4.6 L-3.7 -2.3" opacity={down ? 0.35 : 1} />
+                <path d="M-6 1 L-6 4.5 M-8.3 2.3 L-6 4.6 L-3.7 2.3" opacity={up ? 0.35 : 1} />
+              </g>
+            </g>
+            {/* Generous hit zones: upper half raises, lower half lowers */}
+            <rect x="-38" y="-16" width="50" height="16" fill="transparent" className="hit"
+              onPointerDown={press(-1)} onPointerUp={release} onPointerCancel={release}>
+              <title>{`Window: tap to close fully, hold to raise (${pct}% open)`}</title>
+            </rect>
+            <rect x="-38" y="0" width="50" height="16" fill="transparent" className="hit"
+              onPointerDown={press(1)} onPointerUp={release} onPointerCancel={release}>
+              <title>{`Window: tap to open fully, hold to lower (${pct}% open)`}</title>
+            </rect>
+          </g>
+
+          {/* Central locking: a rocker, lock on one half and unlock on the other, with its LED */}
+          <g className="hit btn" onClick={() => onIntent({ type: 'doors.lock', locked: !car.locked })} role="button" aria-label="Door lock">
+            <title>{car.locked ? 'Unlock doors' : 'Lock doors'}</title>
+            <rect x="17" y="-11" width="38" height="22" rx="5" fill="#010203" stroke="#000" strokeWidth="1" />
+            <rect x="20" y="-8" width="32" height="16" rx="3.5" fill="url(#sw-cap)" stroke="#3b424d" strokeWidth="0.8" />
+            <path d="M23 -7 L49 -7" stroke="#717a88" strokeWidth="0.8" opacity="0.7" />
+            <path d="M36 -7.5 L36 7.5" stroke="#050608" strokeWidth="1.4" />
+            <g className="key-glyph" stroke="#8fd0ff" fill="none" strokeWidth="1" strokeLinejoin="round" transform={upright(36, 0)}>
+              <path d="M25 0 h6 v4.5 h-6 Z M26 0 v-2 a2 2 0 0 1 4 0 v2" />
+              <path d="M41 0 h6 v4.5 h-6 Z M42 0 v-2 a2 2 0 0 1 4 0 v-0.4" />
+            </g>
+            <circle cx="28" cy="-4.8" r="1.2" fill={car.locked ? '#ff4a3a' : '#22262d'} className={car.locked ? 'led-on' : ''} style={{ color: '#ff4a3a' }} />
+          </g>
         </g>
       </Part>
     </>
@@ -154,25 +188,28 @@ const RING = { off: '#59606c', acc: '#ffb02e', on: '#8fd0ff' } as const;
 /** Driver-side switch row with the ENGINE START/STOP button (OFF → ACC → ON). */
 export function DriverSwitches({ car, onIntent }: { car: CarState; onIntent: (i: Intent) => void }) {
   return (
-    <Part x={1796} y={560} w={130} h={46}>
-      <g className="hit btn" onClick={() => onIntent({ type: 'lights.head', on: !car.headlights })} role="button" aria-label="Headlights">
-        <title>Headlights</title>
-        <rect x="1804" y="568" width="28" height="22" rx="4" fill="#0f1319" stroke="#232a34" strokeWidth="0.8" />
-        <path d="M1812 579 Q1818 573 1823 579 Q1818 585 1812 579 Z M1825 576 L1829 576 M1825 579 L1829 579 M1825 582 L1829 582" stroke={car.headlights ? '#3dff7a' : '#8fd0ff'} strokeWidth="1" fill="none" />
-      </g>
-      <g className={`hit btn engine ${car.ignition}`} role="button" aria-label="Engine start stop"
-        onClick={() => onIntent({ type: 'ignition', mode: engine.brakeHeld && car.ignition !== 'on' ? 'on' : NEXT_IGNITION[car.ignition] })}>
-        <title>{`Ignition: ${car.ignition.toUpperCase()}. Press for ${NEXT_IGNITION[car.ignition].toUpperCase()} (hold the brake to start the engine directly)`}</title>
-        <circle cx="1856" cy="580" r="15" fill="#0e1117" stroke="url(#d-chrome)" strokeWidth="2" />
-        <circle cx="1856" cy="580" r="11.5" fill="none" stroke={RING[car.ignition]} strokeWidth="1.2" className="engine-ring" />
-        <text x="1856" y="578" className="eng-txt">ENGINE</text>
-        <text x="1856" y="584.5" className="eng-txt">START STOP</text>
-      </g>
-      <g className="hit btn" onClick={() => onIntent({ type: 'lights.cabin', on: !car.cabinLight })} role="button" aria-label="Cabin light">
-        <title>Cabin light</title>
-        <rect x="1880" y="570" width="28" height="22" rx="4" fill="#0f1319" stroke="#232a34" strokeWidth="0.8" />
-        <circle cx="1894" cy="581" r="4" stroke={car.cabinLight ? '#fff3d6' : '#8fd0ff'} strokeWidth="1" fill="none" />
-        <path d="M1894 575 L1894 573 M1888 581 L1886 581 M1900 581 L1902 581" stroke="#8fd0ff" strokeWidth="1" />
+    <Part x={1806} y={560} w={130} h={46}>
+      {/* Clear of the rim's outer edge */}
+      <g transform="translate(12 0)">
+        <g className="hit btn" onClick={() => onIntent({ type: 'lights.head', on: !car.headlights })} role="button" aria-label="Headlights">
+          <title>Headlights</title>
+          <rect x="1804" y="568" width="28" height="22" rx="4" fill="#0f1319" stroke="#232a34" strokeWidth="0.8" />
+          <path d="M1812 579 Q1818 573 1823 579 Q1818 585 1812 579 Z M1825 576 L1829 576 M1825 579 L1829 579 M1825 582 L1829 582" stroke={car.headlights ? '#3dff7a' : '#8fd0ff'} strokeWidth="1" fill="none" />
+        </g>
+        <g className={`hit btn engine ${car.ignition}`} role="button" aria-label="Engine start stop"
+          onClick={() => onIntent({ type: 'ignition', mode: engine.brakeHeld && car.ignition !== 'on' ? 'on' : NEXT_IGNITION[car.ignition] })}>
+          <title>{`Ignition: ${car.ignition.toUpperCase()}. Press for ${NEXT_IGNITION[car.ignition].toUpperCase()} (hold the brake to start the engine directly)`}</title>
+          <circle cx="1856" cy="580" r="14.5" fill="#0c0f14" stroke="#4a515c" strokeWidth="1.2" />
+          <circle cx="1856" cy="580" r="11.5" fill="none" stroke={RING[car.ignition]} strokeWidth="0.9" opacity="0.85" className="engine-ring" />
+          <text x="1856" y="578" className="eng-txt">ENGINE</text>
+          <text x="1856" y="584.5" className="eng-txt">START STOP</text>
+        </g>
+        <g className="hit btn" onClick={() => onIntent({ type: 'lights.cabin', on: !car.cabinLight })} role="button" aria-label="Cabin light">
+          <title>Cabin light</title>
+          <rect x="1880" y="570" width="28" height="22" rx="4" fill="#0f1319" stroke="#232a34" strokeWidth="0.8" />
+          <circle cx="1894" cy="581" r="4" stroke={car.cabinLight ? '#fff3d6' : '#8fd0ff'} strokeWidth="1" fill="none" />
+          <path d="M1894 575 L1894 573 M1888 581 L1886 581 M1900 581 L1902 581" stroke="#8fd0ff" strokeWidth="1" />
+        </g>
       </g>
     </Part>
   );

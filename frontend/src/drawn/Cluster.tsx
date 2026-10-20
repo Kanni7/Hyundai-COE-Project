@@ -5,15 +5,18 @@ import { currentTrack } from '../state/car';
 import { Part } from './Part';
 import { arc, polar } from './geometry';
 
-const THEME = { eco: '#35f08b', normal: '#38c6ff', sport: '#ff3b30' } as const;
-const RED = '#ff4040';
+const THEME = { eco: '#3ee08c', normal: '#3cc4f0', sport: '#ff5a4a' } as const;
+const RED = '#ff4a3a';
 const AMBER = '#ffb02e';
-const GREEN = '#3dff7a';
+const GREEN = '#3ee08c';
 const TANK_L = 45;
+/** Centre column, between the two dials. */
+const CX = 1592;
 
-// Both dials sweep 190°, angled so their scales stay clear of the steering-wheel hub and spokes.
-const L = { cx: 1505, cy: 380, r: 64, a0: 140, a1: 330, max: 240, n: 24, every: 4 };
-const R = { cx: 1690, cy: 375, r: 64, a0: 210, a1: 400, max: 8, n: 16, every: 2 };
+// Twin dials where the real cluster has them. Each sweeps 190°, open towards the centre
+// column, so the scales stay clear of the steering-wheel hub and spokes.
+const L = { cx: 1500, cy: 369, r: 55, a0: 140, a1: 330, max: 240, n: 24, every: 4 };
+const R = { cx: 1683, cy: 374, r: 55, a0: 210, a1: 400, max: 8, n: 16, every: 2 };
 type Dial = typeof L;
 
 const angle = (g: Dial, v: number) => g.a0 + (g.a1 - g.a0) * Math.max(0, Math.min(1, v / g.max));
@@ -22,40 +25,41 @@ const setText = (el: Element | undefined, s: string) => { if (el && el.textConte
 const flag = (el: Element | undefined, on: boolean) => el?.setAttribute('data-on', String(on));
 const timeNow = () => new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false });
 
-function Scale({ g, color, redFrom }: { g: Dial; color: string; redFrom?: number }) {
+/** Tick marks with a few legible numbers on the major ones. */
+function Scale({ g, redFrom }: { g: Dial; redFrom?: number }) {
   return (
     <g>
-      <g stroke={color} strokeLinecap="round">
+      <g stroke="#cfe6ff" strokeLinecap="round">
         {Array.from({ length: g.n + 1 }, (_, i) => {
           const a = g.a0 + ((g.a1 - g.a0) * i) / g.n;
           const major = i % g.every === 0;
-          const [x0, y0] = polar(g.cx, g.cy, g.r - (major ? 10 : 6), a);
+          const [x0, y0] = polar(g.cx, g.cy, g.r - (major ? 8 : 5), a);
           const [x1, y1] = polar(g.cx, g.cy, g.r - 3, a);
-          return <line key={i} x1={x0} y1={y0} x2={x1} y2={y1} strokeWidth={major ? 1.5 : 0.8} opacity={major ? 0.9 : 0.45} />;
+          return <line key={i} x1={x0} y1={y0} x2={x1} y2={y1} strokeWidth={major ? 1.2 : 0.7} opacity={major ? 0.75 : 0.3} />;
         })}
       </g>
       {Array.from({ length: g.n / g.every + 1 }, (_, i) => {
         const v = (g.max * i * g.every) / g.n;
-        const [x, y] = polar(g.cx, g.cy, g.r - 17, angle(g, v));
-        return <text key={i} x={x} y={y + 2} className="cl-num" fill={redFrom !== undefined && v >= redFrom ? RED : undefined}>{v}</text>;
+        const [x, y] = polar(g.cx, g.cy, g.r - 15, angle(g, v));
+        return <text key={i} x={x} y={y + 2.2} className="cl-num" fill={redFrom !== undefined && v >= redFrom ? RED : undefined}>{v}</text>;
       })}
     </g>
   );
 }
 
-function Needle({ g, k, color }: { g: Dial; k: string; color: string }) {
+function Needle({ g, k }: { g: Dial; k: string }) {
   return (
     <g data-k={k} transform={`rotate(${g.a0} ${g.cx} ${g.cy})`}>
-      <path d={`M${g.cx + 34} ${g.cy} L${g.cx + 61} ${g.cy - 1.5} L${g.cx + 61} ${g.cy + 1.5} Z`} fill={color} filter="url(#d-b1)" opacity="0.85" />
-      <path d={`M${g.cx + 34} ${g.cy} L${g.cx + 61} ${g.cy - 0.9} L${g.cx + 61} ${g.cy + 0.9} Z`} fill="#fff1ea" />
+      <path d={`M${g.cx + 34} ${g.cy} L${g.cx + 52} ${g.cy - 1.3} L${g.cx + 52} ${g.cy + 1.3} Z`} fill="#f4fbff" filter="url(#d-b1)" opacity="0.55" />
+      <path d={`M${g.cx + 34} ${g.cy} L${g.cx + 52} ${g.cy - 0.7} L${g.cx + 52} ${g.cy + 0.7} Z`} fill="#ffffff" />
     </g>
   );
 }
 
-/** One warning or indicator lamp in the cluster's top band. */
+/** One indicator lamp in the centre column's top row. */
 function Lamp({ x, show, color, children, title }: { x: number; show: boolean; color: string; children: ReactNode; title: string }) {
   return (
-    <g transform={`translate(${x} 298)`} className={`cl-lamp ${show ? 'lit' : ''}`} stroke={color} fill="none" strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" style={{ color }}>
+    <g transform={`translate(${x} 319)`} className={`cl-lamp ${show ? 'lit' : ''}`} stroke={color} fill="none" strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round" style={{ color }}>
       <title>{title}</title>
       {children}
     </g>
@@ -104,7 +108,7 @@ function BlindView({ side, g }: { side: 'left' | 'right'; g: Dial }) {
             <ellipse cy="4" rx="20" ry="6" fill="#fff6dc" opacity="0.25" filter="url(#d-b3)" />
           </g>
         </g>
-        <text x={g.cx} y={g.cy - 44} className="cl-label" fill="#e8f0ff">{side === 'left' ? '◀ BLIND VIEW' : 'BLIND VIEW ▶'}</text>
+        <text x={g.cx} y={g.cy - 30} className="cl-label" fill="#e8f0ff">{side === 'left' ? '◀ BLIND VIEW' : 'BLIND VIEW ▶'}</text>
       </g>
       <circle cx={g.cx} cy={g.cy} r={g.r - 3} stroke={GREEN} strokeWidth="1.2" fill="none" opacity="0.8" />
     </g>
@@ -119,19 +123,6 @@ export function Cluster({ car }: { car: CarState }) {
   const blinkL = car.hazard || car.indicator === 'left';
   const blinkR = car.hazard || car.indicator === 'right';
   const bvm = running && !car.hazard && car.indicator !== 'off' ? car.indicator : null;
-
-  // Bulb check: every lamp lights for a moment when the ignition comes on.
-  const [check, setCheck] = useState(live);
-  const [wasLive, setWasLive] = useState(live);
-  if (live !== wasLive) {
-    setWasLive(live);
-    setCheck(live);
-  }
-  useEffect(() => {
-    if (!check) return;
-    const t = window.setTimeout(() => setCheck(false), 2200);
-    return () => window.clearTimeout(t);
-  }, [check]);
 
   const [clock, setClock] = useState(timeNow);
   useEffect(() => {
@@ -180,12 +171,11 @@ export function Cluster({ car }: { car: CarState }) {
 
       const fuelPct = Math.max(0, c.fuel - (t.fuelUsed / TANK_L) * 100);
       e.fuel?.querySelectorAll('rect').forEach((el, i) => flag(el, i < Math.ceil(fuelPct / 12.5)));
-      setText(e.dte, `${Math.round((c.range * fuelPct) / c.fuel)} km`);
       if (e.trip) {
         setText(e.trip, t.trip.toFixed(1));
         setText(e.avg, t.trip > 0.05 && t.fuelUsed > 0 ? (t.trip / t.fuelUsed).toFixed(1) : '--.-');
         setText(e.odo, Math.floor(t.odo).toLocaleString('en-IN'));
-        e.inst?.setAttribute('width', ((Math.min(30, t.instant ?? 0) / 30) * 50).toFixed(1));
+        e.inst?.setAttribute('width', ((Math.min(30, t.instant ?? 0) / 30) * 40).toFixed(1));
       }
 
       // Lane Keeping Assist turns the lane lines green once it is actively steering (above 60 km/h).
@@ -230,152 +220,140 @@ export function Cluster({ car }: { car: CarState }) {
   return (
     <Part x={1418} y={280} w={364} h={154} className="cluster">
       <defs>
+        <radialGradient id="cl-bg" cx="0.5" cy="0.45" r="0.7">
+          <stop offset="0" stopColor="#040a14" />
+          <stop offset="1" stopColor="#01030a" />
+        </radialGradient>
         <linearGradient id="cl-tacho" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor={theme} stopOpacity="0.5" />
-          <stop offset="0.6" stopColor={theme} />
-          <stop offset="1" stopColor="#ff2b2b" />
+          <stop offset="0" stopColor={theme} stopOpacity="0.45" />
+          <stop offset="1" stopColor={theme} />
         </linearGradient>
         <linearGradient id="cl-speedo" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0" stopColor={theme} stopOpacity="0.35" />
+          <stop offset="0" stopColor={theme} stopOpacity="0.4" />
           <stop offset="1" stopColor={theme} />
         </linearGradient>
         <linearGradient id="cl-lane" x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0" stopColor="#ffffff" stopOpacity="0.9" />
+          <stop offset="0" stopColor="#ffffff" stopOpacity="0.85" />
           <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
         </linearGradient>
       </defs>
-      <path d="M1425 300 Q1428 292 1440 291 L1760 291 Q1772 292 1774 302 L1770 420 Q1768 428 1758 428 L1438 428 Q1428 428 1427 420 Z" fill="url(#d-clusterBg)" />
+      {/* The display glass, set into the hood */}
+      <path d="M1444 314 Q1445 305 1455 305 L1737 305 Q1747 305 1748 314 L1749 416 Q1749 424 1741 424 L1452 424 Q1444 424 1444 416 Z" fill="url(#cl-bg)" stroke="#121924" strokeWidth="1" />
 
       <g ref={root} className={live ? 'cluster-on' : 'cluster-off'}>
-        {/* Drive-mode theme wash behind each dial */}
-        <circle cx={L.cx} cy={L.cy} r={L.r - 4} fill={theme} opacity="0.06" filter="url(#d-b8)" />
-        <circle cx={R.cx} cy={R.cy} r={R.r - 4} fill={theme} opacity="0.06" filter="url(#d-b8)" />
+        {/* Faint drive-mode wash behind each dial */}
+        <circle cx={L.cx} cy={L.cy} r={L.r - 6} fill={theme} opacity="0.05" filter="url(#d-b8)" />
+        <circle cx={R.cx} cy={R.cy} r={R.r - 6} fill={theme} opacity="0.05" filter="url(#d-b8)" />
 
         {/* Speedometer: 0-240 km/h */}
-        <path d={arc(L.cx, L.cy, L.r + 2, L.a0, L.a1)} stroke={theme} strokeWidth="6" opacity="0.12" filter="url(#d-b3)" fill="none" />
-        <path d={arc(L.cx, L.cy, L.r, L.a0, L.a1)} stroke="#16243a" strokeWidth="2.4" fill="none" />
-        <path data-k="speedFill" d={arc(L.cx, L.cy, L.r, L.a0, L.a0 + 0.01)} stroke="url(#cl-speedo)" strokeWidth="4.5" fill="none" />
-        <Scale g={L} color="#cfe6ff" />
+        <path d={arc(L.cx, L.cy, L.r, L.a0, L.a1)} stroke={theme} strokeWidth="2" opacity="0.3" fill="none" />
+        <path data-k="speedFill" d={arc(L.cx, L.cy, L.r, L.a0, L.a0 + 0.01)} stroke="url(#cl-speedo)" strokeWidth="3.2" fill="none" />
+        <Scale g={L} />
         {car.adas.cruise !== null && running && (() => {
-          const [x, y] = polar(L.cx, L.cy, L.r + 4, angle(L, car.adas.cruise));
-          return <circle cx={x} cy={y} r="2.2" fill={GREEN} filter="url(#d-b1)" />;
+          const [x, y] = polar(L.cx, L.cy, L.r + 3, angle(L, car.adas.cruise));
+          return <circle cx={x} cy={y} r="2" fill={GREEN} />;
         })()}
-        <Needle g={L} k="speedNeedle" color="#ff5a3c" />
-        {car.adas.cruise !== null && running && <text x={L.cx} y={L.cy - 18} className="cl-label" fill={GREEN}>SCC {car.adas.cruise}</text>}
-        <text data-k="speed" x={L.cx} y={L.cy + 5} className="cl-big">0</text>
-        <text x={L.cx} y={L.cy + 14} className="cl-unit">km/h</text>
+        <Needle g={L} k="speedNeedle" />
+        {car.adas.cruise !== null && running && <text x={L.cx} y={L.cy - 22} className="cl-label" fill={GREEN}>SCC {car.adas.cruise}</text>}
+        <text data-k="speed" x={L.cx} y={L.cy + 7} className="cl-big">0</text>
+        <text x={L.cx} y={L.cy + 17} className="cl-unit">km/h</text>
         {/* Coolant temperature */}
         <g data-k="coolant" className="cl-bars">
-          <path d="M1484 394.5 v4.2 M1484 397 h1.6 M1484 395.5 h1.6" stroke="#8fa3c0" strokeWidth="0.7" fill="none" /><circle cx="1484" cy="399.4" r="1.2" fill="#8fa3c0" />
-          {Array.from({ length: 6 }, (_, i) => <rect key={i} x={1489 + i * 6} y="398" width="5" height="2.2" rx="0.6" />)}
+          {Array.from({ length: 6 }, (_, i) => <rect key={i} x={1479 + i * 7} y="403" width="6" height="2" rx="0.6" />)}
         </g>
 
         {/* Tachometer: 0-8 x1000 rpm, redline from 6.5 */}
-        <path d={arc(R.cx, R.cy, R.r, R.a0, R.a1)} stroke="#16243a" strokeWidth="2.4" fill="none" />
-        <path d={arc(R.cx, R.cy, R.r, angle(R, 6.5), R.a1)} stroke="#ff2b2b" strokeWidth="2.6" fill="none" opacity="0.9" />
-        <path data-k="red" d={arc(R.cx, R.cy, R.r + 3, angle(R, 6.5), R.a1)} stroke="#ff2b2b" strokeWidth="9" opacity="0" filter="url(#d-b3)" fill="none" />
-        <path data-k="rpmFill" d={arc(R.cx, R.cy, R.r, R.a0, R.a0 + 0.01)} stroke="url(#cl-tacho)" strokeWidth="4.5" fill="none" />
-        <Scale g={R} color="#cfe6ff" redFrom={7} />
-        <Needle g={R} k="rpmNeedle" color="#ff5a3c" />
-        <text data-k="rpm" x={R.cx} y={R.cy + 4} className="cl-big">0.0</text>
-        <text x={R.cx} y={R.cy + 13} className="cl-unit">x1000 rpm</text>
-        <text x={R.cx} y={R.cy + 25} className="cl-line">{info[0].length > 16 ? `${info[0].slice(0, 15)}…` : info[0]}</text>
-        <text x={R.cx} y={R.cy + 31} className="cl-label">{info[1].slice(0, 22)}</text>
-        {/* Fuel gauge and distance to empty */}
+        <path d={arc(R.cx, R.cy, R.r, R.a0, R.a1)} stroke={theme} strokeWidth="2" opacity="0.3" fill="none" />
+        <path d={arc(R.cx, R.cy, R.r, angle(R, 6.5), R.a1)} stroke={RED} strokeWidth="1.6" fill="none" opacity="0.7" />
+        <path data-k="red" d={arc(R.cx, R.cy, R.r + 2, angle(R, 6.5), R.a1)} stroke={RED} strokeWidth="5" opacity="0" filter="url(#d-b3)" fill="none" />
+        <path data-k="rpmFill" d={arc(R.cx, R.cy, R.r, R.a0, R.a0 + 0.01)} stroke="url(#cl-tacho)" strokeWidth="3.2" fill="none" />
+        <Scale g={R} redFrom={7} />
+        <Needle g={R} k="rpmNeedle" />
+        <text data-k="rpm" x={R.cx} y={R.cy + 2} className="cl-big">0.0</text>
+        <text x={R.cx} y={R.cy + 11} className="cl-unit">x1000 rpm</text>
+        <text x={R.cx} y={R.cy + 22} className="cl-line">{info[0].length > 14 ? `${info[0].slice(0, 13)}…` : info[0]}</text>
+        <text x={R.cx} y={R.cy + 29} className="cl-label">{info[1].slice(0, 18)}</text>
+        {/* Fuel gauge */}
         <g data-k="fuel" className="cl-bars cl-fuel">
-          <path d="M1660 414 v-4.5 h3 v4.5 Z M1663 411 l1.3 0.8 v2" stroke="#8fa3c0" strokeWidth="0.7" fill="none" />
-          {Array.from({ length: 8 }, (_, i) => <rect key={i} x={1667 + i * 4.2} y="411.5" width="3.4" height="2.4" rx="0.5" />)}
+          {Array.from({ length: 8 }, (_, i) => <rect key={i} x={R.cx - 16 + i * 4} y={R.cy + 33} width="3.2" height="2" rx="0.5" />)}
         </g>
-        <text data-k="dte" x="1713" y="414" className="cl-small">{car.range} km</text>
 
-        {/* Top band: clock and outside temperature */}
-        <text x="1560" y="300" className="cl-small">{clock}</text>
-        <text x="1630" y="300" className="cl-small">27°C</text>
-        {acc && <text x="1595" y="300" className="cl-acc">ACC</text>}
+        {/* Top row: clock (ACC with the engine off), flanked by indicator lamps */}
+        {acc ? <text x={CX} y="321" className="cl-acc">ACC</text> : <text x={CX} y="321" className="cl-small">{clock}</text>}
 
         {/* Gear selector with the gearbox's current ratio */}
-        <text x="1595" y="325" className="cl-gear">{car.gear}</text>
-        <text data-k="gearNo" x="1604" y="325" className="cl-gearno" />
+        <text x={CX} y="341" className="cl-gear">{car.gear}</text>
+        <text data-k="gearNo" x={CX + 6} y="341" className="cl-gearno" />
 
         {/* Centre: driving assist, trip computer or tyre pressures */}
         {car.cluster === 'drive' && (
           <g>
             <g data-k="lanes" className={`cl-lanes ${car.adas.lka ? 'lka' : ''}`} strokeDasharray="6 5">
-              <path d="M1552 412 L1578 332" />
-              <path d="M1638 412 L1612 332" />
+              <path d={`M${CX - 36} 408 L${CX - 11} 350`} />
+              <path d={`M${CX + 36} 408 L${CX + 11} 350`} />
             </g>
             {car.adas.cruise !== null && running && (
               <g>
-                <g transform="translate(1595 345) scale(0.55)" opacity="0.9">
+                <g transform={`translate(${CX} 356) scale(0.45)`} opacity="0.9">
                   <rect x="-11" y="-14" width="22" height="28" rx="6" fill="#aab6c8" />
                   <rect x="-8" y="-9" width="16" height="6" rx="2" fill="#2a3446" />
                 </g>
-                {[0, 1, 2].map((i) => <path key={i} d={`M${1586 + i} ${357 + i * 4} L${1604 - i} ${357 + i * 4}`} stroke={GREEN} strokeWidth="1.4" opacity={0.9 - i * 0.2} />)}
+                {[0, 1, 2].map((i) => <path key={i} d={`M${CX - 8 + i} ${366 + i * 3} L${CX + 8 - i} ${366 + i * 3}`} stroke={GREEN} strokeWidth="1.2" opacity={0.9 - i * 0.2} />)}
               </g>
             )}
-            <ellipse cx="1595" cy="378" rx="18" ry="10" fill={theme} opacity="0.18" filter="url(#d-b3)" />
-            <g transform="translate(1595 386)">
-              <rect x="-11" y="-16" width="22" height="32" rx="6" fill="#e8eef8" />
-              <rect x="-8" y="-11" width="16" height="7" rx="2" fill="#2a3446" />
-              <rect x="-8" y="5" width="16" height="5" rx="2" fill="#2a3446" />
-              <rect x="-13" y="-8" width="3" height="6" rx="1" fill="#e8eef8" />
-              <rect x="10" y="-8" width="3" height="6" rx="1" fill="#e8eef8" />
+            <ellipse cx={CX} cy="386" rx="16" ry="8" fill={theme} opacity="0.14" filter="url(#d-b3)" />
+            <g transform={`translate(${CX} 384) scale(0.9)`}>
+              <rect x="-11" y="-16" width="22" height="32" rx="6" fill="#e6edf7" />
+              <rect x="-8" y="-11" width="16" height="7" rx="2" fill="#26303f" />
+              <rect x="-8" y="5" width="16" height="5" rx="2" fill="#26303f" />
+              <rect x="-13" y="-8" width="3" height="6" rx="1" fill="#e6edf7" />
+              <rect x="10" y="-8" width="3" height="6" rx="1" fill="#e6edf7" />
             </g>
           </g>
         )}
         {car.cluster === 'trip' && (
           <g className="cl-trip">
-            <text x="1595" y="337" className="cl-label">TRIP COMPUTER</text>
-            <text x="1556" y="350" className="k">TRIP A</text><text data-k="trip" x="1626" y="350" className="v">0.0</text><text x="1636" y="350" className="u">km</text>
-            <text x="1556" y="363" className="k">AVG</text><text data-k="avg" x="1626" y="363" className="v">--.-</text><text x="1636" y="363" className="u">km/l</text>
-            <text x="1556" y="376" className="k">INSTANT</text>
-            <rect x="1586" y="372.5" width="50" height="3" rx="1.5" fill="#1b2638" />
-            <rect data-k="inst" x="1586" y="372.5" width="0" height="3" rx="1.5" fill={theme} />
-            <text x="1556" y="389" className="k">ODO</text><text data-k="odo" x="1626" y="389" className="v">0</text><text x="1636" y="389" className="u">km</text>
+            <text x={CX} y="354" className="cl-label">TRIP</text>
+            <text x="1560" y="366" className="k">TRIP A</text><text data-k="trip" x="1617" y="366" className="v">0.0</text><text x="1619" y="366" className="u">km</text>
+            <text x="1560" y="377" className="k">AVG</text><text data-k="avg" x="1617" y="377" className="v">--.-</text><text x="1619" y="377" className="u">km/l</text>
+            <rect x="1560" y="382" width="40" height="2.4" rx="1.2" fill="#1b2638" />
+            <rect data-k="inst" x="1560" y="382" width="0" height="2.4" rx="1.2" fill={theme} />
+            <text x="1560" y="396" className="k">ODO</text><text data-k="odo" x="1617" y="396" className="v">0</text><text x="1619" y="396" className="u">km</text>
           </g>
         )}
         {car.cluster === 'tyres' && (
           <g className="cl-trip">
-            <text x="1595" y="337" className="cl-label">TYRE PRESSURE · PSI</text>
-            <g transform="translate(1595 368)">
-              <rect x="-9" y="-19" width="18" height="38" rx="6" fill="none" stroke="#8fa3c0" strokeWidth="1" />
-              {[[-11, -11], [11, -11], [-11, 11], [11, 11]].map(([x, y], i) => <rect key={i} x={x - 2} y={y - 4.5} width="4" height="9" rx="1.2" fill={car.tyres[i] < 30 ? AMBER : GREEN} />)}
+            <text x={CX} y="354" className="cl-label">TYRES · PSI</text>
+            <g transform={`translate(${CX} 378)`}>
+              <rect x="-8" y="-17" width="16" height="34" rx="5" fill="none" stroke="#8fa3c0" strokeWidth="1" />
+              {[[-10, -10], [10, -10], [-10, 10], [10, 10]].map(([x, y], i) => <rect key={i} x={x - 2} y={y - 4} width="4" height="8" rx="1.2" fill={car.tyres[i] < 30 ? AMBER : GREEN} />)}
             </g>
-            <text x="1566" y="360" className="v p">{fl}</text><text x="1624" y="360" className="v p">{fr}</text>
-            <text x="1566" y="383" className="v p">{rl}</text><text x="1624" y="383" className="v p">{rr}</text>
+            <text x={CX - 24} y="371" className="v p">{fl}</text><text x={CX + 24} y="371" className="v p">{fr}</text>
+            <text x={CX - 24} y="393" className="v p">{rl}</text><text x={CX + 24} y="393" className="v p">{rr}</text>
           </g>
         )}
 
-        {/* Lamps, left: warnings (lit with the ignition on and the engine off, as in a real car) */}
-        <Lamp x={1465} show={car.headlights || check} color={GREEN} title="Headlights">
+        {/* Lamps: only the ones that mean something right now */}
+        <Lamp x={CX - 26} show={car.headlights} color={GREEN} title="Headlights">
           <path d="M-1.5 0 Q2 -3.6 4 0 Q2 3.6 -1.5 0 Z" fill={GREEN} stroke="none" /><path d="M-2.5 -2.4 h-2.2 M-2.5 0 h-2.2 M-2.5 2.4 h-2.2" />
         </Lamp>
-        <Lamp x={1476} show={(car.gear === 'P' && live) || check} color={RED} title="Parking brake">
-          <circle r="3.4" /><path d="M-4.8 -2.6 Q-6 0 -4.8 2.6 M4.8 -2.6 Q6 0 4.8 2.6" /><text y="1.9" className="cl-tell" fill={RED} stroke="none">P</text>
+        <Lamp x={CX - 38} show={car.gear === 'P' && running} color={RED} title="Parking brake">
+          <circle r="3.4" /><text y="1.9" className="cl-tell" fill={RED} stroke="none">P</text>
         </Lamp>
-        <Lamp x={1488} show={acc || check} color={RED} title="Battery charge">
-          <rect x="-4" y="-2.4" width="8" height="5" rx="0.6" /><path d="M-2.6 -3.3 v0.9 M2.6 -3.3 v0.9 M-3 0.1 h2 M1 0.1 h2 M2 -0.9 v2" />
-        </Lamp>
-        <Lamp x={1499} show={acc || check} color={RED} title="Engine oil pressure">
-          <path d="M-4.6 1.8 L-0.8 1.8 L2 -0.2 L4.6 -1.4 M-4.6 1.8 L-4.6 -0.8 L-1.6 -0.8 L-0.6 -2 L1 -2 L2 -0.2" /><circle cx="4.7" cy="0.8" r="0.5" fill={RED} />
-        </Lamp>
-        <Lamp x={1510} show={acc || check} color={AMBER} title="Check engine">
-          <path d="M-4.2 -1.4 h1 v-1.2 h4 l1 1.2 h1.4 v1 h1 v2.2 h-1 v1 h-1.4 l-1 1 h-4 v-1 h-1 Z" />
-        </Lamp>
-        <Lamp x={1521} show={tpmsLow || check} color={AMBER} title="Tyre pressure">
+        <Lamp x={CX - 50} show={tpmsLow && live} color={AMBER} title="Tyre pressure">
           <path d="M-3.4 -2.8 Q-5 0.2 -3.4 2.8 L3.4 2.8 Q5 0.2 3.4 -2.8" /><path d="M0 -1.6 v2.2 M0 1.8 v0.1" />
         </Lamp>
-
-        {/* Lamps, right: driver assistance */}
-        <g data-k="held" className={`cl-hold ${car.autoHold || check ? 'lit' : ''}`}>
-          <text x="1655" y="300" className="cl-tell">AUTO HOLD</text>
+        <g data-k="held" className={`cl-hold ${car.autoHold ? 'lit' : ''}`}>
+          <Lamp x={CX + 26} show color="currentColor" title="Auto Hold">
+            <circle r="3.6" /><text y="1.8" className="cl-tell" fill="currentColor" stroke="none">A</text>
+          </Lamp>
         </g>
-        <g data-k="lka" className={`cl-lka ${car.adas.lka || check ? 'lit' : ''}`}>
-          <Lamp x={1671} show color="currentColor" title="Lane Keeping Assist">
+        <g data-k="lka" className={`cl-lka ${car.adas.lka ? 'lit' : ''}`}>
+          <Lamp x={CX + 38} show color="currentColor" title="Lane Keeping Assist">
             <path d="M-4 3 L-2 -3 M4 3 L2 -3" /><circle cy="0.6" r="1.5" />
           </Lamp>
         </g>
-        <Lamp x={1682} show={(car.adas.cruise !== null && running) || check} color={GREEN} title="Smart Cruise Control">
+        <Lamp x={CX + 50} show={car.adas.cruise !== null && running} color={GREEN} title="Smart Cruise Control">
           <path d="M-3.6 1.6 A3.7 3.7 0 1 1 3.6 1.6" /><path d="M0 0.6 L1.9 -1.7" />
         </Lamp>
 
@@ -385,9 +363,9 @@ export function Cluster({ car }: { car: CarState }) {
       </g>
 
       {/* Turn signals stay live even with the engine off (hazards) */}
-      <path className={blinkL ? 'cl-turn on' : 'cl-turn'} d="M1538 311 L1549 303 L1549 307.5 L1557 307.5 L1557 314.5 L1549 314.5 L1549 319 Z" />
-      <path className={blinkR ? 'cl-turn on' : 'cl-turn'} d="M1652 311 L1641 303 L1641 307.5 L1633 307.5 L1633 314.5 L1641 314.5 L1641 319 Z" />
-      {!live && <text x="1595" y="372" className="cl-unit" opacity="0.55">PRESS START</text>}
+      <path className={blinkL ? 'cl-turn on' : 'cl-turn'} transform={`translate(${CX - 19} 337)`} d="M-7 0 L0 -5.5 L0 -2.5 L6 -2.5 L6 2.5 L0 2.5 L0 5.5 Z" />
+      <path className={blinkR ? 'cl-turn on' : 'cl-turn'} transform={`translate(${CX + 19} 337)`} d="M7 0 L0 -5.5 L0 -2.5 L-6 -2.5 L-6 2.5 L0 2.5 L0 5.5 Z" />
+      {!live && <text x={CX} y="372" className="cl-unit" opacity="0.55">PRESS START</text>}
     </Part>
   );
 }
