@@ -25,30 +25,25 @@ class HybridASR(SpeechRecognizer):
         self.simulate_offline = force_offline
         self.local_engine_name = "faster-whisper:base:cpu:int8"
         self._local_asr: SpeechRecognizer | None = None
-        # Second local engine, for a client to retry an utterance the first one got wrong.
-        self.alternate: SpeechRecognizer | None = None
         self._init_local_asr()
         self._update_name()
 
     def _init_local_asr(self):
         # BD_LOCAL_ASR picks the order: "sherpa" (default: the V2 hi-hinglish model, trained on
-        # code-switched speech, ~0.4 s/command) or "whisper" (generic faster-whisper, BD_ASR_*,
-        # better on plain English, ~2 s). The first that loads is primary; the next is `alternate`.
+        # code-switched speech, decoded in Hindi and English passes) or "whisper" (generic
+        # faster-whisper, BD_ASR_*). Only the first that loads is kept; the other is a load fallback.
         order = ["whisper", "sherpa"] if os.environ.get("BD_LOCAL_ASR", "sherpa") == "whisper" else ["sherpa", "whisper"]
-        loaded: list[SpeechRecognizer] = []
         for engine in order:
             try:
                 if engine == "sherpa":
                     from .sherpa_asr import SherpaWhisperASR
-                    loaded.append(SherpaWhisperASR(self.config.sherpa))
+                    self._local_asr = SherpaWhisperASR(self.config.sherpa)
                 else:
-                    loaded.append(FasterWhisperASR(self.config.asr))
+                    self._local_asr = FasterWhisperASR(self.config.asr)
+                self.local_engine_name = self._local_asr.name
+                return
             except Exception as e:
                 print(f"[NOTE] local ASR '{engine}' unavailable: {e}")
-        self._local_asr = loaded[0] if loaded else None
-        self.alternate = loaded[1] if len(loaded) > 1 else None
-        if self._local_asr is not None:
-            self.local_engine_name = self._local_asr.name
 
     def _update_name(self):
         local = self.local_engine_name if self._local_asr is not None else "no local model"

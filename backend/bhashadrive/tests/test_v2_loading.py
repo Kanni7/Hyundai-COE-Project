@@ -1,5 +1,6 @@
 """Model-loading failures must fail closed (clear error, no vehicle action, no fallback)."""
 import json
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -70,6 +71,52 @@ def test_sherpa_timeout_returns_error():
     asr._decode = lambda audio: time.sleep(0.5) or "late"
     r = asr.transcribe_array(np.random.default_rng(0).standard_normal(16000).astype(np.float32) * 0.1)
     assert r.status == "error" and "timeout" in r.error
+
+
+def test_sherpa_multi_pass_returns_distinct_hypotheses():
+    from concurrent.futures import ThreadPoolExecutor
+
+    asr = SherpaWhisperASR.__new__(SherpaWhisperASR)
+    asr.config = SherpaASRConfig()
+    asr.config.languages = ("hi", "en", "ur")
+    asr._pool = ThreadPoolExecutor(max_workers=1)
+    noise = np.random.default_rng(0).standard_normal(16000).astype(np.float32) * 0.1
+    asr._decode = lambda audio: ["", "Pause the music", "Pause the music"]
+    r = asr.transcribe_array(noise)
+    assert r.status == "ok" and r.text == "Pause the music" and r.language == "en"
+    assert r.hypotheses == ["Pause the music"]
+    asr._decode = lambda audio: ["Music", "Music ko pause kar do", "Music ko pause karo"]  # first pass cut short
+    r = asr.transcribe_array(noise)
+    assert r.text == "Music ko pause kar do" and r.hypotheses == ["Music ko pause kar do", "Music ko pause karo"]
+    asr._decode = lambda audio: ["", "", ""]
+    assert asr.transcribe_array(noise).status == "silence"
+    # A second model's passes follow the primary's, labelled with the same languages.
+    asr.config.languages, asr.extra_models = ("hi", "en"), [object()]
+    asr._decode = lambda audio: ["", "", "Pause the music please.", "Pause the music please"]
+    r = asr.transcribe_array(noise)
+    assert r.language == "hi" and r.hypotheses == ["Pause the music please.", "Pause the music please"]
+
+
+def test_whisper_features_and_loop_filter():
+    from bhashadrive.audio.whisper_onnx import _repetitive, log_mel, mel_filters
+
+    f = mel_filters(128)
+    assert f.shape == (128, 201) and np.all(f >= 0) and np.all(f.sum(axis=1) > 0)
+    tone = np.sin(2 * np.pi * 440 * np.arange(16000) / 16000).astype(np.float32)
+    mel = log_mel(tone, f)
+    assert mel.shape == (100, 128) and np.isfinite(mel).all()  # 10 ms hop
+    assert _repetitive("वह वावम " + "द " * 30) and not _repetitive("Music ko pause kar do.")
+
+
+@pytest.mark.integration
+def test_whisper_onnx_decodes_both_languages_from_one_encoder_pass():
+    from bhashadrive.audio.preprocessing import decode_file, preprocess
+    from bhashadrive.audio.whisper_onnx import WhisperOnnx
+
+    root = Path(__file__).resolve().parents[2]
+    w = WhisperOnnx(root / "models" / "asr" / "hi-hinglish-apex", threads=4)
+    hi, en = w.transcribe(preprocess(decode_file(root / "samples" / "tts" / "s08_set_temp_en.wav")), ["hi", "en"])
+    assert "cabin" in hi.lower() and en.lower().startswith("set the cabin")
 
 
 def test_taxonomy_version_constant():

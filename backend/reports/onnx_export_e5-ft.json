@@ -1,7 +1,7 @@
 {
   "encoder": "multilingual-e5-small (fine-tuned on BhashaDrive intents)",
-  "n_sentences": 2110,
-  "export_and_quantize_s": 9.2,
+  "n_sentences": 9057,
+  "export_and_quantize_s": 5.7,
   "size_mb": {
     "safetensors": 448.8,
     "onnx_fp32": 448.4,
@@ -13,8 +13,8 @@
     "p01": 1.0
   },
   "cosine_vs_torch_onnx_int8": {
-    "mean": 0.92237,
-    "min": 0.7324,
-    "p01": 0.80024
+    "mean": 0.93279,
+    "min": 0.658,
+    "p01": 0.81954
   }
 }

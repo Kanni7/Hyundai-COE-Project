@@ -14,35 +14,45 @@ from typing import Any
 from .taxonomy import EXECUTABLE_INTENTS, IntentV2
 
 # Canonical in-car lexicon and known acoustic slip clusters
+# Misheard spellings only: a correctly recognised word is never rewritten into a synonym or translation.
 PHONETIC_CLUSTERS: dict[str, list[str]] = {
     # Climate & Temperature
-    "temperature": ["temperature", "temprature", "tempreture", "tempretur", "taapmaan", "tapman", "tamprature", "tepreture", "tempercher"],
+    "temperature": ["temperature", "temprature", "tempreture", "tempretur", "tamprature", "tepreture", "tempercher"],
     "cabin": ["cabin", "kaibin", "caibin", "caben", "kaybin", "kabin"],
     "climate": ["climate", "klimat", "claimeit"],
-    "cooler": ["cooler", "cooling", "cool"],
-    "heater": ["heater", "heating", "warm"],
-    "ac": ["ac", "aircon", "air conditioning"],
+    "cooler": ["cooler"],
+    "heater": ["heater"],
+    "ac": ["ac"],
     # Fan & Airflow
     "blower": ["blower", "bloer", "blour", "blowr", "bloor"],
-    "fan": ["fan", "pankha", "pankhe", "panka", "airflow", "vent"],
-    "speed": ["speed", "gati", "raftar"],
+    "fan": ["fan"],
+    "speed": ["speed"],
     # Volume & Audio
     "volume": ["volume", "volin", "valim", "voleum", "volum", "bolume", "valume", "valum"],
     "awaaz": ["awaaz", "aawaz", "aawaj", "awaz", "awaaj", "avaz"],
-    "sound": ["sound", "audio", "speaker"],
+    "sound": ["sound"],
     "mute": ["mute"],
     # Media & Playback
-    "music": ["music", "gaana", "gana", "geet", "song", "track", "radio"],
-    "play": ["play", "chalao", "baja", "start", "resume"],
-    "pause": ["pause", "roko", "stop", "ruk"],
-    "next": ["next", "agla", "agle", "skip"],
-    "previous": ["previous", "pichla", "pichle", "back"],
+    "music": ["music"],
+    "play": ["play"],
+    "pause": ["pause"],
+    "next": ["next"],
+    "previous": ["previous"],
     # Common Actions & Directives
-    "badhao": ["badhao", "badha", "badha do", "increase", "raise", "tez", "upar"],
-    "kam": ["kam", "ghatao", "ghata", "decrease", "lower", "dheema", "dheemi", "halka"],
-    "on": ["on", "chalu", "start", "enable"],
-    "off": ["off", "band", "bandh", "disable"],
-    "window": ["window", "khidki", "windo"],
+    "badhao": ["badhao"],
+    "kam": ["kam"],
+    "on": ["on"],
+    "off": ["off"],
+    "window": ["window", "windo"],
+}
+
+# Correctly spelled in-car words (synonyms, Hindi/Hinglish forms). The NLU understands them as they are.
+VALID_INCAR_WORDS = {
+    "taapmaan", "tapman", "cooling", "cool", "heating", "warm", "aircon", "pankha", "pankhe", "panka",
+    "airflow", "vent", "gati", "raftar", "audio", "speaker", "gaana", "gana", "geet", "song", "track",
+    "radio", "chalao", "baja", "start", "resume", "roko", "stop", "ruk", "agla", "agle", "skip", "pichla",
+    "pichle", "back", "badha", "increase", "raise", "tez", "upar", "ghatao", "ghata", "decrease", "lower",
+    "dheema", "dheemi", "halka", "chalu", "enable", "band", "bandh", "disable", "khidki",
 }
 
 # In-car vocabulary words used for phonetic competition
@@ -134,6 +144,10 @@ class PhoneticAttentionRescorer:
         except Exception:
             return 0.5, "error"
 
+    def fitness(self, text: str) -> float:
+        """How well a whole sentence reads as a coherent in-car command (used to pick between ASR hypotheses)."""
+        return self._score_sentence_attention(text)[0]
+
     def rescore(self, text: str) -> tuple[str, dict[str, Any]]:
         """
         Rescore the utterance:
@@ -150,7 +164,8 @@ class PhoneticAttentionRescorer:
         slot_candidates: list[tuple[int, str, list[tuple[str, float]]]] = []
         for idx, w in enumerate(words):
             clean = w.lower().strip(".,!?;:\"'()[]{}")
-            if clean in _COMMON_WORDS_SKIP or clean in PHONETIC_CLUSTERS:
+            if clean in _COMMON_WORDS_SKIP or clean in PHONETIC_CLUSTERS or clean in VALID_INCAR_WORDS \
+                    or clean in INCAR_PHONETIC_LEXICON:
                 continue
             cands = get_phonetic_candidates(w, top_k=5)
             # Only consider if there's an imperfect phonetic match that could be rescored

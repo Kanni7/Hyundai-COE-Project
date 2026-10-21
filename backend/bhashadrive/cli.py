@@ -7,7 +7,7 @@
   python -m bhashadrive.cli serve          # local API + test page on 127.0.0.1
   python -m bhashadrive.cli --legacy-llm text "..."   # V1 dev-only benchmark path (needs Ollama)
 
-The default runtime is V2: sherpa-onnx ASR + ONNX encoder + trained intent heads, no LLM.
+The default runtime is V2: Whisper ONNX ASR (Hindi + English passes) + ONNX encoder + trained intent heads, no LLM.
 """
 from __future__ import annotations
 

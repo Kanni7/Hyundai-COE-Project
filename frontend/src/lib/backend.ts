@@ -34,12 +34,11 @@ export interface BackendResult {
 }
 
 export interface Transcription {
+  /** Recogniser output after phonetic + attention rescoring: what the command model sees. */
   text: string;
   status: string;
   error: string | null;
   engine: string | null;
-  /** A second recogniser is available: `transcribe(audio, 'alternate')`. */
-  alternate: boolean;
 }
 
 async function call<T>(path: string, init?: RequestInit, timeoutMs = TIMEOUT_MS): Promise<T> {
@@ -59,28 +58,14 @@ export const backend = {
   reset: () => call<{ ok: boolean }>('/reset', { method: 'POST' }),
   text: (text: string) =>
     call<BackendResult>('/text', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) }),
-  transcribe: (audio: Blob, engine: 'primary' | 'alternate' = 'primary') => {
+  /** The backend decodes Hindi and English passes itself and returns the one the command model reads best. */
+  transcribe: (audio: Blob) => {
     const fd = new FormData();
     const ext = audio.type.includes('mp4') ? 'mp4' : audio.type.includes('ogg') ? 'ogg' : 'webm';
     fd.append('file', audio, `speech.${ext}`);
-    return call<Transcription>(`/transcribe?engine=${engine}`, { method: 'POST', body: fd }, TRANSCRIBE_TIMEOUT_MS);
+    return call<Transcription>('/transcribe', { method: 'POST', body: fd }, TRANSCRIBE_TIMEOUT_MS);
   },
 };
-
-// Short replies only the backend dialog understands ("haan" to a pending question).
-const DIALOG_WORDS = /^(haan?|ha|yes|yeah|ok(ay)?|theek hai|thik hai|bilkul|sure|nahi?|no|cancel|rehne do|हाँ|हां|नहीं)\b/i;
-
-/**
- * Transcribes with the fast Hinglish recogniser and, when the cockpit cannot make sense of that,
- * retries the same audio on the backend's second recogniser (Whisper, stronger on plain English).
- */
-export async function transcribeBest(audio: Blob, understands: (text: string) => boolean): Promise<Transcription> {
-  const first = await backend.transcribe(audio);
-  const text = first.text.trim();
-  if (!first.alternate || (text && (understands(text) || DIALOG_WORDS.test(text)))) return first;
-  const second = await backend.transcribe(audio, 'alternate').catch(() => null);
-  return second?.text.trim() && (!text || understands(second.text.trim())) ? second : first;
-}
 
 /** Frontend intent types whose meaning the backend NLU covers. */
 export const BACKEND_DOMAIN = new Set<Intent['type']>([
@@ -122,7 +107,7 @@ const titleCase = (s: string) => s.replace(/\b\p{L}/gu, (ch) => ch.toUpperCase()
  * Records one utterance from the microphone. It ends on `stop()`, after `silenceMs` of quiet
  * once speech was heard (like the browser recogniser does), or at `maxMs`.
  */
-export async function recordAudio(maxMs = 8000, silenceMs = 1200) {
+export async function recordAudio(maxMs = 8000, silenceMs = 900) {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
   const rec = new MediaRecorder(stream);
   const chunks: Blob[] = [];

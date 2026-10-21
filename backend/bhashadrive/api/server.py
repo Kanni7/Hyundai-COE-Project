@@ -98,22 +98,23 @@ def create_app(config: AppConfig | None = None, pipeline=None, legacy: bool = Fa
         return p, data
 
     @api.post("/transcribe")
-    async def transcribe(file: UploadFile = File(...), engine: str = "primary"):
+    async def transcribe(file: UploadFile = File(...)):
         """Speech to text only. The cockpit routes the transcript itself (backend or local parser).
 
-        `engine=alternate` re-runs the utterance on the second local recogniser, if one is loaded
-        (the response's `alternate` flag says so).
+        `text` is the ASR output after phonetic retrieval and self-attention rescoring (the same text the
+        NLU sees); `asr_text` is the recogniser's own output, `asr_hypotheses` every decoding pass kept.
         """
-        alt = getattr(pipeline.asr, "alternate", None)
-        asr = alt if engine == "alternate" and alt is not None else pipeline.asr
+        asr = pipeline.asr
         with tempfile.TemporaryDirectory() as d:
             p, _ = await _upload(file, d)
             with lock:
                 res = asr.transcribe_file(p)
+                asr_text = res.text or ""
+                text = pipeline.refine_transcript(*(res.hypotheses or [asr_text])) if is_v2 and asr_text else asr_text
         name = getattr(getattr(asr, "_local_asr", None) or asr, "name", None)
-        print(f"[API /transcribe] {name} {res.latency_s}s status={res.status} text='{res.text}'")
-        return {"text": res.text or "", "status": res.status, "error": res.error, "engine": name,
-                "alternate": alt is not None and asr is not alt}
+        print(f"[API /transcribe] {name} {res.latency_s}s status={res.status} asr={res.hypotheses or [asr_text]} -> refined='{text}'")
+        return {"text": text, "asr_text": asr_text, "asr_hypotheses": res.hypotheses, "status": res.status,
+                "error": res.error, "engine": name}
 
     @api.post("/audio")
     async def audio(file: UploadFile = File(...)):

@@ -115,7 +115,15 @@ class SherpaASRConfig:
     """V2 on-device ASR (sherpa-onnx Whisper export). Only local files are read."""
 
     model_dir: Path = field(default_factory=lambda: _abs(_env("BD_SHERPA_MODEL_DIR", "models/asr/hi-hinglish-swift")))
-    language: str = field(default_factory=lambda: _env("BD_SHERPA_LANGUAGE", "hi"))
+    # Extra recognisers run on the same audio; their hypotheses join the primary's for the NLU to choose from.
+    # A second model makes different mistakes (eval_asr, 432 graded commands: 311 -> 327 understood).
+    # A listed model whose files are missing is skipped.
+    extra_model_dirs: tuple = field(default_factory=lambda: tuple(
+        _abs(x.strip()) for x in _env("BD_SHERPA_EXTRA_MODEL_DIRS", "models/asr/hi-hinglish-swift").split(",") if x.strip()))
+    # One greedy decoding pass per language on the same loaded model; the NLU keeps the hypothesis
+    # it understands best. "hi" keeps Hinglish words right, "en" spells English words better.
+    languages: tuple = field(default_factory=lambda: tuple(
+        x.strip() for x in _env("BD_SHERPA_LANGUAGES", "hi,en").split(",") if x.strip()))
     threads: int = field(default_factory=lambda: _env_int("BD_ASR_THREADS", 4))
     timeout_s: float = field(default_factory=lambda: _env_float("BD_ASR_TIMEOUT_S", 10.0))
     max_audio_s: float = field(default_factory=lambda: _env_float("BD_MAX_AUDIO_S", 15.0))

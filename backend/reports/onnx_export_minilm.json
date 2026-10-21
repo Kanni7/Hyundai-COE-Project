@@ -1,9 +1,9 @@
 {
   "encoder": "paraphrase-multilingual-MiniLM-L12-v2",
-  "n_sentences": 2110,
-  "export_and_quantize_s": 12.1,
+  "n_sentences": 9057,
+  "export_and_quantize_s": 5.5,
   "size_mb": {
-    "safetensors_fp32": 448.8,
+    "safetensors": 448.8,
     "onnx_fp32": 448.4,
     "onnx_int8": 112.6
   },
@@ -13,8 +13,8 @@
     "p01": 1.0
   },
   "cosine_vs_torch_onnx_int8": {
-    "mean": 0.98586,
-    "min": 0.85933,
-    "p01": 0.93569
+    "mean": 0.98575,
+    "min": 0.77338,
+    "p01": 0.94382
   }
 }
