@@ -24,7 +24,10 @@ from pathlib import Path
 
 import numpy as np
 
+from ..nlu.taxonomy import IntentV2
+
 ROOT = Path(__file__).resolve().parents[2]
+_V2_INTENTS = {i.value for i in IntentV2}
 MANIFESTS = [(ROOT / "scripts" / "tts_samples_v2.json", ROOT / "samples" / "tts_v2"),
              (ROOT / "scripts" / "tts_samples.json", ROOT / "samples" / "tts")]
 SNRS = [None, 10, 5]
@@ -119,7 +122,7 @@ def child(model: str, items_json: str, threads: int) -> None:
             a = audio if snr is None else add_noise(audio, snr, seed=zlib.crc32(it["id"].encode()))
             t1 = time.perf_counter()
             r = asr.transcribe_array(a, 16000)
-            out.append({"id": it["id"], "snr_db": snr, "hyp": r.text, "status": r.status,
+            out.append({"id": it["id"], "snr_db": snr, "hyp": r.text, "hyps": r.hypotheses, "status": r.status,
                         "latency_s": round(time.perf_counter() - t1, 4), "duration_s": round(a.size / 16000, 3)})
     print(json.dumps({"model": model, "load_s": round(load_s, 2), "peak_rss_mb": peak_rss_mb(), "rss_before_load_mb": rss0,
                       "files_mb": round(sum(f.stat().st_size for f in files) / 2**20, 1) if files else None, "results": out}))
@@ -144,9 +147,10 @@ def summarise(items, run, nlu_pipe) -> dict:
             lat.append(r["latency_s"])
             rtf.append(r["latency_s"] / max(r["duration_s"], 1e-3))
             exp = by_id[r["id"]].get("expected_intent", "")
-            if nlu_pipe is not None and exp and ":" not in exp and exp != "teach" and r["hyp"]:
+            # Only labels of the current taxonomy are scorable (the V1 manifest uses retired intent names).
+            if nlu_pipe is not None and exp in _V2_INTENTS and r["hyp"]:
                 nlu_pipe.reset()
-                pr = nlu_pipe.process_text(r["hyp"])
+                pr = nlu_pipe.process_text(r["hyp"], hypotheses=r.get("hyps"))  # same hypothesis choice as runtime
                 e2e.append(pr.intent is not None and pr.intent.value == exp)
         key = "clean" if snr is None else f"snr_{snr}db"
         res["conditions"][key] = {
@@ -155,7 +159,7 @@ def summarise(items, run, nlu_pipe) -> dict:
             "latency_s_median": round(statistics.median(lat), 3), "latency_s_p95": round(float(np.percentile(lat, 95)), 3),
             "rtf_median": round(statistics.median(rtf), 3),
             "end_to_end_intent_accuracy": round(sum(e2e) / len(e2e), 4) if e2e else None, "end_to_end_n": len(e2e),
-            "transcripts": [(r["id"], r["hyp"]) for r in rows],
+            "transcripts": [(r["id"], r["hyp"], r.get("hyps", [])) for r in rows],
         }
     return res
 

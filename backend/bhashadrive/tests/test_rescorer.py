@@ -45,6 +45,17 @@ def test_self_attention_rescoring():
     assert meta_clean["rescored"] is False
 
 
+def test_command_model_picks_best_asr_hypothesis():
+    pipe = build_v2_pipeline(with_asr=False)
+    # Hindi-mode and English-mode decodes of the same audio: keep the one the command model understands.
+    assert pipe.refine_transcript("Paz the music please.", "Pause the music please.") == "Pause the music please."
+    assert pipe.refine_transcript("AC band mat karna.", "Aisi band mat karna.") == "AC band mat karna."
+    r = pipe.process_text("Kesat the cabin to 24 degrees.", hypotheses=["Kesat the cabin to 24 degrees.",
+                                                                       "Set the cabin to twenty four degrees."])
+    assert r.normalized_transcript == "Set the cabin to twenty four degrees."
+    assert r.action.parameters.target_temperature_celsius == 24
+
+
 def test_pipeline_integration_with_rescorer():
     pipe = build_v2_pipeline(with_asr=False)
 

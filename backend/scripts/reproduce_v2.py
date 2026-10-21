@@ -24,7 +24,8 @@ def run(*args: str) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true")
-    ap.add_argument("--promote", default="e5-ft_onnx_int8", help="artifact key to install as the runtime model")
+    # minilm-ft fp32 (with ASR-spelling augmentation) had the best end-to-end intent accuracy on ASR output.
+    ap.add_argument("--promote", default="minilm-ft_onnx_fp32", help="artifact key to install as the runtime model")
     args = ap.parse_args()
     enc = ["minilm"] if args.quick else ["minilm", "e5"]
     ft = [f"{e}-ft" for e in enc]

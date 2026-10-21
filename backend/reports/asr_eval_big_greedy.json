@@ -1,0 +1,3514 @@
+{
+ "hardware": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel | 20 logical CPUs | 15.8 GiB | Windows-10-10.0.26300-SP0",
+ "threads": 6,
+ "n_items": 155,
+ "provenance": [
+  "synthetic_tts_of_heldout_unseen",
+  "synthetic_tts_windows_onecore"
+ ],
+ "metric": "WER/CER vs Romanized reference after lower-casing and punctuation removal",
+ "models": {
+  "apex": {
+   "load_s": 2.01,
+   "peak_rss_mb": 1797.4,
+   "model_files_mb": 988.7,
+   "conditions": {
+    "clean": {
+     "n": 155,
+     "wer": 0.3229,
+     "cer": 0.1547,
+     "wer_by_language": {
+      "english": 0.2519,
+      "hinglish": 0.3503,
+      "romanized_hindi": 0.537
+     },
+     "latency_s_median": 3.013,
+     "latency_s_p95": 8.014,
+     "rtf_median": 1.374,
+     "end_to_end_intent_accuracy": 0.7483,
+     "end_to_end_n": 143,
+     "transcripts": [
+      [
+       "v01_en_freezing",
+       "I am freezing in here.",
+       [
+        "I am freezing in here."
+       ]
+      ],
+      [
+       "v02_en_cabin_warmer",
+       "Make the cabin a little warmer.",
+       [
+        "Make the cabin a little warmer."
+       ]
+      ],
+      [
+       "v03_en_set_23",
+       "Kabin to 23 degrees.",
+       [
+        "Kabin to 23 degrees.",
+        "Set the cabin to 23 degrees."
+       ]
+      ],
+      [
+       "v04_en_volume_down",
+       "Krnig the volume down,",
+       [
+        "Krnig the volume down,",
+        "Bring the volume down."
+       ]
+      ],
+      [
+       "v05_en_next",
+       "",
+       []
+      ],
+      [
+       "v06_en_nav",
+       "nivigate to india gate.",
+       [
+        "nivigate to india gate.",
+        "Navigate to India Gate."
+       ]
+      ],
+      [
+       "v07_en_neg_ac",
+       "Don't turn the AC off.",
+       [
+        "Don't turn the AC off."
+       ]
+      ],
+      [
+       "v08_en_ood",
+       "Lock the car",
+       [
+        "Lock the car",
+        "Lock the car."
+       ]
+      ],
+      [
+       "v09_en_pause",
+       "Paz it for a second.",
+       [
+        "Paz it for a second.",
+        "Pause it for a second."
+       ]
+      ],
+      [
+       "v10_en_fan_down",
+       "Tum down the blower.",
+       [
+        "Tum down the blower.",
+        "Tone down the blower."
+       ]
+      ],
+      [
+       "v11_hg_ac_warm",
+       "Bhai, AC toda warm kar do.",
+       [
+        "Bhai, AC toda warm kar do."
+       ]
+      ],
+      [
+       "v12_hg_fan_kam",
+       "Fan ki speed thodi kaam kar jo.",
+       [
+        "Fan ki speed thodi kaam kar jo."
+       ]
+      ],
+      [
+       "v13_hg_volume",
+       "Volume badha do yaar.",
+       [
+        "Volume badha do yaar."
+       ]
+      ],
+      [
+       "v14_hg_set_22",
+       "AC 22 p ka do yaar.",
+       [
+        "AC 22 p ka do yaar."
+       ]
+      ],
+      [
+       "v15_hg_nav",
+       "Joohoo beach tak le chalo.",
+       [
+        "Joohoo beach tak le chalo."
+       ]
+      ],
+      [
+       "v16_hg_pause",
+       "Music ko paas ka jo.",
+       [
+        "Music ko paas ka jo."
+       ]
+      ],
+      [
+       "v17_hg_neg",
+       "Volume mat batao.",
+       [
+        "Volume mat batao."
+       ]
+      ],
+      [
+       "v18_hg_climate_on",
+       "Climmate on kar dubai.",
+       [
+        "Climmate on kar dubai.",
+        "Climate on kar dubai."
+       ]
+      ],
+      [
+       "v19_rh_garmi",
+       "Gaami se jaan nikaal rahe hai.",
+       [
+        "Gaami se jaan nikaal rahe hai.",
+        "Gaami se jaan nikaal rahi hai."
+       ]
+      ],
+      [
+       "v20_rh_agla",
+       "Aglegaana lagao.",
+       [
+        "Aglegaana lagao."
+       ]
+      ],
+      [
+       "v21_rh_awaaz",
+       "Aavaaz thodi dhimi kar do.",
+       [
+        "Aavaaz thodi dhimi kar do."
+       ]
+      ],
+      [
+       "v22_rh_saket",
+       "Muvai saaket jaana hai.",
+       [
+        "Muvai saaket jaana hai.",
+        "Move saaket jaana hai."
+       ]
+      ],
+      [
+       "v23_rh_gaana",
+       "Gaana shuroo karo.",
+       [
+        "Gaana shuroo karo."
+       ]
+      ],
+      [
+       "v24_rh_baais",
+       "Bais degree ka do.",
+       [
+        "Bais degree ka do.",
+        "Bais degree ka jo."
+       ]
+      ],
+      [
+       "v25_pc_chill",
+       "Chill mode yaar.",
+       [
+        "Chill mode yaar."
+       ]
+      ],
+      [
+       "v26_pc_teach",
+       "Jab main chill mode bolin, AC 22 PE set kar dena.",
+       [
+        "Jab main chill mode bolin, AC 22 PE set kar dena.",
+        "Jab main chill mode bolen, AC 22 PE set kar dena."
+       ]
+      ],
+      [
+       "s01_freezing_en",
+       "I'm freezing.",
+       [
+        "I'm freezing."
+       ]
+      ],
+      [
+       "s02_volume_hinglish",
+       "Bhai, volume toda badlaadoo.",
+       [
+        "Bhai, volume toda badlaadoo.",
+        "Bhai, volume toda badhaadoo."
+       ]
+      ],
+      [
+       "s03_ac_warm_hinglish",
+       "AC ka temperature toda warm kar do.",
+       [
+        "AC ka temperature toda warm kar do."
+       ]
+      ],
+      [
+       "s04_ac_negation_hinglish",
+       "AC band mat karna.",
+       [
+        "AC band mat karna."
+       ]
+      ],
+      [
+       "s05_fan_en",
+       "not the temperature, reduce the fan speed.",
+       [
+        "not the temperature, reduce the fan speed.",
+        "Not the temperature, reduce the fan speed."
+       ]
+      ],
+      [
+       "s06_next_hinglish",
+       "Agle gaana lagao.",
+       [
+        "Agle gaana lagao."
+       ]
+      ],
+      [
+       "s07_nav_en",
+       "Tak me to konaunt the place.",
+       [
+        "Tak me to konaunt the place.",
+        "Take me to connoit the place."
+       ]
+      ],
+      [
+       "s08_set_temp_en",
+       "Kesat the cabin to 24 degrees.",
+       [
+        "Kesat the cabin to 24 degrees.",
+        "Set the cabin to 24 degrees."
+       ]
+      ],
+      [
+       "s09_pause_en",
+       "Paz the music please.",
+       [
+        "Paz the music please.",
+        "Pause the music please."
+       ]
+      ],
+      [
+       "s10_ood_en",
+       "The meeting went really well today.",
+       [
+        "The meeting went really well today."
+       ]
+      ],
+      [
+       "h_hw000",
+       "I am freezing in here.",
+       [
+        "I am freezing in here."
+       ]
+      ],
+      [
+       "h_hw001",
+       "It's too cold.",
+       [
+        "It's too cold."
+       ]
+      ],
+      [
+       "h_hw002",
+       "Bhai, AC toda warm kar do.",
+       [
+        "Bhai, AC toda warm kar do."
+       ]
+      ],
+      [
+       "h_hw004",
+       "Make the cabin a little warmer.",
+       [
+        "Make the cabin a little warmer."
+       ]
+      ],
+      [
+       "h_hw005",
+       "Kod you heat things up a little?",
+       [
+        "Kod you heat things up a little?",
+        "Could you heat things up a little?"
+       ]
+      ],
+      [
+       "h_hw006",
+       "My teeth are shattering.",
+       [
+        "My teeth are shattering."
+       ]
+      ],
+      [
+       "h_hw007",
+       "Toda gaanv mein hate chaahie andar.",
+       [
+        "Toda gaanv mein hate chaahie andar.",
+        "Thoda gaanv mein hate chaahie andar."
+       ]
+      ],
+      [
+       "h_hw009",
+       "Yah aur thun se haath jam gae, temperature oopar karo.",
+       [
+        "Yah aur thun se haath jam gae, temperature oopar karo."
+       ]
+      ],
+      [
+       "h_hw010",
+       "Warm me up, it's Icy.",
+       [
+        "Warm me up, it's Icy."
+       ]
+      ],
+      [
+       "h_hw011",
+       "Heading thodi aur badlaadu.",
+       [
+        "Heading thodi aur badlaadu.",
+        "Hating thodi aur badraadoo."
+       ]
+      ],
+      [
+       "h_hw012",
+       "Can we have it tost here?",
+       [
+        "Can we have it tost here?"
+       ]
+      ],
+      [
+       "h_hw013",
+       "It's stuffy and hot, cool it down.",
+       [
+        "It's stuffy and hot, cool it down."
+       ]
+      ],
+      [
+       "h_hw014",
+       "Gaami se jaan nikaal rahe hai.",
+       [
+        "Gaami se jaan nikaal rahe hai.",
+        "Gaami se jaan nikaal rahi hai."
+       ]
+      ],
+      [
+       "h_hw015",
+       "Cabin ko zaraar khanda karo bhai.",
+       [
+        "Cabin ko zaraar khanda karo bhai."
+       ]
+      ],
+      [
+       "h_hw017",
+       "Ka जाज जाज जाज",
+       [
+        "Ka जाज जाज जाज",
+        "Bring the temperature down a notch."
+       ]
+      ],
+      [
+       "h_hw018",
+       "feels like a sona in here.",
+       [
+        "feels like a sona in here.",
+        "Fees like a sona in here."
+       ]
+      ],
+      [
+       "h_hw019",
+       "AC ki cooling thodi aur chaahie.",
+       [
+        "AC ki cooling thodi aur chaahie."
+       ]
+      ],
+      [
+       "h_hw020",
+       "nan",
+       [
+        "nan"
+       ]
+      ],
+      [
+       "h_hw021",
+       "I am over heating, please cool the car.",
+       [
+        "I am over heating, please cool the car.",
+        "I am overheating, please cool the car."
+       ]
+      ],
+      [
+       "h_hw023",
+       "To warm for me.",
+       [
+        "To warm for me.",
+        "To warn for me."
+       ]
+      ],
+      [
+       "h_hw024",
+       "Said the cabin to twenty three degrees.",
+       [
+        "Said the cabin to twenty three degrees.",
+        "Set the cabin to twenty three degrees."
+       ]
+      ],
+      [
+       "h_hw025",
+       "AC 22 p ka do yaar.",
+       [
+        "AC 22 p ka do yaar."
+       ]
+      ],
+      [
+       "h_hw027",
+       "I'd like it at 25",
+       [
+        "I'd like it at 25",
+        "I'd like it at 25."
+       ]
+      ],
+      [
+       "h_hw028",
+       "Temperature coach aur bis p le aao.",
+       [
+        "Temperature coach aur bis p le aao.",
+        "Temperature coach aur bispy layout."
+       ]
+      ],
+      [
+       "h_hw029",
+       "Climmate should be 20 degrees.",
+       [
+        "Climmate should be 20 degrees.",
+        "Climate should be 20 degrees."
+       ]
+      ],
+      [
+       "h_hw030",
+       "Sat temperature to 45 degrees.",
+       [
+        "Sat temperature to 45 degrees."
+       ]
+      ],
+      [
+       "h_hw031",
+       "Hold the cabin at nineteen point five.",
+       [
+        "Hold the cabin at nineteen point five."
+       ]
+      ],
+      [
+       "h_hw032",
+       "Bais degree ka do.",
+       [
+        "Bais degree ka do.",
+        "Bais degree ka jo."
+       ]
+      ],
+      [
+       "h_hw033",
+       "Fan ki speed thodi badlaadoo.",
+       [
+        "Fan ki speed thodi badlaadoo."
+       ]
+      ],
+      [
+       "h_hw034",
+       "Give me more air from the winds.",
+       [
+        "Give me more air from the winds."
+       ]
+      ],
+      [
+       "h_hw035",
+       "बस्ष फफ फफ फफ फफ फफ फफ फफ फ",
+       [
+        "बस्ष फफ फफ फफ फफ फफ फफ फफ फ"
+       ]
+      ],
+      [
+       "h_hw037",
+       "The wind's are barely blowing.",
+       [
+        "The wind's are barely blowing.",
+        "The wents are barely blowing."
+       ]
+      ],
+      [
+       "h_hw038",
+       "Pankage ki raftaar test karo.",
+       [
+        "Pankage ki raftaar test karo.",
+        "Panke ki raftaar test karo."
+       ]
+      ],
+      [
+       "h_hw039",
+       "Yah thodi siyaada chaahie.",
+       [
+        "Yah thodi siyaada chaahie.",
+        "Yah thodi zyaada chaahie."
+       ]
+      ],
+      [
+       "h_hw040",
+       "Fan ki speed thodi kam kar do.",
+       [
+        "Fan ki speed thodi kam kar do."
+       ]
+      ],
+      [
+       "h_hw041",
+       "Tum down the blower.",
+       [
+        "Tum down the blower.",
+        "Tone down the blower."
+       ]
+      ],
+      [
+       "h_hw042",
+       "The air is blasting in my face.",
+       [
+        "The air is blasting in my face."
+       ]
+      ],
+      [
+       "h_hw044",
+       "Hava dhire chalao.",
+       [
+        "Hava dhire chalao."
+       ]
+      ],
+      [
+       "h_hw045",
+       "Fan bahut siy kar raha hai, kam karo.",
+       [
+        "Fan bahut siy kar raha hai, kam karo.",
+        "Fan bahut si akar raha hai, kam karo."
+       ]
+      ],
+      [
+       "h_hw046",
+       "Less ले ले लंज,",
+       [
+        "Less ले ले लंज,",
+        "Less wine from the ventes."
+       ]
+      ],
+      [
+       "h_hw047",
+       "Fir up the air conditioner.",
+       [
+        "Fir up the air conditioner."
+       ]
+      ],
+      [
+       "h_hw048",
+       "Aisi chaaloo kar dijie.",
+       [
+        "Aisi chaaloo kar dijie."
+       ]
+      ],
+      [
+       "h_hw050",
+       "Climmate on kar dubai.",
+       [
+        "Climmate on kar dubai.",
+        "Climate on kar dubai."
+       ]
+      ],
+      [
+       "h_hw051",
+       "Kan you get the AC running?",
+       [
+        "Kan you get the AC running?",
+        "Can you get the AC running?"
+       ]
+      ],
+      [
+       "h_hw052",
+       "Turne of the climate.",
+       [
+        "Turne of the climate.",
+        "Turn of the climate."
+       ]
+      ],
+      [
+       "h_hw053",
+       "AC band kar dijie.",
+       [
+        "AC band kar dijie.",
+        "Aisi band kar dijie."
+       ]
+      ],
+      [
+       "h_hw055",
+       "जज जज ज ज ज",
+       [
+        "जज जज ज ज ज",
+        "Switch the air gone off please."
+       ]
+      ],
+      [
+       "h_hw056",
+       "AC of ka juyaar.",
+       [
+        "AC of ka juyaar."
+       ]
+      ],
+      [
+       "h_hw057",
+       "Don't turn the AC off.",
+       [
+        "Don't turn the AC off."
+       ]
+      ],
+      [
+       "h_hw058",
+       "AC band mark karna.",
+       [
+        "AC band mark karna."
+       ]
+      ],
+      [
+       "h_hw060",
+       "Please never switch off the climate.",
+       [
+        "Please never switch off the climate."
+       ]
+      ],
+      [
+       "h_hw061",
+       "Volume badraajoo yaar.",
+       [
+        "Volume badraajoo yaar."
+       ]
+      ],
+      [
+       "h_hw062",
+       "I can't hear anything louder.",
+       [
+        "I can't hear anything louder."
+       ]
+      ],
+      [
+       "h_hw063",
+       "Make the music a bit louder.",
+       [
+        "Make the music a bit louder."
+       ]
+      ],
+      [
+       "h_hw065",
+       "Gaanna zyaada",
+       [
+        "Gaanna zyaada",
+        "Gaanaz se bajao."
+       ]
+      ],
+      [
+       "h_hw066",
+       "Sounds full kar do.",
+       [
+        "Sounds full kar do.",
+        "Sound full kar do."
+       ]
+      ],
+      [
+       "h_hw067",
+       "Turne up the speakers.",
+       [
+        "Turne up the speakers.",
+        "Turn up the speakers."
+       ]
+      ],
+      [
+       "h_hw068",
+       "Volume mat badh raha hoon.",
+       [
+        "Volume mat badh raha hoon."
+       ]
+      ],
+      [
+       "h_hw069",
+       "never turn the volume up",
+       [
+        "never turn the volume up",
+        "Never turn the volume up."
+       ]
+      ],
+      [
+       "h_hw070",
+       "Bring the volume down.",
+       [
+        "Bring the volume down."
+       ]
+      ],
+      [
+       "h_hw071",
+       "It's way too loud in here.",
+       [
+        "It's way too loud in here."
+       ]
+      ],
+      [
+       "h_hw072",
+       "Avaaz thodi dhimi kar do.",
+       [
+        "Avaaz thodi dhimi kar do.",
+        "Aavaaz thodi dhimi kar do."
+       ]
+      ],
+      [
+       "h_hw074",
+       "Music ka volume katao.",
+       [
+        "Music ka volume katao."
+       ]
+      ],
+      [
+       "h_hw075",
+       "Softter please.",
+       [
+        "Softter please.",
+        "Soft please."
+       ]
+      ],
+      [
+       "h_hw076",
+       "don't reduce the volume",
+       [
+        "don't reduce the volume",
+        "Don't reduce the volume."
+       ]
+      ],
+      [
+       "h_hw077",
+       "Plaze something.",
+       [
+        "Plaze something.",
+        "Play something."
+       ]
+      ],
+      [
+       "h_hw078",
+       "Gaana shuroo karo.",
+       [
+        "Gaana shuroo karo."
+       ]
+      ],
+      [
+       "h_hw080",
+       "aarishu munda song",
+       [
+        "aarishu munda song",
+        "Resume the song."
+       ]
+      ],
+      [
+       "h_hw081",
+       "Music chala dubai.",
+       [
+        "Music chala dubai."
+       ]
+      ],
+      [
+       "h_hw082",
+       "Let's have some music.",
+       [
+        "Let's have some music."
+       ]
+      ],
+      [
+       "h_hw083",
+       "Paz it for a second.",
+       [
+        "Paz it for a second.",
+        "Pause it for a second."
+       ]
+      ],
+      [
+       "h_hw084",
+       "Gana ek minute rok do.",
+       [
+        "Gana ek minute rok do."
+       ]
+      ],
+      [
+       "h_hw086",
+       "Haut the song.",
+       [
+        "Haut the song.",
+        "Hold the song."
+       ]
+      ],
+      [
+       "h_hw087",
+       "Music ko paas ka jo.",
+       [
+        "Music ko paas ka jo."
+       ]
+      ],
+      [
+       "h_hw088",
+       "Please don't pause the music.",
+       [
+        "Please don't pause the music."
+       ]
+      ],
+      [
+       "h_hw089",
+       "Skip to the next 1.",
+       [
+        "Skip to the next 1."
+       ]
+      ],
+      [
+       "h_hw090",
+       "Agle gaana lagao.",
+       [
+        "Agle gaana lagao."
+       ]
+      ],
+      [
+       "h_hw092",
+       "Next track please.",
+       [
+        "Next track please."
+       ]
+      ],
+      [
+       "h_hw093",
+       "Yah vaala skip karo.",
+       [
+        "Yah vaala skip karo."
+       ]
+      ],
+      [
+       "h_hw094",
+       "don't skip this 1.",
+       [
+        "don't skip this 1.",
+        "Don't skip this 1."
+       ]
+      ],
+      [
+       "h_hw096",
+       "Pla that last song again.",
+       [
+        "Pla that last song again.",
+        "Play that last song again."
+       ]
+      ],
+      [
+       "h_hw097",
+       "Pichhala vaala gaana bajao.",
+       [
+        "Pichhala vaala gaana bajao."
+       ]
+      ],
+      [
+       "h_hw099",
+       "Go back 1 track.",
+       [
+        "Go back 1 track."
+       ]
+      ],
+      [
+       "h_hw100",
+       "Previous vaala track lagao.",
+       [
+        "Previous vaala track lagao."
+       ]
+      ],
+      [
+       "h_hw101",
+       "Tak me to konaunt the place.",
+       [
+        "Tak me to konaunt the place.",
+        "Take me to connoit the place."
+       ]
+      ],
+      [
+       "h_hw102",
+       "India gate ka raasta dikhao.",
+       [
+        "India gate ka raasta dikhao."
+       ]
+      ],
+      [
+       "h_hw104",
+       "Find the nearest charging station.",
+       [
+        "Find the nearest charging station."
+       ]
+      ],
+      [
+       "h_hw105",
+       "nivigate to select city walk.",
+       [
+        "nivigate to select city walk.",
+        "Navigate to select city walk."
+       ]
+      ],
+      [
+       "h_hw106",
+       "Mujhe saaket jaana hai.",
+       [
+        "Mujhe saaket jaana hai."
+       ]
+      ],
+      [
+       "h_hw107",
+       "Jo ho beach tak le chalo.",
+       [
+        "Jo ho beach tak le chalo.",
+        "Jo beach tak le chalo."
+       ]
+      ],
+      [
+       "h_hw108",
+       "Get me directions to the bus stand.",
+       [
+        "Get me directions to the bus stand."
+       ]
+      ],
+      [
+       "h_hw109",
+       "Yah",
+       [
+        "Yah",
+        "Yah."
+       ]
+      ],
+      [
+       "h_hw110",
+       "Haan bhai.",
+       [
+        "Haan bhai."
+       ]
+      ],
+      [
+       "h_hw112",
+       "Sounds good, do it.",
+       [
+        "Sounds good, do it."
+       ]
+      ],
+      [
+       "h_hw113",
+       "Ok kar do.",
+       [
+        "Ok kar do."
+       ]
+      ],
+      [
+       "h_hw114",
+       "Absolutely.",
+       [
+        "Absolutely."
+       ]
+      ],
+      [
+       "h_hw115",
+       "Na",
+       [
+        "Na",
+        "Na."
+       ]
+      ],
+      [
+       "h_hw116",
+       "Na hi chaahie.",
+       [
+        "Na hi chaahie."
+       ]
+      ],
+      [
+       "h_hw118",
+       "Cancelled that.",
+       [
+        "Cancelled that.",
+        "Cancel that."
+       ]
+      ],
+      [
+       "h_hw119",
+       "Sochon",
+       [
+        "Sochon",
+        "Saujoo."
+       ]
+      ],
+      [
+       "h_hw120",
+       "No, leave it as it is.",
+       [
+        "No, leave it as it is."
+       ]
+      ],
+      [
+       "h_hw121",
+       "Omend the booth.",
+       [
+        "Omend the booth.",
+        "Open the boot."
+       ]
+      ],
+      [
+       "h_hw122",
+       "Window niche karo.",
+       [
+        "Window niche karo."
+       ]
+      ],
+      [
+       "h_hw123",
+       "Break lagao jaldi.",
+       [
+        "Break lagao jaldi."
+       ]
+      ],
+      [
+       "h_hw124",
+       "Kaun my wife.",
+       [
+        "Kaun my wife.",
+        "Call my wife."
+       ]
+      ],
+      [
+       "h_hw125",
+       "What's the time in London?",
+       [
+        "What's the time in London?"
+       ]
+      ],
+      [
+       "h_hw126",
+       "Gaadi ko auto pilot p i daal do.",
+       [
+        "Gaadi ko auto pilot p i daal do.",
+        "Gaadi ko auto pilot pidal do."
+       ]
+      ],
+      [
+       "h_hw127",
+       "Mujhe khaana order karna hai.",
+       [
+        "Mujhe khaana order karna hai."
+       ]
+      ],
+      [
+       "h_hw129",
+       "Delete all system files.",
+       [
+        "Delete all system files."
+       ]
+      ],
+      [
+       "h_hw130",
+       "Turn of attraction control.",
+       [
+        "Turn of attraction control."
+       ]
+      ],
+      [
+       "h_hw131",
+       "Kal ka match kaun jita?",
+       [
+        "Kal ka match kaun jita?"
+       ]
+      ],
+      [
+       "h_hw132",
+       "I had a great lunch.",
+       [
+        "I had a great lunch."
+       ]
+      ],
+      [
+       "h_hw133",
+       "Lock the car.",
+       [
+        "Lock the car."
+       ]
+      ],
+      [
+       "h_hw134",
+       "Mak it a bit more.",
+       [
+        "Mak it a bit more.",
+        "Make it a bit more."
+       ]
+      ],
+      [
+       "h_hw135",
+       "nan",
+       [
+        "nan"
+       ]
+      ],
+      [
+       "h_hw136",
+       "Change that.",
+       [
+        "Change that."
+       ]
+      ],
+      [
+       "h_hw138",
+       "Isko ab karo.",
+       [
+        "Isko ab karo."
+       ]
+      ],
+      [
+       "h_hw139",
+       "Can you fix the setting?",
+       [
+        "Can you fix the setting?"
+       ]
+      ],
+      [
+       "h_hw140",
+       "Kaadal do",
+       [
+        "Kaadal do",
+        "Badal do."
+       ]
+      ]
+     ]
+    },
+    "snr_10db": {
+     "n": 155,
+     "wer": 0.3739,
+     "cer": 0.1797,
+     "wer_by_language": {
+      "english": 0.2594,
+      "hinglish": 0.5025,
+      "romanized_hindi": 0.5648
+     },
+     "latency_s_median": 3.025,
+     "latency_s_p95": 7.949,
+     "rtf_median": 1.362,
+     "end_to_end_intent_accuracy": 0.6993,
+     "end_to_end_n": 143,
+     "transcripts": [
+      [
+       "v01_en_freezing",
+       "I'm freezing in here.",
+       [
+        "I'm freezing in here."
+       ]
+      ],
+      [
+       "v02_en_cabin_warmer",
+       "Make the cabin a little warmer.",
+       [
+        "Make the cabin a little warmer."
+       ]
+      ],
+      [
+       "v03_en_set_23",
+       "set the cabin to 23 degrees",
+       [
+        "set the cabin to 23 degrees",
+        "Set the cabin to 23 degrees."
+       ]
+      ],
+      [
+       "v04_en_volume_down",
+       "Krn the volume down.",
+       [
+        "Krn the volume down.",
+        "Wrng the volume down."
+       ]
+      ],
+      [
+       "v05_en_next",
+       "",
+       []
+      ],
+      [
+       "v06_en_nav",
+       "nagvigate to india gate.",
+       [
+        "nagvigate to india gate.",
+        "Navigate to India Gate."
+       ]
+      ],
+      [
+       "v07_en_neg_ac",
+       "Don't turn the AC off.",
+       [
+        "Don't turn the AC off."
+       ]
+      ],
+      [
+       "v08_en_ood",
+       "Lock the car.",
+       [
+        "Lock the car."
+       ]
+      ],
+      [
+       "v09_en_pause",
+       "वह वह व व व व व व व",
+       [
+        "वह वह व व व व व व व",
+        "Paus it for a second."
+       ]
+      ],
+      [
+       "v10_en_fan_down",
+       "Tone down the blower.",
+       [
+        "Tone down the blower."
+       ]
+      ],
+      [
+       "v11_hg_ac_warm",
+       "Bhai, aisi toda warm kar do.",
+       [
+        "Bhai, aisi toda warm kar do."
+       ]
+      ],
+      [
+       "v12_hg_fan_kam",
+       "Fan ki speed thodi kaam kar do.",
+       [
+        "Fan ki speed thodi kaam kar do."
+       ]
+      ],
+      [
+       "v13_hg_volume",
+       "Volume badha do yaar.",
+       [
+        "Volume badha do yaar."
+       ]
+      ],
+      [
+       "v14_hg_set_22",
+       "AC 22 p ka do yaar.",
+       [
+        "AC 22 p ka do yaar."
+       ]
+      ],
+      [
+       "v15_hg_nav",
+       "Joohoo beach tak le chalo.",
+       [
+        "Joohoo beach tak le chalo."
+       ]
+      ],
+      [
+       "v16_hg_pause",
+       "Music",
+       [
+        "Music"
+       ]
+      ],
+      [
+       "v17_hg_neg",
+       "Volume mat batao.",
+       [
+        "Volume mat batao."
+       ]
+      ],
+      [
+       "v18_hg_climate_on",
+       "Climmate on kar dubai.",
+       [
+        "Climmate on kar dubai.",
+        "Climate on kar du pai."
+       ]
+      ],
+      [
+       "v19_rh_garmi",
+       "Gaami se jaan nikaal rahe hai.",
+       [
+        "Gaami se jaan nikaal rahe hai.",
+        "Gaami se jaan nikaal rahi hai."
+       ]
+      ],
+      [
+       "v20_rh_agla",
+       "Lagaana lagao.",
+       [
+        "Lagaana lagao."
+       ]
+      ],
+      [
+       "v21_rh_awaaz",
+       "Aavaaz thodi dhimi ka do.",
+       [
+        "Aavaaz thodi dhimi ka do."
+       ]
+      ],
+      [
+       "v22_rh_saket",
+       "Muvai saaket jaana hai.",
+       [
+        "Muvai saaket jaana hai.",
+        "Muvai sake jaana hai."
+       ]
+      ],
+      [
+       "v23_rh_gaana",
+       "Gaana shuroo karo.",
+       [
+        "Gaana shuroo karo."
+       ]
+      ],
+      [
+       "v24_rh_baais",
+       "Vais degree ka do.",
+       [
+        "Vais degree ka do.",
+        "Vais degree ka jo."
+       ]
+      ],
+      [
+       "v25_pc_chill",
+       "Chill mode yaar.",
+       [
+        "Chill mode yaar."
+       ]
+      ],
+      [
+       "v26_pc_teach",
+       "",
+       []
+      ],
+      [
+       "s01_freezing_en",
+       "I'm freezing.",
+       [
+        "I'm freezing."
+       ]
+      ],
+      [
+       "s02_volume_hinglish",
+       "Bhai, volume toda badraadoo.",
+       [
+        "Bhai, volume toda badraadoo."
+       ]
+      ],
+      [
+       "s03_ac_warm_hinglish",
+       "AC ka temperature toda warm kar do.",
+       [
+        "AC ka temperature toda warm kar do."
+       ]
+      ],
+      [
+       "s04_ac_negation_hinglish",
+       "AC band matkon.",
+       [
+        "AC band matkon.",
+        "AC band mat karna."
+       ]
+      ],
+      [
+       "s05_fan_en",
+       "not the temperature, reduce the fan speed.",
+       [
+        "not the temperature, reduce the fan speed.",
+        "Not the temperature, reduce the fan speed."
+       ]
+      ],
+      [
+       "s06_next_hinglish",
+       "Agle kahaana lagao.",
+       [
+        "Agle kahaana lagao.",
+        "Agle gaana lagao."
+       ]
+      ],
+      [
+       "s07_nav_en",
+       "Tak me to konaunt the place.",
+       [
+        "Tak me to konaunt the place.",
+        "Take me to connoit the place."
+       ]
+      ],
+      [
+       "s08_set_temp_en",
+       "Set the cabin to 24 degrees.",
+       [
+        "Set the cabin to 24 degrees."
+       ]
+      ],
+      [
+       "s09_pause_en",
+       "Paz the music please.",
+       [
+        "Paz the music please.",
+        "Pause the music, please."
+       ]
+      ],
+      [
+       "s10_ood_en",
+       "The meeting went really well today.",
+       [
+        "The meeting went really well today."
+       ]
+      ],
+      [
+       "h_hw000",
+       "I'm freezing in here.",
+       [
+        "I'm freezing in here."
+       ]
+      ],
+      [
+       "h_hw001",
+       "It's too cold.",
+       [
+        "It's too cold."
+       ]
+      ],
+      [
+       "h_hw002",
+       "Bhai, aisi toda warm kar do.",
+       [
+        "Bhai, aisi toda warm kar do."
+       ]
+      ],
+      [
+       "h_hw004",
+       "Make the cabin a little warmer.",
+       [
+        "Make the cabin a little warmer."
+       ]
+      ],
+      [
+       "h_hw005",
+       "Kod you heat things up a little?",
+       [
+        "Kod you heat things up a little?",
+        "Could you heat things up a little?"
+       ]
+      ],
+      [
+       "h_hw006",
+       "my teeth are chattering",
+       [
+        "my teeth are chattering",
+        "My teeth are chattering."
+       ]
+      ],
+      [
+       "h_hw007",
+       "Thoda gaanv mein hate chaahie andar.",
+       [
+        "Thoda gaanv mein hate chaahie andar."
+       ]
+      ],
+      [
+       "h_hw009",
+       "Your son se half jam gae. Temperature oopar karo.",
+       [
+        "Your son se half jam gae. Temperature oopar karo.",
+        "Yaar thans se half jam gae. Temperature oopar karo."
+       ]
+      ],
+      [
+       "h_hw010",
+       "Warm me up, it's Icy.",
+       [
+        "Warm me up, it's Icy."
+       ]
+      ],
+      [
+       "h_hw011",
+       "Eating thodi or badraajoo.",
+       [
+        "Eating thodi or badraajoo.",
+        "Heading thodi oil badraadoo."
+       ]
+      ],
+      [
+       "h_hw012",
+       "Can we have it tost here?",
+       [
+        "Can we have it tost here?",
+        "Can we have with tostier?"
+       ]
+      ],
+      [
+       "h_hw013",
+       "It's stuffy and hot, cool it down.",
+       [
+        "It's stuffy and hot, cool it down."
+       ]
+      ],
+      [
+       "h_hw014",
+       "Gaami se jaan nikaal rahe hai.",
+       [
+        "Gaami se jaan nikaal rahe hai."
+       ]
+      ],
+      [
+       "h_hw015",
+       "Cabin ko zaraad khanda karo bhai.",
+       [
+        "Cabin ko zaraad khanda karo bhai.",
+        "Cabin ko zaraar khanda karo bhai."
+       ]
+      ],
+      [
+       "h_hw017",
+       "Bring the temperature down a notch.",
+       [
+        "Bring the temperature down a notch."
+       ]
+      ],
+      [
+       "h_hw018",
+       "feels like a sona in here.",
+       [
+        "feels like a sona in here.",
+        "Fees like a sona in here."
+       ]
+      ],
+      [
+       "h_hw019",
+       "AC ki cooling thodi aur chaahie.",
+       [
+        "AC ki cooling thodi aur chaahie."
+       ]
+      ],
+      [
+       "h_hw020",
+       "nan",
+       [
+        "nan"
+       ]
+      ],
+      [
+       "h_hw021",
+       "I am over heating, please cool the car.",
+       [
+        "I am over heating, please cool the car.",
+        "I'm overheating, please cool the car."
+       ]
+      ],
+      [
+       "h_hw023",
+       "To warm for me.",
+       [
+        "To warm for me.",
+        "To warn for me."
+       ]
+      ],
+      [
+       "h_hw024",
+       "set the cabin to 23 degrees",
+       [
+        "set the cabin to 23 degrees",
+        "Set the cabin to 23 degrees."
+       ]
+      ],
+      [
+       "h_hw025",
+       "AC 22",
+       [
+        "AC 22"
+       ]
+      ],
+      [
+       "h_hw027",
+       "I'd like it at 25.",
+       [
+        "I'd like it at 25."
+       ]
+      ],
+      [
+       "h_hw028",
+       "Temperature coach aur bispy layout.",
+       [
+        "Temperature coach aur bispy layout.",
+        "Temperature coach your BSP layout."
+       ]
+      ],
+      [
+       "h_hw029",
+       "Chalmate should be 20 degrees.",
+       [
+        "Chalmate should be 20 degrees.",
+        "Climate should be 20 degrees."
+       ]
+      ],
+      [
+       "h_hw030",
+       "Settemperature to 45 degrees.",
+       [
+        "Settemperature to 45 degrees.",
+        "Sept temperature to 45 degrees."
+       ]
+      ],
+      [
+       "h_hw031",
+       "Kodd the cabin at 19.5",
+       [
+        "Kodd the cabin at 19.5",
+        "Hold the cabin at nineteen point five."
+       ]
+      ],
+      [
+       "h_hw032",
+       "Vais degree ka do.",
+       [
+        "Vais degree ka do."
+       ]
+      ],
+      [
+       "h_hw033",
+       "Fan ki speed thodi badraadoo.",
+       [
+        "Fan ki speed thodi badraadoo."
+       ]
+      ],
+      [
+       "h_hw034",
+       "जङ जङ मे मा आ आ आ आ आ आ आ आ आ आ आ",
+       [
+        "जङ जङ मे मा आ आ आ आ आ आ आ आ आ आ आ"
+       ]
+      ],
+      [
+       "h_hw035",
+       "बस्ष फ फ फ फ फ फ फ फ",
+       [
+        "बस्ष फ फ फ फ फ फ फ फ"
+       ]
+      ],
+      [
+       "h_hw037",
+       "The wind's are barely blowing.",
+       [
+        "The wind's are barely blowing.",
+        "The winds are very blowing."
+       ]
+      ],
+      [
+       "h_hw038",
+       "Pankke ki raftaar test karo.",
+       [
+        "Pankke ki raftaar test karo.",
+        "Panke ki raftaar test karo."
+       ]
+      ],
+      [
+       "h_hw039",
+       "Yah thodi zyaada chaahie.",
+       [
+        "Yah thodi zyaada chaahie."
+       ]
+      ],
+      [
+       "h_hw040",
+       "Fanky speed thodi kam kar do.",
+       [
+        "Fanky speed thodi kam kar do."
+       ]
+      ],
+      [
+       "h_hw041",
+       "Tone down the blower.",
+       [
+        "Tone down the blower."
+       ]
+      ],
+      [
+       "h_hw042",
+       "The air is blasting in my face.",
+       [
+        "The air is blasting in my face."
+       ]
+      ],
+      [
+       "h_hw044",
+       "Havaadhi re chalao.",
+       [
+        "Havaadhi re chalao."
+       ]
+      ],
+      [
+       "h_hw045",
+       "Fan bahut shri akar raha hai, kam karo.",
+       [
+        "Fan bahut shri akar raha hai, kam karo."
+       ]
+      ],
+      [
+       "h_hw046",
+       "Less wind from the wind.",
+       [
+        "Less wind from the wind.",
+        "Less wine from the wents."
+       ]
+      ],
+      [
+       "h_hw047",
+       "Fir up the air conditioner",
+       [
+        "Fir up the air conditioner",
+        "Fire up the air conditioner."
+       ]
+      ],
+      [
+       "h_hw048",
+       "Aisi chaaloo kar dijie.",
+       [
+        "Aisi chaaloo kar dijie."
+       ]
+      ],
+      [
+       "h_hw050",
+       "Climmate unka dubai.",
+       [
+        "Climmate unka dubai.",
+        "Climate unka dubai."
+       ]
+      ],
+      [
+       "h_hw051",
+       "can you get the AC running?",
+       [
+        "can you get the AC running?",
+        "Can you get the AC running?"
+       ]
+      ],
+      [
+       "h_hw052",
+       "Turne of the climate.",
+       [
+        "Turne of the climate.",
+        "Turn of the climate."
+       ]
+      ],
+      [
+       "h_hw053",
+       "Aisi band kar dijie.",
+       [
+        "Aisi band kar dijie."
+       ]
+      ],
+      [
+       "h_hw055",
+       "विङ तङ तङ तङ तङ तङ तङ",
+       [
+        "विङ तङ तङ तङ तङ तङ तङ",
+        "Switch the air gone off please."
+       ]
+      ],
+      [
+       "h_hw056",
+       "AC of ka juya.",
+       [
+        "AC of ka juya."
+       ]
+      ],
+      [
+       "h_hw057",
+       "Don't turn the AC off.",
+       [
+        "Don't turn the AC off."
+       ]
+      ],
+      [
+       "h_hw058",
+       "AC band markana.",
+       [
+        "AC band markana."
+       ]
+      ],
+      [
+       "h_hw060",
+       "Please never switch off the climate.",
+       [
+        "Please never switch off the climate."
+       ]
+      ],
+      [
+       "h_hw061",
+       "Volume badraajoo yaar.",
+       [
+        "Volume badraajoo yaar.",
+        "Valiyo badraajoo yaar."
+       ]
+      ],
+      [
+       "h_hw062",
+       "I can't hear anything louder.",
+       [
+        "I can't hear anything louder."
+       ]
+      ],
+      [
+       "h_hw063",
+       "makes the music a bit louder",
+       [
+        "makes the music a bit louder",
+        "Make the music a bit louder."
+       ]
+      ],
+      [
+       "h_hw065",
+       "Gaannaas se bajao.",
+       [
+        "Gaannaas se bajao.",
+        "Ganas se bajao."
+       ]
+      ],
+      [
+       "h_hw066",
+       "Sound full kaajoo.",
+       [
+        "Sound full kaajoo.",
+        "Sound full ka jo."
+       ]
+      ],
+      [
+       "h_hw067",
+       "Turne of the speakers.",
+       [
+        "Turne of the speakers.",
+        "Turn up the speakers."
+       ]
+      ],
+      [
+       "h_hw068",
+       "Volume mat badh raha hoon.",
+       [
+        "Volume mat badh raha hoon.",
+        "Volume mat badraao."
+       ]
+      ],
+      [
+       "h_hw069",
+       "never turn the volume up",
+       [
+        "never turn the volume up",
+        "Never turn the volume up."
+       ]
+      ],
+      [
+       "h_hw070",
+       "Wrink the volume down.",
+       [
+        "Wrink the volume down.",
+        "Wrng the volume down."
+       ]
+      ],
+      [
+       "h_hw071",
+       "It's way too loud in here.",
+       [
+        "It's way too loud in here."
+       ]
+      ],
+      [
+       "h_hw072",
+       "Avaaz thodi dhimi kar do.",
+       [
+        "Avaaz thodi dhimi kar do.",
+        "Aavaaz thodi dhimi kar do."
+       ]
+      ],
+      [
+       "h_hw074",
+       "Music ka volume katao.",
+       [
+        "Music ka volume katao."
+       ]
+      ],
+      [
+       "h_hw075",
+       "Softter please.",
+       [
+        "Softter please.",
+        "Soft please."
+       ]
+      ],
+      [
+       "h_hw076",
+       "don't reduce the volume",
+       [
+        "don't reduce the volume",
+        "Don't reduce the volume."
+       ]
+      ],
+      [
+       "h_hw077",
+       "Plaze something.",
+       [
+        "Plaze something.",
+        "Please something."
+       ]
+      ],
+      [
+       "h_hw078",
+       "Gaana shuroo karo.",
+       [
+        "Gaana shuroo karo."
+       ]
+      ],
+      [
+       "h_hw080",
+       "aarishyoon the song",
+       [
+        "aarishyoon the song",
+        "Resume the song."
+       ]
+      ],
+      [
+       "h_hw081",
+       "Music chala dubai.",
+       [
+        "Music chala dubai.",
+        "Music chala Dubai."
+       ]
+      ],
+      [
+       "h_hw082",
+       "Let's have some music.",
+       [
+        "Let's have some music."
+       ]
+      ],
+      [
+       "h_hw083",
+       "Mazza it for a second.",
+       [
+        "Mazza it for a second.",
+        "Pausit for a second."
+       ]
+      ],
+      [
+       "h_hw084",
+       "Gana ek minute rock 2.",
+       [
+        "Gana ek minute rock 2."
+       ]
+      ],
+      [
+       "h_hw086",
+       "Hold the song.",
+       [
+        "Hold the song."
+       ]
+      ],
+      [
+       "h_hw087",
+       "Music",
+       [
+        "Music"
+       ]
+      ],
+      [
+       "h_hw088",
+       "Please don't post the music.",
+       [
+        "Please don't post the music."
+       ]
+      ],
+      [
+       "h_hw089",
+       "Skip to the next 1.",
+       [
+        "Skip to the next 1."
+       ]
+      ],
+      [
+       "h_hw090",
+       "Agle gaana lagao.",
+       [
+        "Agle gaana lagao."
+       ]
+      ],
+      [
+       "h_hw092",
+       "Next track please.",
+       [
+        "Next track please."
+       ]
+      ],
+      [
+       "h_hw093",
+       "Yah vaala skip karo.",
+       [
+        "Yah vaala skip karo."
+       ]
+      ],
+      [
+       "h_hw094",
+       "Don't skip this 1.",
+       [
+        "Don't skip this 1."
+       ]
+      ],
+      [
+       "h_hw096",
+       "Pla that last song again.",
+       [
+        "Pla that last song again.",
+        "Play that last song again."
+       ]
+      ],
+      [
+       "h_hw097",
+       "nan",
+       [
+        "nan"
+       ]
+      ],
+      [
+       "h_hw099",
+       "Go back 1 track.",
+       [
+        "Go back 1 track."
+       ]
+      ],
+      [
+       "h_hw100",
+       "Previous vaala track lagao.",
+       [
+        "Previous vaala track lagao."
+       ]
+      ],
+      [
+       "h_hw101",
+       "Take me to konaunt the place.",
+       [
+        "Take me to konaunt the place.",
+        "Take me to Kanoet the place."
+       ]
+      ],
+      [
+       "h_hw102",
+       "India gate ka rasta dikhao.",
+       [
+        "India gate ka rasta dikhao.",
+        "India gate ka raasta dikhao."
+       ]
+      ],
+      [
+       "h_hw104",
+       "Find the nearest charging station.",
+       [
+        "Find the nearest charging station."
+       ]
+      ],
+      [
+       "h_hw105",
+       "nanmigget to select city walk.",
+       [
+        "nanmigget to select city walk.",
+        "Navigate to select city walk."
+       ]
+      ],
+      [
+       "h_hw106",
+       "Mujhe saaket jaana hai.",
+       [
+        "Mujhe saaket jaana hai."
+       ]
+      ],
+      [
+       "h_hw107",
+       "Jo ho bij taap le chal lo.",
+       [
+        "Jo ho bij taap le chal lo."
+       ]
+      ],
+      [
+       "h_hw108",
+       "Get me directions to the bus stand.",
+       [
+        "Get me directions to the bus stand."
+       ]
+      ],
+      [
+       "h_hw109",
+       "yat",
+       [
+        "yat",
+        "nan"
+       ]
+      ],
+      [
+       "h_hw110",
+       "Haan bhai.",
+       [
+        "Haan bhai."
+       ]
+      ],
+      [
+       "h_hw112",
+       "Sounds good, do it.",
+       [
+        "Sounds good, do it."
+       ]
+      ],
+      [
+       "h_hw113",
+       "Ok kadoo.",
+       [
+        "Ok kadoo."
+       ]
+      ],
+      [
+       "h_hw114",
+       "Absolutely.",
+       [
+        "Absolutely."
+       ]
+      ],
+      [
+       "h_hw115",
+       "nan",
+       [
+        "nan",
+        "Na."
+       ]
+      ],
+      [
+       "h_hw116",
+       "Na hi chaahie.",
+       [
+        "Na hi chaahie."
+       ]
+      ],
+      [
+       "h_hw118",
+       "Cancelled that.",
+       [
+        "Cancelled that.",
+        "Cancel that."
+       ]
+      ],
+      [
+       "h_hw119",
+       "nan",
+       [
+        "nan"
+       ]
+      ],
+      [
+       "h_hw120",
+       "No, leave it as it is.",
+       [
+        "No, leave it as it is."
+       ]
+      ],
+      [
+       "h_hw121",
+       "Open the boot",
+       [
+        "Open the boot",
+        "Open the boot."
+       ]
+      ],
+      [
+       "h_hw122",
+       "Window niche karo.",
+       [
+        "Window niche karo."
+       ]
+      ],
+      [
+       "h_hw123",
+       "Break lagao jaldi.",
+       [
+        "Break lagao jaldi."
+       ]
+      ],
+      [
+       "h_hw124",
+       "Kal my wife.",
+       [
+        "Kal my wife.",
+        "Call my wife."
+       ]
+      ],
+      [
+       "h_hw125",
+       "What's the time in London?",
+       [
+        "What's the time in London?"
+       ]
+      ],
+      [
+       "h_hw126",
+       "Gaadi ko auto pilot pidaal do.",
+       [
+        "Gaadi ko auto pilot pidaal do."
+       ]
+      ],
+      [
+       "h_hw127",
+       "Mujhe khaana order karna hai.",
+       [
+        "Mujhe khaana order karna hai."
+       ]
+      ],
+      [
+       "h_hw129",
+       "Delete all system files.",
+       [
+        "Delete all system files."
+       ]
+      ],
+      [
+       "h_hw130",
+       "Turn of attraction control.",
+       [
+        "Turn of attraction control."
+       ]
+      ],
+      [
+       "h_hw131",
+       "Kal ka match kaun jita?",
+       [
+        "Kal ka match kaun jita?"
+       ]
+      ],
+      [
+       "h_hw132",
+       "I had a great lunch.",
+       [
+        "I had a great lunch."
+       ]
+      ],
+      [
+       "h_hw133",
+       "Lock the car.",
+       [
+        "Lock the car."
+       ]
+      ],
+      [
+       "h_hw134",
+       "makes it a bit more",
+       [
+        "makes it a bit more",
+        "Make it a bit more."
+       ]
+      ],
+      [
+       "h_hw135",
+       "To daakko.",
+       [
+        "To daakko."
+       ]
+      ],
+      [
+       "h_hw136",
+       "Change that.",
+       [
+        "Change that."
+       ]
+      ],
+      [
+       "h_hw138",
+       "Isko ab karo.",
+       [
+        "Isko ab karo."
+       ]
+      ],
+      [
+       "h_hw139",
+       "Can you fix the setting?",
+       [
+        "Can you fix the setting?"
+       ]
+      ],
+      [
+       "h_hw140",
+       "aadal do",
+       [
+        "aadal do",
+        "Badal do."
+       ]
+      ]
+     ]
+    },
+    "snr_5db": {
+     "n": 155,
+     "wer": 0.3569,
+     "cer": 0.1842,
+     "wer_by_language": {
+      "english": 0.2145,
+      "hinglish": 0.5178,
+      "romanized_hindi": 0.5926
+     },
+     "latency_s_median": 3.03,
+     "latency_s_p95": 7.771,
+     "rtf_median": 1.369,
+     "end_to_end_intent_accuracy": 0.7273,
+     "end_to_end_n": 143,
+     "transcripts": [
+      [
+       "v01_en_freezing",
+       "I'm freezing in here.",
+       [
+        "I'm freezing in here."
+       ]
+      ],
+      [
+       "v02_en_cabin_warmer",
+       "Make the cabin a little warmer.",
+       [
+        "Make the cabin a little warmer."
+       ]
+      ],
+      [
+       "v03_en_set_23",
+       "set the cabin to 23 degrees",
+       [
+        "set the cabin to 23 degrees",
+        "Sett the cabin to 23 degrees."
+       ]
+      ],
+      [
+       "v04_en_volume_down",
+       "",
+       []
+      ],
+      [
+       "v05_en_next",
+       "Schip to the next 1.",
+       [
+        "Schip to the next 1.",
+        "Skip to the next 1."
+       ]
+      ],
+      [
+       "v06_en_nav",
+       "nivigate to india gate",
+       [
+        "nivigate to india gate",
+        "Navigate to India Gate."
+       ]
+      ],
+      [
+       "v07_en_neg_ac",
+       "Don't turn the AC off.",
+       [
+        "Don't turn the AC off."
+       ]
+      ],
+      [
+       "v08_en_ood",
+       "Lock the car.",
+       [
+        "Lock the car."
+       ]
+      ],
+      [
+       "v09_en_pause",
+       "Posre for a second.",
+       [
+        "Posre for a second.",
+        "Paus it for a second."
+       ]
+      ],
+      [
+       "v10_en_fan_down",
+       "Joon jao the blower.",
+       [
+        "Joon jao the blower."
+       ]
+      ],
+      [
+       "v11_hg_ac_warm",
+       "Bhai, aisi toda warm kar do.",
+       [
+        "Bhai, aisi toda warm kar do."
+       ]
+      ],
+      [
+       "v12_hg_fan_kam",
+       "Fan ki speed thodi kaam kar do.",
+       [
+        "Fan ki speed thodi kaam kar do.",
+        "Fan ki speed thodi kam kar do."
+       ]
+      ],
+      [
+       "v13_hg_volume",
+       "Volume badha do yaar.",
+       [
+        "Volume badha do yaar."
+       ]
+      ],
+      [
+       "v14_hg_set_22",
+       "AC 22 pi ka do yaar.",
+       [
+        "AC 22 pi ka do yaar."
+       ]
+      ],
+      [
+       "v15_hg_nav",
+       "Joohoo beach tak le chalo.",
+       [
+        "Joohoo beach tak le chalo."
+       ]
+      ],
+      [
+       "v16_hg_pause",
+       "Music",
+       [
+        "Music"
+       ]
+      ],
+      [
+       "v17_hg_neg",
+       "Volume math bacha",
+       [
+        "Volume math bacha",
+        "Volume mat batao."
+       ]
+      ],
+      [
+       "v18_hg_climate_on",
+       "Climmate onka du pai.",
+       [
+        "Climmate onka du pai.",
+        "Climate on kar du pai."
+       ]
+      ],
+      [
+       "v19_rh_garmi",
+       "Gaami se jaan nikaal rahe hai.",
+       [
+        "Gaami se jaan nikaal rahe hai.",
+        "Gaami se jaan nikaal rahi hai."
+       ]
+      ],
+      [
+       "v20_rh_agla",
+       "Laga.",
+       [
+        "Laga."
+       ]
+      ],
+      [
+       "v21_rh_awaaz",
+       "Aavaaz thodi dinika do.",
+       [
+        "Aavaaz thodi dinika do.",
+        "Aavaaz thodi bhi mika do."
+       ]
+      ],
+      [
+       "v22_rh_saket",
+       "Muvai saaket jaana hai.",
+       [
+        "Muvai saaket jaana hai.",
+        "Movey sake jaana hai."
+       ]
+      ],
+      [
+       "v23_rh_gaana",
+       "Gaana shuroo karo.",
+       [
+        "Gaana shuroo karo."
+       ]
+      ],
+      [
+       "v24_rh_baais",
+       "Vais degree ka jo.",
+       [
+        "Vais degree ka jo."
+       ]
+      ],
+      [
+       "v25_pc_chill",
+       "Chal mode yaar.",
+       [
+        "Chal mode yaar.",
+        "Chill mode yaar."
+       ]
+      ],
+      [
+       "v26_pc_teach",
+       "",
+       []
+      ],
+      [
+       "s01_freezing_en",
+       "I'm freezing",
+       [
+        "I'm freezing",
+        "I'm freezing."
+       ]
+      ],
+      [
+       "s02_volume_hinglish",
+       "Bhai, volume toda badraadoo.",
+       [
+        "Bhai, volume toda badraadoo."
+       ]
+      ],
+      [
+       "s03_ac_warm_hinglish",
+       "AC ka temperature toda warm kar do.",
+       [
+        "AC ka temperature toda warm kar do."
+       ]
+      ],
+      [
+       "s04_ac_negation_hinglish",
+       "AC band matkon",
+       [
+        "AC band matkon",
+        "AC band matkon."
+       ]
+      ],
+      [
+       "s05_fan_en",
+       "not the temperature, reduce the fan speed.",
+       [
+        "not the temperature, reduce the fan speed.",
+        "Not the temperature, reduce the fan speed."
+       ]
+      ],
+      [
+       "s06_next_hinglish",
+       "Agle kahaana lagao.",
+       [
+        "Agle kahaana lagao.",
+        "Agle gaana lagao."
+       ]
+      ],
+      [
+       "s07_nav_en",
+       "Tak me to konaunt the place.",
+       [
+        "Tak me to konaunt the place.",
+        "Take me to Kanoetha place."
+       ]
+      ],
+      [
+       "s08_set_temp_en",
+       "Sat the cabin to 24 degrees.",
+       [
+        "Sat the cabin to 24 degrees."
+       ]
+      ],
+      [
+       "s09_pause_en",
+       "Pause the music, please.",
+       [
+        "Pause the music, please."
+       ]
+      ],
+      [
+       "s10_ood_en",
+       "The meeting went really well today.",
+       [
+        "The meeting went really well today."
+       ]
+      ],
+      [
+       "h_hw000",
+       "I'm freezing in here.",
+       [
+        "I'm freezing in here."
+       ]
+      ],
+      [
+       "h_hw001",
+       "It's too cold.",
+       [
+        "It's too cold."
+       ]
+      ],
+      [
+       "h_hw002",
+       "Bhai, aisi toda warm kar do.",
+       [
+        "Bhai, aisi toda warm kar do.",
+        "Bhai, aisi toda wonka do."
+       ]
+      ],
+      [
+       "h_hw004",
+       "Main the cabin a little bomber.",
+       [
+        "Main the cabin a little bomber.",
+        "Make the cabin a little bomber."
+       ]
+      ],
+      [
+       "h_hw005",
+       "Kund you heat things up a little?",
+       [
+        "Kund you heat things up a little?",
+        "Kuch you heed things up a little."
+       ]
+      ],
+      [
+       "h_hw006",
+       "my teeth are shattering",
+       [
+        "my teeth are shattering",
+        "My teeth are shattering."
+       ]
+      ],
+      [
+       "h_hw007",
+       "Thoda gaanv mein hate chaahie and",
+       [
+        "Thoda gaanv mein hate chaahie and",
+        "Thoda gaanv mein hate chaahie and."
+       ]
+      ],
+      [
+       "h_hw009",
+       "Yah aur thand se half jam gae. Temperature oopar karo.",
+       [
+        "Yah aur thand se half jam gae. Temperature oopar karo.",
+        "Yah aur thans se half jam gae. Temperature oopar karo."
+       ]
+      ],
+      [
+       "h_hw010",
+       "Warm me up, it's Icy.",
+       [
+        "Warm me up, it's Icy."
+       ]
+      ],
+      [
+       "h_hw011",
+       "Eating thodi or badraajoo.",
+       [
+        "Eating thodi or badraajoo."
+       ]
+      ],
+      [
+       "h_hw012",
+       "Can we have it tost here?",
+       [
+        "Can we have it tost here?",
+        "Can we have with tostier?"
+       ]
+      ],
+      [
+       "h_hw013",
+       "It's stuffy and hot, cool it down.",
+       [
+        "It's stuffy and hot, cool it down."
+       ]
+      ],
+      [
+       "h_hw014",
+       "Gaami se jaan nikaal rahi hai.",
+       [
+        "Gaami se jaan nikaal rahi hai."
+       ]
+      ],
+      [
+       "h_hw015",
+       "Cabin ko zaraad khanda karo bhai.",
+       [
+        "Cabin ko zaraad khanda karo bhai."
+       ]
+      ],
+      [
+       "h_hw017",
+       "Bring the temperature down the notch.",
+       [
+        "Bring the temperature down the notch."
+       ]
+      ],
+      [
+       "h_hw018",
+       "feels like a sona in here",
+       [
+        "feels like a sona in here",
+        "Feels like a sona in here."
+       ]
+      ],
+      [
+       "h_hw019",
+       "AC ki cooling thodi aur chaahie.",
+       [
+        "AC ki cooling thodi aur chaahie.",
+        "A. A. C. ki cooling thodi aur chaahie."
+       ]
+      ],
+      [
+       "h_hw020",
+       "nan",
+       [
+        "nan"
+       ]
+      ],
+      [
+       "h_hw021",
+       "I am overheating, please cool the car.",
+       [
+        "I am overheating, please cool the car."
+       ]
+      ],
+      [
+       "h_hw023",
+       "To warm for me.",
+       [
+        "To warm for me.",
+        "To warn for me."
+       ]
+      ],
+      [
+       "h_hw024",
+       "Set the cabin to 23 degrees.",
+       [
+        "Set the cabin to 23 degrees."
+       ]
+      ],
+      [
+       "h_hw025",
+       "AC 22 p ka do yaar.",
+       [
+        "AC 22 p ka do yaar."
+       ]
+      ],
+      [
+       "h_hw027",
+       "I'd like it at 25",
+       [
+        "I'd like it at 25",
+        "I'd like it at 25."
+       ]
+      ],
+      [
+       "h_hw028",
+       "Temperature coat your bispy layout.",
+       [
+        "Temperature coat your bispy layout.",
+        "Temperature coat your b is b layout."
+       ]
+      ],
+      [
+       "h_hw029",
+       "Chalmate should be 20 degrees.",
+       [
+        "Chalmate should be 20 degrees.",
+        "Climate should be 20 degrees."
+       ]
+      ],
+      [
+       "h_hw030",
+       "Sept temperature to 45 degrees.",
+       [
+        "Sept temperature to 45 degrees."
+       ]
+      ],
+      [
+       "h_hw031",
+       "Kodd the cabin at 19.5",
+       [
+        "Kodd the cabin at 19.5",
+        "Hold the cabin at nineteen point five."
+       ]
+      ],
+      [
+       "h_hw032",
+       "Vais degree ka du.",
+       [
+        "Vais degree ka du.",
+        "Vais degree ka dukh."
+       ]
+      ],
+      [
+       "h_hw033",
+       "Fanky speed thodi badraadoo.",
+       [
+        "Fanky speed thodi badraadoo.",
+        "Fanky speed thodi badhaadoo."
+       ]
+      ],
+      [
+       "h_hw034",
+       "वह मे वह वंज",
+       [
+        "वह मे वह वंज",
+        "Give me more air from the wind."
+       ]
+      ],
+      [
+       "h_hw035",
+       "बस बस बस बस बस",
+       [
+        "बस बस बस बस बस",
+        "Blast the fan."
+       ]
+      ],
+      [
+       "h_hw037",
+       "The wind's are very blowing.",
+       [
+        "The wind's are very blowing.",
+        "The winds are very blowing."
+       ]
+      ],
+      [
+       "h_hw038",
+       "Pankage ki raftaar tez karo.",
+       [
+        "Pankage ki raftaar tez karo.",
+        "Panke ki raftaar tez karo."
+       ]
+      ],
+      [
+       "h_hw039",
+       "Yah thodi zyaada chaahie.",
+       [
+        "Yah thodi zyaada chaahie."
+       ]
+      ],
+      [
+       "h_hw040",
+       "Fanky speed thodi kam kar do.",
+       [
+        "Fanky speed thodi kam kar do."
+       ]
+      ],
+      [
+       "h_hw041",
+       "Tone down the blower.",
+       [
+        "Tone down the blower."
+       ]
+      ],
+      [
+       "h_hw042",
+       "The air is blasting in my face.",
+       [
+        "The air is blasting in my face."
+       ]
+      ],
+      [
+       "h_hw044",
+       "Hava dhire chala.",
+       [
+        "Hava dhire chala."
+       ]
+      ],
+      [
+       "h_hw045",
+       "Fan bahut siya kar raha hai, kam karo.",
+       [
+        "Fan bahut siya kar raha hai, kam karo.",
+        "Fan bahut shri akar raha hai, kam karo."
+       ]
+      ],
+      [
+       "h_hw046",
+       "Less wind from the wind.",
+       [
+        "Less wind from the wind.",
+        "Less wine from the wends."
+       ]
+      ],
+      [
+       "h_hw047",
+       "Fir of the air conditioner",
+       [
+        "Fir of the air conditioner",
+        "Fire of the air conditioner."
+       ]
+      ],
+      [
+       "h_hw048",
+       "Aisi chaaloo kar dijie.",
+       [
+        "Aisi chaaloo kar dijie."
+       ]
+      ],
+      [
+       "h_hw050",
+       "Climmate unka dubai.",
+       [
+        "Climmate unka dubai.",
+        "Climate unka dubai."
+       ]
+      ],
+      [
+       "h_hw051",
+       "can you get the AC running?",
+       [
+        "can you get the AC running?",
+        "Can you get the AC running?"
+       ]
+      ],
+      [
+       "h_hw052",
+       "Turne of the climate.",
+       [
+        "Turne of the climate.",
+        "Turn of the climate."
+       ]
+      ],
+      [
+       "h_hw053",
+       "AC band kar dijie.",
+       [
+        "AC band kar dijie.",
+        "Aisi band kar dijie."
+       ]
+      ],
+      [
+       "h_hw055",
+       "Soch the air gone off please.",
+       [
+        "Soch the air gone off please.",
+        "Switch the air gone off please."
+       ]
+      ],
+      [
+       "h_hw056",
+       "AC of the do yaar.",
+       [
+        "AC of the do yaar.",
+        "AC of the juya."
+       ]
+      ],
+      [
+       "h_hw057",
+       "Don't turn the AC off.",
+       [
+        "Don't turn the AC off."
+       ]
+      ],
+      [
+       "h_hw058",
+       "AC band makkana.",
+       [
+        "AC band makkana.",
+        "AC van"
+       ]
+      ],
+      [
+       "h_hw060",
+       "Please never switch off the climate.",
+       [
+        "Please never switch off the climate."
+       ]
+      ],
+      [
+       "h_hw061",
+       "Valoo badhraajoo yaar.",
+       [
+        "Valoo badhraajoo yaar.",
+        "Valoo badraajoo yaar."
+       ]
+      ],
+      [
+       "h_hw062",
+       "I can't hear anything louder.",
+       [
+        "I can't hear anything louder."
+       ]
+      ],
+      [
+       "h_hw063",
+       "makes the music a bit louder",
+       [
+        "makes the music a bit louder",
+        "Make the music a bit louder."
+       ]
+      ],
+      [
+       "h_hw065",
+       "Ganaana se seva jao.",
+       [
+        "Ganaana se seva jao."
+       ]
+      ],
+      [
+       "h_hw066",
+       "Sound full kajoo.",
+       [
+        "Sound full kajoo.",
+        "Sound full kaajoo."
+       ]
+      ],
+      [
+       "h_hw067",
+       "Turne of the speakers.",
+       [
+        "Turne of the speakers.",
+        "Turn up the speakers."
+       ]
+      ],
+      [
+       "h_hw068",
+       "Volume mat badh raha hoon.",
+       [
+        "Volume mat badh raha hoon.",
+        "Valume mat badh raha hoon."
+       ]
+      ],
+      [
+       "h_hw069",
+       "never turn the volume up",
+       [
+        "never turn the volume up",
+        "Never turn the volume up."
+       ]
+      ],
+      [
+       "h_hw070",
+       "Wrink the volume down.",
+       [
+        "Wrink the volume down.",
+        "Wrng the volume down."
+       ]
+      ],
+      [
+       "h_hw071",
+       "It's way too loud in here.",
+       [
+        "It's way too loud in here."
+       ]
+      ],
+      [
+       "h_hw072",
+       "Avaas thodi dhimi kar do.",
+       [
+        "Avaas thodi dhimi kar do.",
+        "Aavaaz thodi dhimi kar do."
+       ]
+      ],
+      [
+       "h_hw074",
+       "Music ka volume katao.",
+       [
+        "Music ka volume katao."
+       ]
+      ],
+      [
+       "h_hw075",
+       "Softter, please.",
+       [
+        "Softter, please.",
+        "Soft please."
+       ]
+      ],
+      [
+       "h_hw076",
+       "don't reduce the volume",
+       [
+        "don't reduce the volume",
+        "Don't reduce the volume."
+       ]
+      ],
+      [
+       "h_hw077",
+       "Please something.",
+       [
+        "Please something.",
+        "Play something."
+       ]
+      ],
+      [
+       "h_hw078",
+       "Gaana shuroo karo.",
+       [
+        "Gaana shuroo karo."
+       ]
+      ],
+      [
+       "h_hw080",
+       "Resume the song.",
+       [
+        "Resume the song."
+       ]
+      ],
+      [
+       "h_hw081",
+       "Music chala dubai.",
+       [
+        "Music chala dubai.",
+        "Music chala Dubai."
+       ]
+      ],
+      [
+       "h_hw082",
+       "Let's have some music.",
+       [
+        "Let's have some music."
+       ]
+      ],
+      [
+       "h_hw083",
+       "For a second.",
+       [
+        "For a second."
+       ]
+      ],
+      [
+       "h_hw084",
+       "Gana ek minute rok 2.",
+       [
+        "Gana ek minute rok 2.",
+        "Gana ek minute drop too."
+       ]
+      ],
+      [
+       "h_hw086",
+       "Hold the song.",
+       [
+        "Hold the song."
+       ]
+      ],
+      [
+       "h_hw087",
+       "Music",
+       [
+        "Music"
+       ]
+      ],
+      [
+       "h_hw088",
+       "Please don't post the music.",
+       [
+        "Please don't post the music."
+       ]
+      ],
+      [
+       "h_hw089",
+       "Skip to the next 1.",
+       [
+        "Skip to the next 1."
+       ]
+      ],
+      [
+       "h_hw090",
+       "Agle gaana lagao.",
+       [
+        "Agle gaana lagao."
+       ]
+      ],
+      [
+       "h_hw092",
+       "Next track please.",
+       [
+        "Next track please."
+       ]
+      ],
+      [
+       "h_hw093",
+       "Yah vaala skip karo.",
+       [
+        "Yah vaala skip karo."
+       ]
+      ],
+      [
+       "h_hw094",
+       "Don't skip this 1.",
+       [
+        "Don't skip this 1."
+       ]
+      ],
+      [
+       "h_hw096",
+       "Pray that last song again.",
+       [
+        "Pray that last song again.",
+        "Play that last song again."
+       ]
+      ],
+      [
+       "h_hw097",
+       "nan",
+       [
+        "nan"
+       ]
+      ],
+      [
+       "h_hw099",
+       "Go back 1 track.",
+       [
+        "Go back 1 track."
+       ]
+      ],
+      [
+       "h_hw100",
+       "Premius vaala track lagao.",
+       [
+        "Premius vaala track lagao.",
+        "Previous vaala track lagao."
+       ]
+      ],
+      [
+       "h_hw101",
+       "Take me to konaunt the place.",
+       [
+        "Take me to konaunt the place.",
+        "Take me to Kanoet the place."
+       ]
+      ],
+      [
+       "h_hw102",
+       "India gate ka raasta dikhao.",
+       [
+        "India gate ka raasta dikhao."
+       ]
+      ],
+      [
+       "h_hw104",
+       "Find the nearest charging station.",
+       [
+        "Find the nearest charging station."
+       ]
+      ],
+      [
+       "h_hw105",
+       "nagvigate to select city walk.",
+       [
+        "nagvigate to select city walk.",
+        "Navigate to select city walk."
+       ]
+      ],
+      [
+       "h_hw106",
+       "Mujhe saaket jaana hai.",
+       [
+        "Mujhe saaket jaana hai."
+       ]
+      ],
+      [
+       "h_hw107",
+       "Jo ho bij taaphale chal lo.",
+       [
+        "Jo ho bij taaphale chal lo.",
+        "Jo ho beach taphle chal lo."
+       ]
+      ],
+      [
+       "h_hw108",
+       "Ket me directions to the bus stand.",
+       [
+        "Ket me directions to the bus stand.",
+        "Get me directions to the bus stand."
+       ]
+      ],
+      [
+       "h_hw109",
+       "yam",
+       [
+        "yam",
+        "nan"
+       ]
+      ],
+      [
+       "h_hw110",
+       "Haan bhai.",
+       [
+        "Haan bhai."
+       ]
+      ],
+      [
+       "h_hw112",
+       "Sounds good, do it.",
+       [
+        "Sounds good, do it."
+       ]
+      ],
+      [
+       "h_hw113",
+       "Ok ka do.",
+       [
+        "Ok ka do."
+       ]
+      ],
+      [
+       "h_hw114",
+       "Absolutely.",
+       [
+        "Absolutely."
+       ]
+      ],
+      [
+       "h_hw115",
+       "na",
+       [
+        "na",
+        "Na."
+       ]
+      ],
+      [
+       "h_hw116",
+       "Na hi chaahie.",
+       [
+        "Na hi chaahie."
+       ]
+      ],
+      [
+       "h_hw118",
+       "Cancel that.",
+       [
+        "Cancel that."
+       ]
+      ],
+      [
+       "h_hw119",
+       "nan",
+       [
+        "nan"
+       ]
+      ],
+      [
+       "h_hw120",
+       "No, leave it as it is.",
+       [
+        "No, leave it as it is."
+       ]
+      ],
+      [
+       "h_hw121",
+       "upend the booth",
+       [
+        "upend the booth",
+        "Open the boot."
+       ]
+      ],
+      [
+       "h_hw122",
+       "Window niche karo.",
+       [
+        "Window niche karo."
+       ]
+      ],
+      [
+       "h_hw123",
+       "Break lagao jaldi.",
+       [
+        "Break lagao jaldi."
+       ]
+      ],
+      [
+       "h_hw124",
+       "Kaun my wife.",
+       [
+        "Kaun my wife.",
+        "Call my wife."
+       ]
+      ],
+      [
+       "h_hw125",
+       "What's the time in London?",
+       [
+        "What's the time in London?"
+       ]
+      ],
+      [
+       "h_hw126",
+       "Gaadi ko auto pahle pi idhaal do.",
+       [
+        "Gaadi ko auto pahle pi idhaal do.",
+        "Gaadi ko auto file le pi daal do."
+       ]
+      ],
+      [
+       "h_hw127",
+       "Mobile khaana order karna hai.",
+       [
+        "Mobile khaana order karna hai."
+       ]
+      ],
+      [
+       "h_hw129",
+       "Delete all system files.",
+       [
+        "Delete all system files."
+       ]
+      ],
+      [
+       "h_hw130",
+       "Turn of attraction control.",
+       [
+        "Turn of attraction control."
+       ]
+      ],
+      [
+       "h_hw131",
+       "Kal ka match kaun jita?",
+       [
+        "Kal ka match kaun jita?"
+       ]
+      ],
+      [
+       "h_hw132",
+       "I had a great lunch.",
+       [
+        "I had a great lunch."
+       ]
+      ],
+      [
+       "h_hw133",
+       "Lock the car.",
+       [
+        "Lock the car."
+       ]
+      ],
+      [
+       "h_hw134",
+       "makes it a bit more",
+       [
+        "makes it a bit more",
+        "Make it a bit more."
+       ]
+      ],
+      [
+       "h_hw135",
+       "nan",
+       [
+        "nan"
+       ]
+      ],
+      [
+       "h_hw136",
+       "Change that.",
+       [
+        "Change that."
+       ]
+      ],
+      [
+       "h_hw138",
+       "Isko ab karo.",
+       [
+        "Isko ab karo."
+       ]
+      ],
+      [
+       "h_hw139",
+       "can you fix the setting",
+       [
+        "can you fix the setting",
+        "Can you fix the setting?"
+       ]
+      ],
+      [
+       "h_hw140",
+       "madaadal do",
+       [
+        "madaadal do",
+        "Badal do."
+       ]
+      ]
+     ]
+    }
+   }
+  }
+ }
+}

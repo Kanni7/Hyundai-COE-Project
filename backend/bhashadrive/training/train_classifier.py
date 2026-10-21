@@ -18,6 +18,7 @@ from pathlib import Path
 import numpy as np
 
 from ..nlu.taxonomy import EXECUTABLE_INTENTS, TAXONOMY_VERSION, IntentV2
+from .augment import asr_spelling_variants
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data" / "nlu_v2"
@@ -125,7 +126,7 @@ def train(encoder: str, backend: str, out_dir: Path | None = None, C_grid=(0.5, 
 
     enc = make_encoder(encoder, backend)
     key = f"{encoder}_{backend}"
-    tr, va = load_split("train"), load_split("val")
+    tr, va = asr_spelling_variants(load_split("train")), load_split("val")
     Xtr, Xva = embed_cached(enc, key, [r["text"] for r in tr]), embed_cached(enc, key, [r["text"] for r in va])
     ci = {c: i for i, c in enumerate(CLASSES)}
     ytr, yva = np.array([ci[r["intent"]] for r in tr]), np.array([ci[r["intent"]] for r in va])

@@ -1,0 +1,1073 @@
+[
+ {
+  "id": "h_hw000",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "I'm freezing in here.",
+  "expected_intent": "climate_temperature_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw001",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "It's too cold.",
+  "expected_intent": "climate_temperature_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw002",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "hinglish",
+  "text": "Bhai, AC thoda warm kar do.",
+  "expected_intent": "climate_temperature_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw004",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Make the cabin a little warmer.",
+  "expected_intent": "climate_temperature_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw005",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Could you heat things up a little?",
+  "expected_intent": "climate_temperature_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw006",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "My teeth are chattering.",
+  "expected_intent": "climate_temperature_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw007",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "romanized_hindi",
+  "text": "Thoda garmahat chahiye andar.",
+  "expected_intent": "climate_temperature_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw009",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "Yaar thand se haath jam gaye, temperature upar karo.",
+  "expected_intent": "climate_temperature_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw010",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Warm me up, it's icy.",
+  "expected_intent": "climate_temperature_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw011",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "Heating thodi aur badha do.",
+  "expected_intent": "climate_temperature_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw012",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Can we have it toastier?",
+  "expected_intent": "climate_temperature_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw013",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "It's stuffy and hot, cool it down.",
+  "expected_intent": "climate_temperature_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw014",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "romanized_hindi",
+  "text": "Garmi se jaan nikal rahi hai.",
+  "expected_intent": "climate_temperature_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw015",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "Cabin ko zara thanda karo bhai.",
+  "expected_intent": "climate_temperature_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw017",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Bring the temperature down a notch.",
+  "expected_intent": "climate_temperature_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw018",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Feels like a sauna in here.",
+  "expected_intent": "climate_temperature_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw019",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "hinglish",
+  "text": "AC ki cooling thodi aur chahiye.",
+  "expected_intent": "climate_temperature_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw020",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "romanized_hindi",
+  "text": "Thoda thandak kar do.",
+  "expected_intent": "climate_temperature_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw021",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "I'm overheating, please cool the car.",
+  "expected_intent": "climate_temperature_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw023",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Too warm for me.",
+  "expected_intent": "climate_temperature_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw024",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Set the cabin to 23 degrees.",
+  "expected_intent": "climate_temperature_set",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw025",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "AC 22 pe kar do yaar.",
+  "expected_intent": "climate_temperature_set",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw027",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "I'd like it at twenty five.",
+  "expected_intent": "climate_temperature_set",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw028",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "Temperature ko chaubees pe le aao.",
+  "expected_intent": "climate_temperature_set",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw029",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Climate should be 20 degrees.",
+  "expected_intent": "climate_temperature_set",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw030",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Set temperature to 45 degrees.",
+  "expected_intent": "climate_temperature_set",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw031",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Hold the cabin at 19.5.",
+  "expected_intent": "climate_temperature_set",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw032",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "romanized_hindi",
+  "text": "Baais degree kar do.",
+  "expected_intent": "climate_temperature_set",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw033",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "hinglish",
+  "text": "Fan ki speed thodi badha do.",
+  "expected_intent": "climate_fan_speed_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw034",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Give me more air from the vents.",
+  "expected_intent": "climate_fan_speed_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw035",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Blast the fan.",
+  "expected_intent": "climate_fan_speed_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw037",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "The vents are barely blowing.",
+  "expected_intent": "climate_fan_speed_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw038",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "romanized_hindi",
+  "text": "Pankhe ki raftaar tez karo.",
+  "expected_intent": "climate_fan_speed_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw039",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "Air thodi zyada chahiye.",
+  "expected_intent": "climate_fan_speed_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw040",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "hinglish",
+  "text": "Fan ki speed thodi kam kar do.",
+  "expected_intent": "climate_fan_speed_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw041",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Tone down the blower.",
+  "expected_intent": "climate_fan_speed_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw042",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "The air is blasting in my face.",
+  "expected_intent": "climate_fan_speed_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw044",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "romanized_hindi",
+  "text": "Hawa dheere chalao.",
+  "expected_intent": "climate_fan_speed_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw045",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "hinglish",
+  "text": "Fan bahut shor kar raha hai, kam karo.",
+  "expected_intent": "climate_fan_speed_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw046",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Less wind from the vents.",
+  "expected_intent": "climate_fan_speed_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw047",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Fire up the air conditioner.",
+  "expected_intent": "climate_on",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw048",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "romanized_hindi",
+  "text": "AC chalu kar dijiye.",
+  "expected_intent": "climate_on",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw050",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "hinglish",
+  "text": "Climate on kar do bhai.",
+  "expected_intent": "climate_on",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw051",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Can you get the AC running?",
+  "expected_intent": "climate_on",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw052",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Turn off the climate.",
+  "expected_intent": "climate_off",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw053",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "romanized_hindi",
+  "text": "AC bandh kar dijiye.",
+  "expected_intent": "climate_off",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw055",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Switch the aircon off please.",
+  "expected_intent": "climate_off",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw056",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "AC off kar do yaar.",
+  "expected_intent": "climate_off",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw057",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Don't turn the AC off.",
+  "expected_intent": "climate_off",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw058",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "AC band mat karna.",
+  "expected_intent": "climate_off",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw060",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Please never switch off the climate.",
+  "expected_intent": "climate_off",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw061",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "Volume badha do, yaar.",
+  "expected_intent": "volume_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw062",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "I can't hear anything, louder.",
+  "expected_intent": "volume_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw063",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Make the music a bit louder.",
+  "expected_intent": "volume_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw065",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "romanized_hindi",
+  "text": "Gaana zor se bajao.",
+  "expected_intent": "volume_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw066",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "Sound full kar do.",
+  "expected_intent": "volume_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw067",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Turn up the speakers.",
+  "expected_intent": "volume_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw068",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "Volume mat badhao.",
+  "expected_intent": "volume_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw069",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Never turn the volume up.",
+  "expected_intent": "volume_up",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw070",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Bring the volume down.",
+  "expected_intent": "volume_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw071",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "It's way too loud in here.",
+  "expected_intent": "volume_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw072",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "romanized_hindi",
+  "text": "Awaaz thodi dheemi kar do.",
+  "expected_intent": "volume_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw074",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "hinglish",
+  "text": "Music ka volume ghatao.",
+  "expected_intent": "volume_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw075",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Softer, please.",
+  "expected_intent": "volume_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw076",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Don't reduce the volume.",
+  "expected_intent": "volume_down",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw077",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Play something.",
+  "expected_intent": "media_play",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw078",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "romanized_hindi",
+  "text": "Gaana shuru karo.",
+  "expected_intent": "media_play",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw080",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Resume the song.",
+  "expected_intent": "media_play",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw081",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "hinglish",
+  "text": "Music chala do bhai.",
+  "expected_intent": "media_play",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw082",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Let's have some music.",
+  "expected_intent": "media_play",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw083",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Pause it for a second.",
+  "expected_intent": "media_pause",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw084",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "romanized_hindi",
+  "text": "Gaana ek minute rok do.",
+  "expected_intent": "media_pause",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw086",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Hold the song.",
+  "expected_intent": "media_pause",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw087",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "Music ko pause kar do.",
+  "expected_intent": "media_pause",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw088",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Please don't pause the music.",
+  "expected_intent": "media_pause",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw089",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Skip to the next one.",
+  "expected_intent": "media_next",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw090",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "romanized_hindi",
+  "text": "Agla gaana lagao.",
+  "expected_intent": "media_next",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw092",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Next track please.",
+  "expected_intent": "media_next",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw093",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "hinglish",
+  "text": "Ye wala skip karo.",
+  "expected_intent": "media_next",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw094",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Don't skip this one.",
+  "expected_intent": "media_next",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw096",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Play that last song again.",
+  "expected_intent": "media_previous",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw097",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "romanized_hindi",
+  "text": "Pichla wala gaana bajao.",
+  "expected_intent": "media_previous",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw099",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Go back one track.",
+  "expected_intent": "media_previous",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw100",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "Previous wala track lagao.",
+  "expected_intent": "media_previous",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw101",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Take me to Connaught Place.",
+  "expected_intent": "navigation_destination_request",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw102",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "India Gate ka raasta dikhao.",
+  "expected_intent": "navigation_destination_request",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw104",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Find the nearest charging station.",
+  "expected_intent": "navigation_destination_request",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw105",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Navigate to Select Citywalk.",
+  "expected_intent": "navigation_destination_request",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw106",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "romanized_hindi",
+  "text": "Mujhe Saket jaana hai.",
+  "expected_intent": "navigation_destination_request",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw107",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "Juhu beach tak le chalo.",
+  "expected_intent": "navigation_destination_request",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw108",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Get me directions to the bus stand.",
+  "expected_intent": "navigation_destination_request",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw109",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Yep.",
+  "expected_intent": "dialog_confirm",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw110",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "romanized_hindi",
+  "text": "Haan bhai.",
+  "expected_intent": "dialog_confirm",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw112",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Sounds good, do it.",
+  "expected_intent": "dialog_confirm",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw113",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "hinglish",
+  "text": "Ok kar do.",
+  "expected_intent": "dialog_confirm",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw114",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Absolutely.",
+  "expected_intent": "dialog_confirm",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw115",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Nah.",
+  "expected_intent": "dialog_cancel",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw116",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "romanized_hindi",
+  "text": "Nahi chahiye.",
+  "expected_intent": "dialog_cancel",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw118",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Cancel that.",
+  "expected_intent": "dialog_cancel",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw119",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "romanized_hindi",
+  "text": "Chhod do.",
+  "expected_intent": "dialog_cancel",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw120",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "No, leave it as it is.",
+  "expected_intent": "dialog_cancel",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw121",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Open the boot.",
+  "expected_intent": "unsupported",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw122",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "romanized_hindi",
+  "text": "Window neeche karo.",
+  "expected_intent": "unsupported",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw123",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "romanized_hindi",
+  "text": "Brake lagao jaldi.",
+  "expected_intent": "unsupported",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw124",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Call my wife.",
+  "expected_intent": "unsupported",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw125",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "What's the time in London?",
+  "expected_intent": "unsupported",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw126",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "hinglish",
+  "text": "Gaadi ko autopilot pe daal do.",
+  "expected_intent": "unsupported",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw127",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "hinglish",
+  "text": "Mujhe khana order karna hai.",
+  "expected_intent": "unsupported",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw129",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Delete all system files.",
+  "expected_intent": "unsupported",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw130",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Turn off traction control.",
+  "expected_intent": "unsupported",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw131",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "romanized_hindi",
+  "text": "Kal ka match kaun jeeta?",
+  "expected_intent": "unsupported",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw132",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "I had a great lunch.",
+  "expected_intent": "unsupported",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw133",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "english",
+  "text": "Lock the car.",
+  "expected_intent": "unsupported",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw134",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Make it a bit more.",
+  "expected_intent": "ambiguous",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw135",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "romanized_hindi",
+  "text": "Thoda aur.",
+  "expected_intent": "ambiguous",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw136",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Change that.",
+  "expected_intent": "ambiguous",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw138",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "hinglish",
+  "text": "Isko up karo.",
+  "expected_intent": "ambiguous",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw139",
+  "voice_lang": "en-IN",
+  "voice": "Ravi",
+  "lang": "english",
+  "text": "Can you fix the setting?",
+  "expected_intent": "ambiguous",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ },
+ {
+  "id": "h_hw140",
+  "voice_lang": "en-IN",
+  "voice": "Heera",
+  "lang": "romanized_hindi",
+  "text": "Badal do.",
+  "expected_intent": "ambiguous",
+  "provenance": "synthetic_tts_of_heldout_unseen"
+ }
+]

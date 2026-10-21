@@ -1,6 +1,6 @@
 """V2 runtime pipeline (no LLM, no network):
 
-audio -> local ASR (sherpa-onnx) -> transcript normalisation -> intent model (ONNX encoder +
+audio -> local ASR (Whisper ONNX, Hindi + English passes) -> transcript normalisation -> intent model (ONNX encoder +
 trained heads) -> personal-command matching -> dialog context / ambiguity policy ->
 parameter validation -> vehicle adapter -> ResultV2.
 """
@@ -109,23 +109,38 @@ class BhashaDrivePipelineV2:
             reason = {"silence": "silence", "no_audio": "no_audio", "timeout": "asr_timeout"}.get(asr.status, "asr_error")
             return ResultV2(transcript="", decision=DecisionV2.CLARIFY, reason_code=reason, asr=asr, timings_s=timings,
                             response_text="I didn't catch that. Could you repeat?")
-        r = self.process_text(asr.text, timings=timings)
+        r = self.process_text(asr.text, timings=timings, hypotheses=asr.hypotheses)
         r.asr = asr
         if "asr_s" in r.timings_s:
             r.timings_s["end_to_end_s"] = round(r.timings_s["asr_s"] + r.timings_s["post_asr_total_s"], 3)
         return r
 
     # ---- text entry point ------------------------------------------------
-    def process_text(self, text: str, timings: dict | None = None) -> ResultV2:
+    def refine_transcript(self, *hypotheses: str) -> str:
+        """Post-ASR text: cleanup + domain snapping, then phonetic retrieval + self-attention rescoring.
+
+        Given several ASR hypotheses of one utterance, each is refined and the command model keeps the
+        one it fits best (ties keep the earliest, i.e. the primary decoding language).
+        """
+        refined = list(dict.fromkeys(r for r in map(self._refine_one, hypotheses) if r))
+        if len(refined) > 1 and self.rescorer is not None:
+            return max(refined, key=self.rescorer.fitness)
+        return refined[0] if refined else ""
+
+    def _refine_one(self, text: str) -> str:
+        norm = normalize_transcript(text)[:MAX_TEXT_CHARS]
+        if norm and self.rescorer is not None:
+            norm, _ = self.rescorer.rescore(norm)
+        return norm
+
+    def process_text(self, text: str, timings: dict | None = None, hypotheses: list[str] | None = None) -> ResultV2:
         timings = dict(timings or {})
         t_start = time.perf_counter()
-        norm = normalize_transcript(text)[:MAX_TEXT_CHARS]
+        t0 = time.perf_counter()
+        norm = self.refine_transcript(*(hypotheses or [text]))
         if not norm:
             return ResultV2(transcript=text or "", decision=DecisionV2.CLARIFY, reason_code="empty_transcript",
                             response_text="I didn't catch that. Could you repeat?", timings_s=timings)
-        t0 = time.perf_counter()
-        if getattr(self, "rescorer", None) is not None:
-            norm, _ = self.rescorer.rescore(norm)
         pred, emb = self.model.predict(norm)
         _SINGLE_DOMAIN_WORDS = {
             "temperature", "cabin", "climate", "taapmaan",

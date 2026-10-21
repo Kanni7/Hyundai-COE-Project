@@ -7,7 +7,7 @@ import { parseCommand, type NluContext, type ParseResult } from './nlu/parser';
 import { carAudio } from './lib/audio';
 import { engine } from './lib/engine';
 import { speak, useSpeechRecognition } from './lib/speech';
-import { BACKEND_DOMAIN, backend, recordAudio, toIntent, transcribeBest, type BackendHealth } from './lib/backend';
+import { BACKEND_DOMAIN, backend, recordAudio, toIntent, type BackendHealth } from './lib/backend';
 import { Cockpit } from './components/Cockpit';
 import type { VoicePhase } from './components/Infotainment';
 import { VoiceDock } from './components/VoiceDock';
@@ -161,7 +161,8 @@ export default function App() {
         setServer(null); // backend went away: carry on with the local parser
         return { intents: parsed.intents, engine: 'local' };
       })
-      .then((routed) => window.setTimeout(() => finish(routed), Math.max(0, THINK_MS - (Date.now() - started))));
+      // Typed commands get a short "thinking" beat; spoken ones already waited for speech recognition.
+      .then((routed) => window.setTimeout(() => finish(routed), via === 'voice' ? 0 : Math.max(0, THINK_MS - (Date.now() - started))));
   }, [commit]);
 
   // Find the backend; recheck now and then so it can be started after the page.
@@ -204,7 +205,7 @@ export default function App() {
         setRecording(null);
         setPhase('thinking');
         try {
-          const t = await transcribeBest(audio, (text) => parseCommand(text, nlu.current).intents.length > 0);
+          const t = await backend.transcribe(audio);
           if (t.text.trim()) handleCommand(t.text.trim(), 'voice');
           else { setPhase('idle'); setAsrError(t.error ?? 'No speech heard. Try again.'); }
         } catch {

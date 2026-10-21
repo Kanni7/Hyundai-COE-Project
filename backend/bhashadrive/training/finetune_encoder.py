@@ -19,6 +19,7 @@ from pathlib import Path
 
 import numpy as np
 
+from .augment import asr_spelling_variants
 from .train_classifier import CLASSES, ENCODERS, ROOT, load_split
 
 
@@ -40,7 +41,7 @@ def finetune(encoder: str, epochs: int = 8, lr: float = 4e-5, batch: int = 16, s
     head = torch.nn.Linear(base.config.hidden_size, len(CLASSES))
     drop = torch.nn.Dropout(0.1)
     ci = {c: i for i, c in enumerate(CLASSES)}
-    tr, va = load_split("train"), load_split("val")
+    tr, va = asr_spelling_variants(load_split("train")), load_split("val")
     ytr = torch.tensor([ci[r["intent"]] for r in tr])
     yva = np.array([ci[r["intent"]] for r in va])
     counts = np.bincount(ytr.numpy(), minlength=len(CLASSES)).astype(np.float32)
